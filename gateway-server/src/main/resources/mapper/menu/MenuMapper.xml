@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="com.b0.mybatis.mapper.UserMapper" -->
+<mapper namespace="com.gateway.mapper.menu.MenuMapper">
+    <resultMap id="menuMap" type="com.gateway.entity.menu.MenuEntity">
+        <id column="id" property="id" />
+        <result column="path" property="path" />
+        <result column="component" property="component" />
+        <result column="redirect" property="redirect" />
+        <result column="name" property="name" />
+        <result column="status" property="status" />
+        <!-- 元数据映射 -->
+        <association property="meta" javaType="com.gateway.entity.menu.MetaEntity" select="findMetaByMenuId" column="id"/>
+        <!-- 子路由映射 -->
+        <collection property="children" ofType="com.gateway.entity.menu.MenuEntity" select="findMenuByParentId" column="id"/>
+    </resultMap>
+
+    <!-- MetaData resultMap -->
+    <resultMap id="metaMap" type="com.gateway.entity.menu.MetaEntity">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="icon" property="icon" />
+        <result column="always_show" property="alwaysShow" />
+        <result column="no_cache" property="noCache" />
+        <result column="affix" property="affix" />
+        <!-- Additional MetaData properties if any -->
+    </resultMap>
+
+    <!-- 查询所有的主路由 -->
+    <select id="queryMenusByName" parameterType="string" resultMap="menuMap">
+        SELECT R.ID,R.PATH,R.COMPONENT,R.REDIRECT,R.NAME,R.STATUS
+        FROM MENUS R, MENU_META MM
+        WHERE R.PARENT_ID IS NULL AND R.ID = MM.MENU_ID
+        <if test="value != null">
+            AND MM.TITLE = #{value}
+        </if>
+        ORDER BY R.ID
+    </select>
+
+    <!-- 查询元数据Meta -->
+    <select id="findMetaByMenuId" resultMap="metaMap">
+        SELECT RM.ID, RM.TITLE, RM.ICON, RM.ALWAYS_SHOW, RM.NO_CACHE, RM.AFFIX
+        FROM MENU_META RM
+        WHERE RM.MENU_ID = #{id}
+    </select>
+
+    <!-- 递归查询子路由-->
+    <select id="findMenuByParentId" resultMap="menuMap">
+        SELECT R.ID,R.PATH,R.COMPONENT,R.REDIRECT,R.NAME
+        FROM MENUS R
+        WHERE R.PARENT_ID = #{id}
+    </select>
+
+    <select id="queryMenusByUsername" parameterType="string" resultMap="menuMap">
+        SELECT R.ID,R.PATH,R.COMPONENT,R.REDIRECT,R.NAME,R.STATUS
+        FROM
+            USER_LOGIN M,
+            USER_ROLE UR,
+            ROLES R2,
+            ROLE_MENU RR,
+            MENUS R
+        WHERE R.PARENT_ID IS NULL
+          AND M.ID = UR.USER_ID
+          AND UR.ROLE_ID  = R2.ID
+          AND R2.ID = RR.ROLE_ID
+          AND RR.MENU_ID = R.ID
+          AND M.USER_NAME = #{value}
+        ORDER BY R.ID
+    </select>
+
+</mapper>

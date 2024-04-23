@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="com.b0.mybatis.mapper.UserMapper" -->
+<mapper namespace="com.gateway.mapper.log.LogMapper">
+
+    <insert id="add" parameterType="auditLog">
+        INSERT INTO sys_log
+        (
+            source,
+            severity,
+            oper_name,
+            is_persistence,
+            url,
+            method,
+            remote_addr,
+            request_method,
+            args,
+            user_agent,
+            result,
+            start_time,
+            end_time
+        )
+        VALUES
+            (
+                #{source},
+                #{severity},
+                #{operName},
+                #{isPersistence},
+                #{url},
+                #{method},
+                #{remoteAddr},
+                #{requestMethod},
+                #{args},
+                #{userAgent, jdbcType=VARCHAR},
+                #{result},
+                #{startTime},
+                #{endTime}
+            )
+    </insert>
+</mapper>

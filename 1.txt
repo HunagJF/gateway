@@ -1,0 +1,12 @@
+--pojo
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
+--server
+@RequestBody
+
+@RestController
+@RequestMapping("/admin/employee")
+@Slf4j
