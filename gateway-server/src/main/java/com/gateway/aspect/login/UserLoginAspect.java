@@ -52,7 +52,7 @@ public class UserLoginAspect {
             if (userTypeVO != null && StringUtils.isNotEmpty(userTypeVO.getUsername())) {
                 // 登录成功后生成 JWT 令牌
                 Map<String, Object> claims = new HashMap<>();
-                claims.put(JwtClaimsConstant.EMP_ID, userTypeVO.getUsername());
+                claims.put(JwtClaimsConstant.USER, userTypeVO.getUsername());
                 String token = JwtUtil.createJWT(
                         jwtProperties.getAdminSecretKey(),
                         jwtProperties.getAdminTtl(),

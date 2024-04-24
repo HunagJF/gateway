@@ -12,6 +12,9 @@ spring:
       url: jdbc:postgresql://${gateway.datasource.host}:${gateway.datasource.port}/${gateway.datasource.database}?currentSchema=gateway
       username: ${gateway.datasource.username}
       password: ${gateway.datasource.password}
+  cache:
+    type: caffeine
+    enable: true
 
 mybatis:
   #mapper配置文件
