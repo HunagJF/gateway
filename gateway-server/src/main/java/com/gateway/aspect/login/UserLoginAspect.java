@@ -4,6 +4,7 @@ import com.gateway.constant.JwtClaimsConstant;
 import com.gateway.dto.login.UserTypeDTO;
 import com.gateway.properties.JwtProperties;
 import com.gateway.result.Result;
+import com.gateway.utils.CacheUtil;
 import com.gateway.utils.JwtUtil;
 import com.gateway.vo.login.UserTypeVO;
 import org.apache.commons.lang.StringUtils;
@@ -29,9 +30,12 @@ import java.util.Map;
 public class UserLoginAspect {
 
     private final JwtProperties jwtProperties;
+    private final CacheUtil cacheUtil;
 
-    public UserLoginAspect(@Autowired JwtProperties jwtProperties) {
+    @Autowired
+    public UserLoginAspect(JwtProperties jwtProperties, CacheUtil cacheUtil) {
         this.jwtProperties = jwtProperties;
+        this.cacheUtil = cacheUtil;
     }
 
     @Pointcut("execution(public * com.gateway.controller.login.UserLoginController.login(..))")
@@ -52,15 +56,16 @@ public class UserLoginAspect {
             if (userTypeVO != null && StringUtils.isNotEmpty(userTypeVO.getUsername())) {
                 // 登录成功后生成 JWT 令牌
                 Map<String, Object> claims = new HashMap<>();
-                claims.put(JwtClaimsConstant.USER, userTypeVO.getUsername());
+                claims.put(JwtClaimsConstant.USER, userTypeVO);
                 String token = JwtUtil.createJWT(
                         jwtProperties.getAdminSecretKey(),
                         jwtProperties.getAdminTtl(),
                         claims);
+
                 response.setHeader("Authorization", token);
+                cacheUtil.putToCache(JwtClaimsConstant.USER,token, userTypeVO);
             }
         }
-
         // 返回方法的原始返回值
         return result;
     }

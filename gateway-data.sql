@@ -16,6 +16,7 @@ select mu.id, r.id from user_login mu, roles r;
 insert into role_menu (role_id, menu_id)
 select r.id ,r2.id  from roles r, menus r2 ;
 
+select * from sys_log ;
 select * from user_login ul ;
 select * from user_role ur ;
 select * from roles r ;

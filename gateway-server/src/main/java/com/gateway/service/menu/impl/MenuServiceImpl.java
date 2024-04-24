@@ -3,7 +3,9 @@ package com.gateway.service.menu.impl;
 import com.gateway.mapper.menu.MenuMapper;
 import com.gateway.result.Result;
 import com.gateway.service.menu.MenuService;
+import com.gateway.utils.CommonsUtil;
 import com.gateway.utils.SimplePasswordUtil;
+import com.gateway.vo.login.UserTypeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +30,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Result queryMenusByUsername(String userName) {
-        return Result.success(menuMapper.queryMenusByUsername(userName));
+    public Result queryMenusByUsername() {
+        UserTypeVO user = CommonsUtil.getUser(UserTypeVO.class);
+        return Result.success(menuMapper.queryMenusByUsername(user.getUsername()));
     }
 
 

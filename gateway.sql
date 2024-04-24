@@ -85,7 +85,6 @@ CREATE TABLE gateway.role_menu (
 );
 
 
--------------------------------------------------------------
 CREATE TABLE gateway.menus (
 	id varchar(50) DEFAULT uuid_in(md5(random()::text || clock_timestamp()::text)::cstring) NOT NULL,
 	"path" varchar(255) NOT NULL,

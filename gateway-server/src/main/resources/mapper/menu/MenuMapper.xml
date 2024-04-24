@@ -32,14 +32,15 @@
     </resultMap>
 
     <!-- 查询所有的主路由 -->
-    <select id="queryMenusByName" parameterType="string" resultMap="menuMap">
+    <select id="queryMenusByName" parameterType="string" resultType="menusVO">
         SELECT
             m.*
         FROM MENUS m
-        WHERE m.PARENT_ID IS NULL
-        <if test="value != null">
-            AND m.TITLE = #{value}
-        </if>
+        <where>
+            <if test="value != null">
+                m.TITLE LIKE CONCAT('%', #{value}, '%')
+            </if>
+        </where>
         ORDER BY m.sort
     </select>
 

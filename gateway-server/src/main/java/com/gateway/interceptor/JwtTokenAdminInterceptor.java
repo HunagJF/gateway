@@ -2,15 +2,19 @@ package com.gateway.interceptor;
 
 import com.gateway.constant.JwtClaimsConstant;
 import com.gateway.properties.JwtProperties;
+import com.gateway.utils.CommonsUtil;
 import com.gateway.utils.JwtUtil;
+import com.gateway.vo.login.UserTypeVO;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * jwt令牌校验的拦截器
@@ -45,8 +49,8 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         try {
             log.info("jwt校验:{}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
-            log.info("当前员工id：", claims.get(JwtClaimsConstant.USER).toString());
-            //3、通过，放行
+            Map<String, Object> o = (Map<String, Object>) claims.get(JwtClaimsConstant.USER);
+            log.info("操作用户：{}" , MapUtils.getString(o, "username"));
             return true;
         } catch (Exception ex) {
             //4、不通过，响应401状态码

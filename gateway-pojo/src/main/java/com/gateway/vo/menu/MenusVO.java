@@ -1,5 +1,6 @@
 package com.gateway.vo.menu;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +11,29 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuMetaVo {
+@ApiModel(description = "菜单返回的数据格式")
+public class MenusVO {
+
+    @ApiModelProperty("ID")
+    private String id;
+
+    @ApiModelProperty("路径")
+    private String path;
+
+    @ApiModelProperty("组件名称")
+    private String name;
+
+    @ApiModelProperty("组件")
+    private String component;
+
+    @ApiModelProperty("重定向")
+    private String redirect;
+
+    @ApiModelProperty("上级ID")
+    private String parentId;
+
+    @ApiModelProperty("状态")
+    private int status;
 
     @ApiModelProperty("菜单名称")
     private String title;
@@ -41,4 +64,7 @@ public class MenuMetaVo {
 
     @ApiModelProperty("是否隐藏标签页")
     private boolean noTagsView;
+
+    @ApiModelProperty("排序")
+    private int sort;
 }

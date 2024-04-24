@@ -7,5 +7,5 @@ import java.util.Map;
 public interface MenuService {
     Map<String, Object> queryMenusByName(String Name);
 
-    Result queryMenusByUsername(String userName);
+    Result queryMenusByUsername();
 }

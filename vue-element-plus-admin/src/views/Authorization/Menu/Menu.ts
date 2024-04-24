@@ -16,15 +16,15 @@ export const columns = reactive<TableColumn[]>([
       type: 'index'
     },
     {
-      field: 'meta.title',
+      field: 'title',
       label: t('menu.menuName'),
     },
     {
-      field: 'meta.icon',
+      field: 'icon',
       label: t('menu.icon'),
       slots: {
         default: (data: any) => {
-          const icon = data.row.meta.icon;
+          const icon = data.row.icon;
           if (icon) {
             // 使用`h`函数创建VNode
             return h(Icon, { icon: icon });

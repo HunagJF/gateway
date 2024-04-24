@@ -3,6 +3,9 @@ package com.gateway.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * 加密工具类
+ */
 public class SimplePasswordUtil {
 
     /**

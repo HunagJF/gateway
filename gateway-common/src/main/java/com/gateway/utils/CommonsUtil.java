@@ -2,6 +2,9 @@ package com.gateway.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.gateway.constant.JwtClaimsConstant;
+import com.gateway.utils.springContent.SpringContextUtil;
+import com.gateway.vo.login.UserTypeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -243,17 +246,17 @@ public class CommonsUtil {
      * @return
      */
     public static <T> T getUser(Class<T> tClass) {
-      /*  try {
+        try {
             String token = getUserToken();
-            RedisUtil redisUtil = SpringUtils.getBean(RedisUtil.class);
-            T sysUser = redisUtil.get(token, tClass);
-            if (sysUser == null) {
+            CacheUtil cacheUtil = SpringContextUtil.getBean(CacheUtil.class);
+            T userTypeVO = cacheUtil.getFromCache(JwtClaimsConstant.USER, token, tClass).get();// 假设你有相应的方法实现
+            if (userTypeVO == null) {
                 return null;
             }
-            return sysUser;
+            return userTypeVO;
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
         return null;
     }
 }

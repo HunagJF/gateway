@@ -4,6 +4,8 @@ import com.gateway.annotation.Logger;
 import com.gateway.enums.LogSeverity;
 import com.gateway.result.Result;
 import com.gateway.service.menu.MenuService;
+import com.gateway.utils.CommonsUtil;
+import com.gateway.vo.login.UserTypeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +36,7 @@ public class MenuController {
             operName = "查询",
             isPersistence = true)
     @PostMapping(value = "/queryMenusByUsername")
-    public Result queryMenusByUsername(@RequestParam("userName") String userName) {
-        return menuService.queryMenusByUsername(userName);
+    public Result queryMenusByUsername() {
+        return menuService.queryMenusByUsername();
     }
 }
