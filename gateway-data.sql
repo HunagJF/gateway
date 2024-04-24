@@ -1,4 +1,4 @@
-INSERT INTO menus2 (id,"path","name",component,redirect,parent_id,status,title,icon,always_show,affix,no_cache,hidden,can_to,active_menu) VALUES
+INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,icon,always_show,affix,no_cache,hidden,can_to,active_menu) VALUES
 	 ('c420e68a-c8cd-04db-b707-9fb4584d1854','/dashboard','Dashboard','#','/dashboard/analysis',NULL,1,'首页','ant-design:dashboard-filled',true,false,false,false,false,NULL),
 	 ('d621c508-5d12-3948-5aaf-4007333192f2','analysis','Analysis','views/Dashboard/Analysis',NULL,'c420e68a-c8cd-04db-b707-9fb4584d1854',1,'首页1',NULL,false,false,true,false,false,NULL),
 	 ('14d4cab6-f978-6847-8388-24aa9ab5eac3','workplace','Workplace','views/Dashboard/Workplace',NULL,'c420e68a-c8cd-04db-b707-9fb4584d1854',1,'首页2',NULL,false,false,true,false,false,NULL),
@@ -20,9 +20,7 @@ select * from user_login ul ;
 select * from user_role ur ;
 select * from roles r ;
 select * from role_menu rm ;
-select * from menus m ;
-select * from menu_meta mm ;
-select * from menus2;
+select * from menus;
 delete from user_role;
 delete from role_menu;
 
@@ -30,22 +28,18 @@ delete from role_menu;
 
 
 -----------------------------------------------------------------
-select * from menus2;
-insert into menus2 (id, "path","name",component,redirect,parent_id,status,title,icon,always_show,affix,no_cache,hidden,can_to,active_menu)
-select 
-m.id,
-m."path",
-m."name" ,
-m."component" ,
-m."redirect" ,
-m."parent_id" ,
-m."status" ,
-mm.title ,
-mm.icon ,
-mm.always_show ,
-mm.affix ,
-mm.no_cache ,
-mm.hidden ,
-mm.can_to ,
-mm.active_menu 
-from menus m ,menu_meta mm where m.id = mm.menu_id;
+ SELECT
+            R.ID,R.PATH,R.COMPONENT,R.REDIRECT,R.NAME,R.STATUS
+        FROM
+            USER_LOGIN M,
+            USER_ROLE UR,
+            ROLES R2,
+            ROLE_MENU RR,
+            MENUS R
+        WHERE R.PARENT_ID IS NULL
+          AND M.ID = UR.USER_ID
+          AND UR.ROLE_ID  = R2.ID
+          AND R2.ID = RR.ROLE_ID
+          AND RR.MENU_ID = R.ID
+          AND M.USER_NAME = 'admin'
+        ORDER BY R.SORT;
