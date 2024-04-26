@@ -83,6 +83,8 @@ const columns = baseColumns.map(col => {
         :data="dataList"
         :loading="loading"
         @register="tableRegister"
+        :height="800"
+        :max-height="750"
       />
   </ContentWrap>
 </template>

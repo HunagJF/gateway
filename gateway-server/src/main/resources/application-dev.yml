@@ -6,12 +6,3 @@ gateway:
     database: postgres
     username: postgres
     password: 123123
-
-#gateway:
-#  datasource:
-#    driver-class-name: org.postgresql.Driver
-#    host: 132.108.229.34
-#    port: 5434
-#    database: szgiswebsg
-#    username: V-JINGH
-#    password: Jh_160203.
