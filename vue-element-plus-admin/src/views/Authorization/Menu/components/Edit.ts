@@ -4,6 +4,10 @@ import { queryMenusByNameApi } from '@/api/menu'
 
 export const formSchema = reactive<FormSchema[]>([
     {
+      field: 'id',
+      hidden: false
+    },
+    {
       field: 'type',
       label: '菜单类型',
       component: 'RadioButton',
@@ -21,7 +25,6 @@ export const formSchema = reactive<FormSchema[]>([
         props: {
           label: 'title',
           value: 'id',
-          // children: 'children'
         }
       },
       optionApi: async () => {

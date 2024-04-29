@@ -8,4 +8,5 @@ public interface UserLoginService {
 
     UserLoginEntity query();
     Result queryName(UserTypeDTO userTypeDTO);
+    public Result loginOut();
 }

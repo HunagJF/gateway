@@ -1,5 +1,6 @@
 package com.gateway.service.menu.impl;
 
+import com.gateway.dto.menu.MenuDTO;
 import com.gateway.mapper.menu.MenuMapper;
 import com.gateway.result.Result;
 import com.gateway.service.menu.MenuService;
@@ -33,6 +34,12 @@ public class MenuServiceImpl implements MenuService {
     public Result queryMenusByUsername() {
         UserTypeVO user = CommonsUtil.getUser(UserTypeVO.class);
         return Result.success(menuMapper.queryMenusByUsername(user.getUsername()));
+    }
+
+    @Override
+    public Result update(MenuDTO menuDTO) {
+        menuMapper.update(menuDTO);
+        return Result.success();
     }
 
 

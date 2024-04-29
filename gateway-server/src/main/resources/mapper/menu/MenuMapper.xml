@@ -91,4 +91,27 @@
         ORDER BY R.SORT
     </select>
 
+    <update id="update" parameterType="menuDTO">
+        UPDATE menus
+        SET
+            type = #{type},
+            parent_id = #{parentId},
+            title = #{title},
+            component = #{component},
+            name = #{name},
+            path = #{path},
+            status = #{status},
+            sort = #{sort},
+            hidden = #{hidden},
+            always_show = #{alwaysShow},
+            no_cache = #{noCache},
+            breadcrumb = #{breadcrumb},
+            affix = #{affix},
+            no_tags_view = #{noTagsView},
+            can_to = #{canTo},
+            update_time = now()
+        WHERE
+            id = #{id}
+    </update>
+
 </mapper>

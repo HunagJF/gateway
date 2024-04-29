@@ -3,11 +3,16 @@ import type { UserType } from './types'
 
 const Enum = {
   login: '/api/login',
+  loginOut: '/api/loginOut',
   queryMenusByUsername: '/api/menu/queryMenusByUsername'
 }
 
 export const loginApi = (data: UserType): Promise<IResponse<UserType>> => {
   return request.post({ url: Enum.login, data })
+}
+
+export const loginOutApi = (): Promise<IResponse> => {
+  return request.post({ url: Enum.loginOut })
 }
 
 export const queryMenusByUsernameApi = (
@@ -31,9 +36,9 @@ interface MenuParams {
 
 
 
-export const loginOutApi = (): Promise<IResponse> => {
-  return request.get({ url: '/mock/user/loginOut' })
-}
+// export const loginOutApi = (): Promise<IResponse> => {
+//   return request.get({ url: '/mock/user/loginOut' })
+// }
 
 export const getUserListApi = ({ params }: AxiosConfig) => {
   return request.get<{

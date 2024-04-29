@@ -39,4 +39,13 @@ public class UserLoginController {
     public Result login(@RequestBody UserTypeDTO userTypeDTO, HttpServletResponse response) {
         return userLoginService.queryName(userTypeDTO);
     }
+
+    @PostMapping(value = "/loginOut")
+    @Logger(operSource = "用户退出",
+            severity = LogSeverity.MINOR,
+            operName = "记录退出信息",
+            isPersistence = true)
+    public Result loginOut(){
+        return userLoginService.loginOut();
+    }
 }

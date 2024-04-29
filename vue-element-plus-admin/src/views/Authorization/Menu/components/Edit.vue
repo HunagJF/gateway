@@ -24,6 +24,15 @@ const props = defineProps({
     }
 })
 
+// 必填
+const rules = reactive({
+  component: [required()],
+  path: [required()],
+  title: [required()]
+})
+
+const cacheComponent = ref('')
+
 const formSchema = baseFormSchema.map(col => {
   if (col.field === 'type') {
     return {
@@ -42,6 +51,7 @@ const formSchema = baseFormSchema.map(col => {
         on: {
         change: async (val: number) => {
           console.log("change" + val)
+          const formData = await getFormData()
           if (val === 1) {
             setSchema([
               {
@@ -61,6 +71,16 @@ const formSchema = baseFormSchema.map(col => {
                 value: true
               }
             ])
+
+            if (formData.parentId === void 0) {
+              setValues({
+                component: '#'
+              })
+            } else {
+              setValues({
+                component: '##'
+              })
+            }
           }
         }
       }
@@ -69,8 +89,6 @@ const formSchema = baseFormSchema.map(col => {
   }
   return col;
 });
-
-const cacheComponent = ref('')
 
 // 监听
 watch(() => props.currentRow, (value) => {
@@ -96,12 +114,4 @@ const submit = async () => {
 defineExpose({
   submit
 })
-
-// 必填
-const rules = reactive({
-  component: [required()],
-  path: [required()],
-  title: [required()]
-})
-
 </script>
