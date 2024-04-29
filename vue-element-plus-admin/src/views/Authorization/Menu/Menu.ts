@@ -85,6 +85,16 @@ export const columns = reactive<TableColumn[]>([
       }
     },
     {
+      field: 'action',
+      label: '操作',
+      width: '150px'
+    },
+    {
+      field: 'sort',
+      label: '排序',
+      type: 'sort',
+    },
+    {
       field: 'alwaysShow',
       label: '是否一直显示',
       slots: {
@@ -173,16 +183,6 @@ export const columns = reactive<TableColumn[]>([
         }
       }
     },
-    {
-      field: 'sort',
-      label: '排序',
-      type: 'sort',
-    },
-    {
-        field: 'action',
-        label: '操作',
-        width: '150px'
-    }
   ])
 
 export const schema = reactive<FormSchema[]>([

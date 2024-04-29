@@ -67,4 +67,7 @@ public class MenusVO {
 
     @ApiModelProperty("排序")
     private int sort;
+
+    @ApiModelProperty("菜单类型")
+    private int type;
 }

@@ -1,7 +1,6 @@
 import { reactive } from 'vue'
 import { FormSchema } from '@/components/Form'
-import { langJp } from 'xgplayer'
-
+import { queryMenusByNameApi } from '@/api/menu'
 
 export const formSchema = reactive<FormSchema[]>([
     {
@@ -11,12 +10,24 @@ export const formSchema = reactive<FormSchema[]>([
       value: 0,
       colProps: {
         span: 24
-      },
+      }
     },
     {
       field: 'parentId',
       label: '父级菜单',
       component: 'TreeSelect',
+      componentProps: {
+        nodeKey: 'id',
+        props: {
+          label: 'title',
+          value: 'id',
+          // children: 'children'
+        }
+      },
+      optionApi: async () => {
+        const res = await queryMenusByNameApi({})
+        return res.data.list || []
+      }
     },
     {
       field: 'title',
@@ -27,10 +38,10 @@ export const formSchema = reactive<FormSchema[]>([
       field: 'component',
       label: '组件',
       component: 'Input',
-    //   componentProps: {
-    //     disabled: true,
-    //     placeholder: '#为顶级目录，##为子目录',
-    //   }
+      componentProps: {
+        disabled: true,
+        placeholder: '#为顶级目录，##为子目录',
+      }
     },
     {
       field: 'name',
@@ -40,7 +51,7 @@ export const formSchema = reactive<FormSchema[]>([
     {
       field: 'icon',
       label: '图标',
-      component: 'Input'
+      component: 'Input',
     },
     {
       field: 'path',
@@ -68,6 +79,11 @@ export const formSchema = reactive<FormSchema[]>([
           }
         ]
       }
+    },
+    {
+      field: 'sort',
+      label: '排序',
+      component: 'Input'
     },
     {
       field: 'hidden',

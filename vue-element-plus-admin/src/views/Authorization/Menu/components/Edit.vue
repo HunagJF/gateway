@@ -38,10 +38,10 @@ const formSchema = baseFormSchema.map(col => {
                 label: '菜单',
                 value: 1
             }
-        ]
-      },
-      on: {
+        ],
+        on: {
         change: async (val: number) => {
+          console.log("change" + val)
           if (val === 1) {
             setSchema([
               {
@@ -64,6 +64,7 @@ const formSchema = baseFormSchema.map(col => {
           }
         }
       }
+      },
     }
   }
   return col;
@@ -73,26 +74,16 @@ const cacheComponent = ref('')
 
 // 监听
 watch(() => props.currentRow, (value) => {
+    if (!value) return
     const currentRow = cloneDeep(value)
     cacheComponent.value = currentRow.type === 1 ? currentRow.component : ''
-    console.log("currentRow.type" + currentRow.type)
-    if (currentRow.type === 1) {
-      setSchema([
+    setSchema([
         {
           field: 'component',
           path: 'componentProps.disabled',
-          value: false
+          value: currentRow.type === 1 ? false : true
         }
-      ])
-    } else {
-      setSchema([
-        {
-          field: 'component',
-          path: 'componentProps.disabled',
-          value: true
-        }
-      ])
-    }
+    ])
     setValues(currentRow)
 }, { deep: true, immediate: true })
 
@@ -112,5 +103,5 @@ const rules = reactive({
   path: [required()],
   title: [required()]
 })
+
 </script>
-1892348947
