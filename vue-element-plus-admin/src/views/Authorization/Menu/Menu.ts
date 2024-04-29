@@ -75,10 +75,10 @@ export const columns = reactive<TableColumn[]>([
       slots: {
         default: (data: any) => {
           const status: number = data.row.status
-          if (status) {
-            return h(ElTag, {
-              type: status === 0 ? 'danger' : 'success'
-            }, status === 1 ? t('userDemo.enable') : t('userDemo.disable')
+            if (status) {
+              return h(ElTag, {
+                type: status === 0 ? 'danger' : 'success'
+              }, status === 1 ? t('userDemo.enable') : t('userDemo.disable')
             )
           }
         }
@@ -87,27 +87,62 @@ export const columns = reactive<TableColumn[]>([
     {
       field: 'alwaysShow',
       label: '是否一直显示',
-      type: 'alwaysShow',
+      slots: {
+        default: (data: any) => {
+          const alwaysShow: boolean = data.row.alwaysShow
+          return h(ElTag, {
+            type: alwaysShow ? 'success' : 'danger'
+          }, alwaysShow ? '是' : '否')
+        }
+      }
     },
     {
       field: 'affix',
       label: '是否固定在标签页',
-      type: 'affix',
+      slots: {
+        default: (data: any) => {
+          const affix: boolean = data.row.affix
+          return h(ElTag, {
+            type: affix ? 'success' : 'danger'
+          }, affix ? '是' : '否')
+        }
+      }
     },
     {
       field: 'noCache',
       label: '是否清除缓存',
-      type: 'noCache',
+      slots: {
+        default: (data: any) => {
+          const noCache: boolean = data.row.noCache
+          return h(ElTag, {
+            type: noCache ? 'success' : 'danger'
+          }, noCache ? '是' : '否')
+        }
+      }
     },
     {
       field: 'hidden',
       label: '是否隐藏',
-      type: 'hidden',
+      slots: {
+        default: (data: any) => {
+          const hidden: boolean = data.row.hidden
+          return h(ElTag, {
+            type: hidden ? 'success' : 'danger'
+          }, hidden ? '是' : '否')
+        }
+      }
     },
     {
       field: 'canTo',
       label: '是否可跳转',
-      type: 'canTo',
+      slots: {
+        default: (data: any) => {
+          const canTo: boolean = data.row.canTo
+          return h(ElTag, {
+            type: canTo ? 'success' : 'danger'
+          }, canTo ? '是' : '否')
+        }
+      }
     },
     {
       field: 'activeMenu',
@@ -117,12 +152,26 @@ export const columns = reactive<TableColumn[]>([
     {
       field: 'breadcrumb',
       label: '是否显示面包屑',
-      type: 'breadcrumb',
+      slots: {
+        default: (data: any) => {
+          const breadcrumb: boolean = data.row.breadcrumb
+          return h(ElTag, {
+            type: breadcrumb ? 'success' : 'danger'
+          }, breadcrumb ? '是' : '否')
+        }
+      }
     },
     {
       field: 'noTagsView',
       label: '是否隐藏标签页',
-      type: 'noTagsView',
+      slots: {
+        default: (data: any) => {
+          const noTagsView: boolean = data.row.noTagsView
+          return h(ElTag, {
+            type: noTagsView ? 'success' : 'danger'
+          }, noTagsView ? '是' : '否')
+        }
+      }
     },
     {
       field: 'sort',

@@ -12,6 +12,9 @@ import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
 import { Search } from '@/components/Search'
 
+import Edit from '@/views/Authorization/Menu/components/Edit.vue'
+import { Dialog } from '@/components/Dialog'
+
 // 查询条件
 const searchParams = ref({})
 // 列表组件
@@ -32,14 +35,28 @@ const setSearchParams = (data: any) => {
   getList()
 }
 
+const dialogVisible = ref(false)
+const dialogTitle = ref('测试')
+const currentRow = ref()
+const editRef = ref<ComponentRef<typeof Edit>>()
+
 const handleEdit = (row) => {
     // 编辑操作的逻辑
-    console.log('编辑操作', row);
+    console.log('编辑操作', row)
+    dialogVisible.value = true
+    currentRow.value = row
 }
 
 const handleDelete = (row) => {
     // 删除操作的逻辑
-    console.log('删除操作', row);
+    console.log('删除操作', row)
+}
+
+const save = async () => {
+  const write = unref(editRef)
+  const formData = await write?.submit()
+  console.log("save")
+  console.log(formData)
 }
 
 // 给列表添加按钮
@@ -83,8 +100,15 @@ const columns = baseColumns.map(col => {
         :data="dataList"
         :loading="loading"
         @register="tableRegister"
-        :height="800"
-        :max-height="750"
       />
   </ContentWrap>
+
+  <Dialog v-model="dialogVisible" :title="dialogTitle" :maxHeight="500" :maxWidth="1000">
+    <Edit :current-row="currentRow" ref="editRef"/>
+
+    <template #footer>
+      <!--@click="save"  -->
+    <BaseButton type="primary" @click="save">提交</BaseButton>
+  </template>
+  </Dialog>
 </template>

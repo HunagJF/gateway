@@ -10,7 +10,8 @@ const props = defineProps({
   modelValue: propTypes.bool.def(false),
   title: propTypes.string.def('Dialog'),
   fullscreen: propTypes.bool.def(true),
-  maxHeight: propTypes.oneOfType([String, Number]).def('400px')
+  maxHeight: propTypes.oneOfType([String, Number]).def('400px'),
+  maxWidth: propTypes.oneOfType([String, Number]).def('400px')
 })
 
 const getBindValue = computed(() => {
@@ -32,6 +33,7 @@ const toggleFull = () => {
 }
 
 const dialogHeight = ref(isNumber(props.maxHeight) ? `${props.maxHeight}px` : props.maxHeight)
+const dialogWidth = isNumber(props.maxWidth) ? `${props.maxWidth}px` : props.maxWidth
 
 watch(
   () => isFullscreen.value,
@@ -64,6 +66,7 @@ const dialogStyle = computed(() => {
     lock-scroll
     draggable
     top="0"
+    :width="dialogWidth"
     :close-on-click-modal="false"
     :show-close="false"
   >
