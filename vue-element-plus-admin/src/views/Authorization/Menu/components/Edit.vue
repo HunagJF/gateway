@@ -9,7 +9,7 @@ import { Form } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
 import { useValidator } from '@/hooks/web/useValidator'
 import { cloneDeep } from 'lodash-es'
-import { formSchema as baseFormSchema } from './Edit'
+import { formSchema as baseFormSchema } from '.'
 
 const { required } = useValidator()
 const { formRegister, formMethods } = useForm()
@@ -120,3 +120,4 @@ defineExpose({
   submit
 })
 </script>
+.

@@ -28,5 +28,5 @@ public interface MenuMapper {
 
     int insert(MenuDTO menuDTO);
 
-
+    int delete(String id);
 }

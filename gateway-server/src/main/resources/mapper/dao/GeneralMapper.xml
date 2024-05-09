@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="com.b0.mybatis.mapper.UserMapper" -->
+<mapper namespace="com.gateway.mapper.dao.GeneralMapper">
+
+    <select id="query" parameterType="string" resultType="map">
+        ${value}
+    </select>
+
+    <select id="querys" parameterType="string" resultType="map">
+        ${value}
+    </select>
+
+    <insert id="insert" parameterType="string">
+        ${value}
+    </insert>
+
+    <update id="update" parameterType="string">
+        ${value}
+    </update>
+
+    <delete id="delete" parameterType="string">
+        ${value}
+    </delete>
+</mapper>

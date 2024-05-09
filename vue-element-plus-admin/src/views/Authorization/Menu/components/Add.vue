@@ -6,7 +6,7 @@
 import { reactive, unref, ref } from 'vue'
 import { Form } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
-import { formSchema as baseFormSchema } from './Edit'
+import { formSchema as baseFormSchema } from '.'
 import { useValidator } from '@/hooks/web/useValidator'
 
 const { formRegister, formMethods } = useForm()
@@ -91,4 +91,4 @@ const addSubmit = async () => {
 defineExpose({
     addSubmit
 })
-</script>
+</script>.

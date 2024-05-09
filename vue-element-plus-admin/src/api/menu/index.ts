@@ -5,6 +5,7 @@ const Enum = {
     update : '/api/menu/update',
     insert : '/api/menu/insert',
     queryTitle: '/api/menu/queryTitle',
+    delete: '/api/menu/delete',
 }
 
 // 菜单查询
@@ -35,21 +36,9 @@ export const queryTitleApi = () => {
     })
 }
 
-// interface EditType {
-//     id: string
-//     parentId: string
-//     path: string
-//     title: string
-//     component: string
-//     name: string
-//     sort: number
-//     status: number
-//     type: number
-//     noTagsView: boolean
-//     noCache: boolean
-//     hidden: boolean
-//     canTo: boolean
-//     breadcrumb: boolean
-//     alwaysShow: boolean
-//     affix: boolean
-// }
+export const deleteApi = (data: any) => {
+    return request.post({ 
+        url: Enum.delete, 
+        data
+    })
+}

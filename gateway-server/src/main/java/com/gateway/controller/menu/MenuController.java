@@ -31,12 +31,6 @@ public class MenuController {
     public Result queryMenusByName(@RequestBody Map<String,Object> param) {
         return menuService.queryMenusByName(param);
     }
-   /* public Result queryMenusByName(
-            @RequestParam(value = "title", required = false) String name,
-            @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) {
-        return Result.success(menuService.queryMenusByName(name, page - 1, size));
-    }*/
 
     @Logger(operSource = "菜单管理",
             severity = LogSeverity.MINOR,
@@ -72,5 +66,14 @@ public class MenuController {
     @PostMapping(value = "/insert")
     public Result insert(@RequestBody MenuDTO menuDTO) {
         return menuService.insert(menuDTO);
+    }
+
+    @Logger(operSource = "菜单管理",
+            severity = LogSeverity.MINOR,
+            operName = "删除",
+            isPersistence = true)
+    @PostMapping(value = "/delete")
+    public Result delete(@RequestBody MenuDTO menuDTO) {
+        return menuService.delete(menuDTO.getId());
     }
 }

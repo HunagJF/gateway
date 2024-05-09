@@ -15,4 +15,6 @@ public interface MenuService {
     Result update(MenuDTO menuDTO);
 
     Result insert(MenuDTO menuDTO);
+
+    Result delete(String id);
 }

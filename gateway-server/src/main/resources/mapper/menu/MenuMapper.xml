@@ -144,7 +144,8 @@
             affix = #{affix},
             no_tags_view = #{noTagsView},
             can_to = #{canTo},
-            update_time = now()
+            update_time = now(),
+            icon = #{icon}
         WHERE
             id = #{id}
     </update>
@@ -157,5 +158,9 @@
             (#{path},#{name},#{component},#{redirect},#{parentId},#{status},#{title},#{icon},#{alwaysShow},#{affix},
              #{noCache},#{hidden},#{canTo},#{breadcrumb},#{noTagsView},(select max(sort) + 1 from menus),#{type})
     </insert>
+
+    <delete id="delete" parameterType="String">
+        delete from menus where id = #{value}
+    </delete>
 
 </mapper>

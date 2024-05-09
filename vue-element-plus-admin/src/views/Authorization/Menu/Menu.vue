@@ -3,10 +3,9 @@
     <Search :schema="schema" @reset="setSearchParams" @search="setSearchParams" />
     <BaseButton type="primary" @click="AddAction">添加</BaseButton>
     <Table 
-      
       :pagination="{
         total: total,
-        pageSizes: [20, 30, 40, 50, 100]
+        pageSizes: [20, 40, 100]
       }"
       v-model:pageSize="pageSize"
       v-model:currentPage="currentPage"
@@ -39,9 +38,9 @@
 import { h, ref, unref } from 'vue'
 import { ContentWrap } from '@/components/ContentWrap'
 //应用参数
-import { columns as baseColumns, schema } from './Menu'
+import { columns as baseColumns, schema } from '.'
 //URL地址
-import { queryMenusByNameApi, updateApi, insertApi } from '@/api/menu'
+import { queryMenusByNameApi, updateApi, insertApi, deleteApi } from '@/api/menu'
 //BaseButton 按钮组件
 import { BaseButton } from '@/components/Button'
 //Table 表格组件
@@ -91,16 +90,15 @@ const AddAction = () => {
   addDialog.value = true
 }
 
-const handleEdit = (row) => {
-  // 编辑操作的逻辑
+const handleEdit = (row :any) => {
   console.log('编辑操作', row)
   dialogVisible.value = true
   currentRow.value = row
 }
 
-const handleDelete = (row) => {
-  // 删除操作的逻辑
-  console.log('删除操作', row)
+const handleDelete = async (row :any) => {
+  await deleteApi(row);
+  getList()
 }
 
 const update = async () => {
@@ -144,4 +142,4 @@ const columns = baseColumns.map(col => {
   }
   return col;
 })
-</script>
+</script>.

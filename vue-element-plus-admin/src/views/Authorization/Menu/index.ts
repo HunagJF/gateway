@@ -75,15 +75,13 @@ export const columns = reactive<TableColumn[]>([
     slots: {
       default: (data: any) => {
         const status: number = data.row.status
-        if (status) {
-          return h(
-            ElTag,
-            {
-              type: status === 0 ? 'danger' : 'success'
-            },
-            status === 1 ? t('userDemo.enable') : t('userDemo.disable')
-          )
-        }
+        return h(
+          ElTag,
+          {
+            type: status === 1 ? 'success' : 'danger'
+          },
+          status === 1 ? t('userDemo.enable') : t('userDemo.disable')
+        )
       }
     }
   },
