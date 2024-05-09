@@ -215,6 +215,14 @@ export default defineComponent({
   setup(props, { attrs, emit, slots, expose }) {
     const elTableRef = ref<ComponentRef<typeof ElTable>>()
 
+    // 计算视图高度，如果传入了 props 中的 height 则使用传入的值，否则使用动态计算的值
+    const viewHeight = ref(props.height ? props.height : window.innerHeight * 0.7)
+
+    // 监听窗口大小变化，更新视图高度
+    window.addEventListener('resize', () => {
+      viewHeight.value = props.height ? props.height : window.innerHeight * 0.7
+    })
+
     // 注册
     onMounted(() => {
       const tableRef = unref(elTableRef)
@@ -564,7 +572,12 @@ export default defineComponent({
                   onConfirm={confirmSetColumn}
                 />
               ) : null}
-              <ElTable ref={elTableRef} data={unref(getProps).data} {...unref(getBindValue)}>
+              <ElTable
+                ref={elTableRef}
+                data={unref(getProps).data}
+                {...unref(getBindValue)}
+                height={unref(viewHeight)}
+              >
                 {{
                   default: () => renderTableColumn(),
                   ...tableSlots

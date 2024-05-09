@@ -3,10 +3,13 @@
     <Search :schema="schema" @reset="setSearchParams" @search="setSearchParams" />
     <BaseButton type="primary" @click="AddAction">添加</BaseButton>
     <Table 
-      :maxHeight = "650"
-      :pagination="{total: total}"
-      :pageSize
-      :currentPage
+      
+      :pagination="{
+        total: total,
+        pageSizes: [20, 30, 40, 50, 100]
+      }"
+      v-model:pageSize="pageSize"
+      v-model:currentPage="currentPage"
       :columns
       default-expand-all 
       node-key="id" 
@@ -62,8 +65,8 @@ const { tableRegister, tableState, tableMethods } = useTable({
       size: unref(pageSize)
     })
     return {
-      list: res.data.data.list || [],
-      total: res.data.data.total
+      list: res.data || [],
+      total: res.total
     }
   }
 })

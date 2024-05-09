@@ -43,11 +43,13 @@ declare global {
     method?: AxiosMethod
     headers?: RawAxiosRequestHeaders
     responseType?: AxiosResponseType
+    total?: total
   }
 
   declare interface IResponse<T = any> {
     code: number
     data: T extends any ? T : T & any
+    total?: number
   }
 
   declare interface ThemeTypes {

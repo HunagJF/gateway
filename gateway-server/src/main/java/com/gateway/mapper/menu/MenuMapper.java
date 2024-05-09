@@ -9,15 +9,18 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MenuMapper {
 
     List<MenusVO> queryMenusByName(
-            @Param("name") String name,
+            @Param("title") String title,
             @Param("page") int page,
             @Param("size") int size);
 
-    int queryCount(String name);
+    int queryCount(String title);
+
+    List<MenuEntity> queryTitle();
 
     List<MenuEntity> queryMenusByUsername(String userName);
 

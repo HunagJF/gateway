@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import { FormSchema } from '@/components/Form'
-import { queryMenusByNameApi } from '@/api/menu'
+import { queryTitleApi } from '@/api/menu'
 
 export const formSchema = reactive<FormSchema[]>([
     {
@@ -25,11 +25,18 @@ export const formSchema = reactive<FormSchema[]>([
         props: {
           label: 'title',
           value: 'id',
-        }
+          children: 'children'
+        },
+        highlightCurrent: true,
+        expandOnClickNode: false,
+        checkStrictly: true,
+        checkOnClickNode: true,
+        clearable: true,
       },
       optionApi: async () => {
-        const res = await queryMenusByNameApi({})
-        return res.data.list || []
+        const res = await queryTitleApi()
+        console.log(res)
+        return res.data || []
       }
     },
     {
@@ -55,7 +62,7 @@ export const formSchema = reactive<FormSchema[]>([
     {
       field: 'icon',
       label: '图标',
-      component: 'Input',
+      component: 'IconPicker',
     },
     {
       field: 'path',

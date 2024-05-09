@@ -31,14 +31,20 @@
         <result column="no_Tags_View" property="noTagsView" />
     </resultMap>
 
+    <resultMap id="titleMap" type="com.gateway.vo.menu.MenusTitleVO">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <collection property="children" ofType="com.gateway.vo.menu.MenusTitleVO" select="queryTitleId" column="id"/>
+    </resultMap>
+
     <!-- 查询所有的主路由 -->
     <select id="queryMenusByName" resultType="menusVO">
         SELECT
         m.*
         FROM MENUS m
         <where>
-            <if test="name != null">
-                m.TITLE LIKE CONCAT('%', #{name}, '%')
+            <if test="title != null">
+                m.TITLE LIKE CONCAT('%', #{title}, '%')
             </if>
         </where>
         ORDER BY m.sort
@@ -52,6 +58,24 @@
                 m.TITLE LIKE CONCAT('%', #{value}, '%')
             </if>
         </where>
+    </select>
+
+    <select id="queryTitle" resultMap="titleMap">
+        SELECT
+            R.ID,R.TITLE
+        FROM
+            MENUS R
+        WHERE R.PARENT_ID IS NULL
+        ORDER BY R.SORT
+    </select>
+
+    <select id="queryTitleId" resultMap="titleMap">
+        SELECT
+            M.ID,M.TITLE
+        FROM
+            MENUS M
+        WHERE
+            M.PARENT_ID = #{id} ORDER BY M.SORT
     </select>
 
 

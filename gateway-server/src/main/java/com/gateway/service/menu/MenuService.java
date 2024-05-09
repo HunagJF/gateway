@@ -6,7 +6,9 @@ import com.gateway.result.Result;
 import java.util.Map;
 
 public interface MenuService {
-    Result queryMenusByName(String Name, int page, int size);
+    Result queryMenusByName(Map<String,Object> param);
+
+    Result queryTitle();
 
     Result queryMenusByUsername();
 

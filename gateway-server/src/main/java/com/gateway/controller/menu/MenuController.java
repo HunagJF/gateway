@@ -7,8 +7,11 @@ import com.gateway.result.Result;
 import com.gateway.service.menu.MenuService;
 import com.gateway.utils.CommonsUtil;
 import com.gateway.vo.login.UserTypeVO;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/menu")
@@ -25,11 +28,23 @@ public class MenuController {
             operName = "查询",
             isPersistence = true)
     @PostMapping(value = "/queryMenusByName")
-    public Result queryMenusByName(
+    public Result queryMenusByName(@RequestBody Map<String,Object> param) {
+        return menuService.queryMenusByName(param);
+    }
+   /* public Result queryMenusByName(
             @RequestParam(value = "title", required = false) String name,
-            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
         return Result.success(menuService.queryMenusByName(name, page - 1, size));
+    }*/
+
+    @Logger(operSource = "菜单管理",
+            severity = LogSeverity.MINOR,
+            operName = "查询Title",
+            isPersistence = true)
+    @PostMapping(value = "/queryTitle")
+    public Result queryTitle() {
+        return menuService.queryTitle();
     }
 
     @Logger(operSource = "用户登录获取菜单",

@@ -7,6 +7,7 @@ import com.gateway.service.menu.MenuService;
 import com.gateway.utils.CommonsUtil;
 import com.gateway.utils.SimplePasswordUtil;
 import com.gateway.vo.login.UserTypeVO;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,16 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Result queryMenusByName(String name, int page, int size) {
-        Map<String, Object> routes = new HashMap<>();
-        routes.put("list", menuMapper.queryMenusByName(name, page, size));
-        routes.put("total", queryCount(name));
-        return Result.success(routes);
+    public Result queryMenusByName(Map<String,Object> param) {
+        String title = MapUtils.getString(param, "title");
+        Integer page = MapUtils.getInteger(param, "page", 1) - 1;
+        Integer size = MapUtils.getInteger(param, "size", 10);
+        return Result.success(menuMapper.queryMenusByName(title, page, size), queryCount(title));
+    }
+
+    @Override
+    public Result queryTitle() {
+        return Result.success(menuMapper.queryTitle());
     }
 
     @Override
@@ -36,6 +42,8 @@ public class MenuServiceImpl implements MenuService {
         UserTypeVO user = CommonsUtil.getUser(UserTypeVO.class);
         return Result.success(menuMapper.queryMenusByUsername(user.getUsername()));
     }
+
+
 
     @Override
     public Result update(MenuDTO menuDTO) {

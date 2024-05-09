@@ -4,13 +4,14 @@ const Enum = {
     queryMenusByName : '/api/menu/queryMenusByName',
     update : '/api/menu/update',
     insert : '/api/menu/insert',
+    queryTitle: '/api/menu/queryTitle',
 }
 
 // 菜单查询
-export const queryMenusByNameApi = (params: any) => {
+export const queryMenusByNameApi = (data: any) => {
     return request.post({ 
         url: Enum.queryMenusByName, 
-        params: params
+        data
     })
 }
 
@@ -25,6 +26,12 @@ export const insertApi = (data: any) => {
     return request.post({ 
         url: Enum.insert, 
         data
+    })
+}
+
+export const queryTitleApi = () => {
+    return request.post({ 
+        url: Enum.queryTitle
     })
 }
 
