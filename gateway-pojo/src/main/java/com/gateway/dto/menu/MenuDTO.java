@@ -11,6 +11,8 @@ public class MenuDTO {
     private String title;
     private String component;
     private String name;
+    private String redirect;
+    private String icon;
     private int sort;
     private int status;
     private int type;

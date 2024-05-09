@@ -17,7 +17,7 @@ import {
   ElMessageBox,
   ElIcon
 } from 'element-plus'
-import { getDictOneApi } from '@/api/common'
+import { getDictOneApi } from '@/api/model/common'
 import { Icon } from '@/components/Icon'
 import { BaseButton } from '@/components/Button'
 

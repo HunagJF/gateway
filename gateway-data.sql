@@ -21,7 +21,7 @@ select * from user_login ul ;
 select * from user_role ur ;
 select * from roles r ;
 select * from role_menu rm ;
-select * from menus;
+select * from menus order by sort ; where "type" = '0';
 delete from user_role;
 delete from role_menu;
 -----------------------------------------------------------------

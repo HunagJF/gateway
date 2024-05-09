@@ -25,8 +25,11 @@ public class MenuController {
             operName = "查询",
             isPersistence = true)
     @PostMapping(value = "/queryMenusByName")
-    public Result queryMenusByName(@RequestParam(value = "title", required = false) String name) {
-        return Result.success(menuService.queryMenusByName(name));
+    public Result queryMenusByName(
+            @RequestParam(value = "title", required = false) String name,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        return Result.success(menuService.queryMenusByName(name, page - 1, size));
     }
 
     @Logger(operSource = "用户登录获取菜单",
@@ -45,5 +48,14 @@ public class MenuController {
     @PostMapping(value = "/update")
     public Result update(@RequestBody MenuDTO menuDTO) {
         return menuService.update(menuDTO);
+    }
+
+    @Logger(operSource = "菜单管理",
+            severity = LogSeverity.MINOR,
+            operName = "添加",
+            isPersistence = true)
+    @PostMapping(value = "/insert")
+    public Result insert(@RequestBody MenuDTO menuDTO) {
+        return menuService.insert(menuDTO);
     }
 }

@@ -6,7 +6,7 @@ import { useForm } from '@/hooks/web/useForm'
 import { reactive, unref, ref } from 'vue'
 import { ElInput, FormItemProp, ComponentSize, ElMessage, ElMessageBox } from 'element-plus'
 import { useValidator } from '@/hooks/web/useValidator'
-import { getDictOneApi } from '@/api/common'
+import { getDictOneApi } from '@/api/model/common'
 import { BaseButton } from '@/components/Button'
 
 const { required } = useValidator()

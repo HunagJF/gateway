@@ -8,13 +8,12 @@ import { PropType, reactive, watch, ref, unref } from 'vue'
 import { Form } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
 import { useValidator } from '@/hooks/web/useValidator'
-
 import { cloneDeep } from 'lodash-es'
 import { formSchema as baseFormSchema } from './Edit'
 
 const { required } = useValidator()
 const { formRegister, formMethods } = useForm()
-const { setValues, getFormData, setSchema } = formMethods
+const { setValues, getFormData, setSchema, getElFormExpose } = formMethods
 
 // 获取参数
 const props = defineProps({
@@ -107,8 +106,14 @@ watch(() => props.currentRow, (value) => {
 
 // 提交
 const submit = async () => {
-    console.log('submit')
+  const elForm = await getElFormExpose()
+  const valid = await elForm?.validate()
+  // const valid = await elForm?.validate().catch((err) => {
+  //   console.log(err)
+  // })
+  if (valid) {
     return await getFormData()
+  }
 }
 
 defineExpose({

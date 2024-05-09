@@ -32,17 +32,28 @@
     </resultMap>
 
     <!-- 查询所有的主路由 -->
-    <select id="queryMenusByName" parameterType="string" resultType="menusVO">
+    <select id="queryMenusByName" resultType="menusVO">
         SELECT
-            m.*
+        m.*
         FROM MENUS m
         <where>
-            <if test="value != null">
-                m.TITLE LIKE CONCAT('%', #{value}, '%')
+            <if test="name != null">
+                m.TITLE LIKE CONCAT('%', #{name}, '%')
             </if>
         </where>
         ORDER BY m.sort
+        LIMIT #{size} OFFSET #{page} * #{size}
     </select>
+
+    <select id="queryCount" parameterType="string" resultType="int">
+        select count(1) from MENUS m
+        <where>
+            <if test="name != null">
+                m.TITLE LIKE CONCAT('%', #{value}, '%')
+            </if>
+        </where>
+    </select>
+
 
     <!-- 查询元数据Meta -->
     <select id="findMetaByMenuId" resultMap="metaMap">
@@ -113,5 +124,14 @@
         WHERE
             id = #{id}
     </update>
+
+    <insert id="insert" parameterType="menuDTO">
+        insert into menus
+            (path,name,component,redirect,parent_id,status,title,icon,always_show,
+             affix,no_cache,hidden,can_to,breadcrumb,no_tags_view,sort,type)
+        values
+            (#{path},#{name},#{component},#{redirect},#{parentId},#{status},#{title},#{icon},#{alwaysShow},#{affix},
+             #{noCache},#{hidden},#{canTo},#{breadcrumb},#{noTagsView},(select max(sort) + 1 from menus),#{type})
+    </insert>
 
 </mapper>

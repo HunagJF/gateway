@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <ElCard :class="[prefixCls]" shadow="never">
+  <ElCard :class="[prefixCls , 'content-max-height']" shadow="never">
     <template v-if="title" #header>
       <div class="flex items-center">
         <span class="text-16px font-700">{{ title }}</span>
@@ -34,3 +34,10 @@ defineProps({
     </div>
   </ElCard>
 </template>
+
+<style scoped>
+.content-max-height {
+  /* max-height: 85vh;
+  overflow: auto; 如果内容超出高度，出现滚动条 */
+}
+</style>

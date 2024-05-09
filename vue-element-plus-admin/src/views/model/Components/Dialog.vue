@@ -5,7 +5,7 @@ import { useI18n } from '@/hooks/web/useI18n'
 import { ref, reactive } from 'vue'
 import { Form, FormSchema } from '@/components/Form'
 import { useValidator } from '@/hooks/web/useValidator'
-import { getDictOneApi } from '@/api/common'
+import { getDictOneApi } from '@/api/model/common'
 import { useForm } from '@/hooks/web/useForm'
 import Echart from './Echart.vue'
 

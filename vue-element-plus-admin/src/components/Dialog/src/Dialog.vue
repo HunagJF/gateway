@@ -11,7 +11,7 @@ const props = defineProps({
   title: propTypes.string.def('Dialog'),
   fullscreen: propTypes.bool.def(true),
   maxHeight: propTypes.oneOfType([String, Number]).def('400px'),
-  maxWidth: propTypes.oneOfType([String, Number]).def('400px')
+  maxWidth: propTypes.oneOfType([String, Number]).def('1000px')
 })
 
 const getBindValue = computed(() => {

@@ -24,10 +24,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Map<String, Object> queryMenusByName(String name) {
+    public Result queryMenusByName(String name, int page, int size) {
         Map<String, Object> routes = new HashMap<>();
-        routes.put("list", menuMapper.queryMenusByName(name));
-        return routes;
+        routes.put("list", menuMapper.queryMenusByName(name, page, size));
+        routes.put("total", queryCount(name));
+        return Result.success(routes);
     }
 
     @Override
@@ -42,5 +43,14 @@ public class MenuServiceImpl implements MenuService {
         return Result.success();
     }
 
+    @Override
+    public Result insert(MenuDTO menuDTO) {
+        menuMapper.insert(menuDTO);
+        return Result.success();
+    }
+
+    private int queryCount(String name) {
+        return menuMapper.queryCount(name);
+    }
 
 }

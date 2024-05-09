@@ -41,6 +41,7 @@ export const formSchema = reactive<FormSchema[]>([
       field: 'component',
       label: '组件',
       component: 'Input',
+      value: '#',
       componentProps: {
         disabled: true,
         placeholder: '#为顶级目录，##为子目录',

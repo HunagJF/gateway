@@ -3,6 +3,7 @@ import request from '@/axios'
 const Enum = {
     queryMenusByName : '/api/menu/queryMenusByName',
     update : '/api/menu/update',
+    insert : '/api/menu/insert',
 }
 
 // 菜单查询
@@ -13,9 +14,16 @@ export const queryMenusByNameApi = (params: any) => {
     })
 }
 
-export const update = (data: any) => {
+export const updateApi = (data: any) => {
     return request.post({ 
         url: Enum.update, 
+        data
+    })
+}
+
+export const insertApi = (data: any) => {
+    return request.post({ 
+        url: Enum.insert, 
         data
     })
 }
