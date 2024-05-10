@@ -48,21 +48,45 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Result update(MenuDTO menuDTO) {
-        menuMapper.update(menuDTO);
+        generalService.update(SQLConverterUtil.replaceAllPlaceHolder(
+                "UPDATE MENUS SET TYPE = ?, parent_id = ?, title = ?, component = ?, name = ?, path = ?, status = ?, " +
+                        "sort = ?, hidden = ?, always_show = ?, no_cache = ?, breadcrumb = ?, affix = ?, no_tags_view = ?, " +
+                        "can_to = ?, update_time = now(), icon = ? WHERE ID = ?",
+                new Object[]{
+                    menuDTO.getType(), menuDTO.getParentId(), menuDTO.getTitle(), menuDTO.getComponent(),menuDTO.getName(),
+                        menuDTO.getPath(), menuDTO.getStatus(), menuDTO.getSort(), menuDTO.isHidden(), menuDTO.isAlwaysShow(),
+                        menuDTO.isNoCache(), menuDTO.isBreadcrumb(), menuDTO.isAffix(), menuDTO.isNoTagsView(), menuDTO.isCanTo(),
+                        menuDTO.getIcon(), menuDTO.getId()
+                }
+        ));
+//        menuMapper.update(menuDTO);
         return Result.success();
     }
 
     @Override
     public Result insert(MenuDTO menuDTO) {
-        menuMapper.insert(menuDTO);
+        generalService.insert(SQLConverterUtil.appendParams(
+                "insert into menus (path,name,component,redirect,parent_id,status,title,icon,always_show,affix," +
+                        "no_cache,hidden,can_to,breadcrumb,no_tags_view,sort,type) values " +
+                        "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                new Object[]{
+                    menuDTO.getPath(), menuDTO.getName(), menuDTO.getComponent(), menuDTO.getRedirect(), menuDTO.getParentId(),
+                        menuDTO.getStatus(), menuDTO.getTitle(), menuDTO.getIcon(), menuDTO.isAlwaysShow(), menuDTO.isAffix(),
+                        menuDTO.isNoCache(), menuDTO.isHidden(), menuDTO.isCanTo(), menuDTO.isBreadcrumb(), menuDTO.isNoTagsView(),
+                        menuDTO.getSort(), menuDTO.getType()
+                }
+        ));
+//        menuMapper.insert(menuDTO);
         return Result.success();
     }
 
     @Override
     public Result delete(String id) {
         generalService.delete(SQLConverterUtil.appendParams(
-                "delete from menus where id = ?",
-                new Object[]{id}
+                "DELETE FROM MENUS WHERE ID = ?",
+                new Object[]{
+                        id
+                }
         ));
         return Result.success();
     }

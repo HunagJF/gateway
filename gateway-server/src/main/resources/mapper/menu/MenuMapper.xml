@@ -158,9 +158,4 @@
             (#{path},#{name},#{component},#{redirect},#{parentId},#{status},#{title},#{icon},#{alwaysShow},#{affix},
              #{noCache},#{hidden},#{canTo},#{breadcrumb},#{noTagsView},(select max(sort) + 1 from menus),#{type})
     </insert>
-
-    <delete id="delete" parameterType="String">
-        delete from menus where id = #{value}
-    </delete>
-
 </mapper>
