@@ -9,7 +9,7 @@
       }"
       v-model:pageSize="pageSize"
       v-model:currentPage="currentPage"
-      :columns
+      :columns 
       default-expand-all 
       node-key="id" 
       :data="dataList" 

@@ -65,7 +65,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Result insert(MenuDTO menuDTO) {
-        generalService.insert(SQLConverterUtil.appendParams(
+        generalService.insert(SQLConverterUtil.replaceAllPlaceHolder(
                 "insert into menus (path,name,component,redirect,parent_id,status,title,icon,always_show,affix," +
                         "no_cache,hidden,can_to,breadcrumb,no_tags_view,sort,type) values " +
                         "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -82,7 +82,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Result delete(String id) {
-        generalService.delete(SQLConverterUtil.appendParams(
+        generalService.delete(SQLConverterUtil.replaceAllPlaceHolder(
                 "DELETE FROM MENUS WHERE ID = ?",
                 new Object[]{
                         id
