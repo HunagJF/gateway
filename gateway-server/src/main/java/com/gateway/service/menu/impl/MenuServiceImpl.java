@@ -44,6 +44,10 @@ public class MenuServiceImpl implements MenuService {
         return Result.success(menuMapper.queryMenusByUsername(user.getUsername()));
     }
 
+    @Override
+    public Result queryMenus() {
+        return Result.success(menuMapper.queryMenus());
+    }
 
 
     @Override
@@ -59,7 +63,6 @@ public class MenuServiceImpl implements MenuService {
                         menuDTO.getIcon(), menuDTO.getId()
                 }
         ));
-//        menuMapper.update(menuDTO);
         return Result.success();
     }
 
@@ -76,7 +79,6 @@ public class MenuServiceImpl implements MenuService {
                         menuDTO.getSort(), menuDTO.getType()
                 }
         ));
-//        menuMapper.insert(menuDTO);
         return Result.success();
     }
 
@@ -94,5 +96,4 @@ public class MenuServiceImpl implements MenuService {
     private int queryCount(String name) {
         return menuMapper.queryCount(name);
     }
-
 }

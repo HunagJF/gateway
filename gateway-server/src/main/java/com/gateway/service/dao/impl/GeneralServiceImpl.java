@@ -42,4 +42,9 @@ public class GeneralServiceImpl implements GeneralService {
     public int delete(String sql) {
         return generalMapper.delete(sql);
     }
+
+    @Override
+    public String nextVal() {
+        return generalMapper.nextVal();
+    }
 }

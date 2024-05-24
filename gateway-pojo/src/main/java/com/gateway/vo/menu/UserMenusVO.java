@@ -37,6 +37,15 @@ public class UserMenusVO {
     @ApiModelProperty("状态")
     private int status;
 
+    @ApiModelProperty("排序")
+    private int sort;
+
+    @ApiModelProperty("菜单类型")
+    private int type;
+
+    @ApiModelProperty("上级ID")
+    private String parentId;
+
     @ApiModelProperty("属性")
     private MenuMetaVo meta;
 

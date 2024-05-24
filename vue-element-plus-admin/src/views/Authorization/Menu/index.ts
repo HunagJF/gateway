@@ -11,11 +11,6 @@ const { t } = useI18n()
 
 export const columns = reactive<TableColumn[]>([
   {
-    field: 'index',
-    label: '序号',
-    type: 'index'
-  },
-  {
     field: 'id',
     label: 'ID',
     hidden: true
@@ -23,6 +18,11 @@ export const columns = reactive<TableColumn[]>([
   {
     field: 'title',
     label: '菜单名称',
+    width: '200px'
+  },
+  {
+    field: 'sort',
+    label: '排序',
     width: '100px'
   },
   {
@@ -89,11 +89,6 @@ export const columns = reactive<TableColumn[]>([
     field: 'action',
     label: '操作',
     width: '150px'
-  },
-  {
-    field: 'sort',
-    label: '排序',
-    type: 'sort'
   },
   {
     field: 'alwaysShow',
@@ -181,7 +176,7 @@ export const columns = reactive<TableColumn[]>([
     type: 'activeMenu'
   },
   {
-    field: 'breadcrumb',
+    field: 'meta.breadcrumb',
     label: '是否显示面包屑',
     slots: {
       default: (data: any) => {

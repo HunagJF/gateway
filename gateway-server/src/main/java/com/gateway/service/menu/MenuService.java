@@ -12,6 +12,8 @@ public interface MenuService {
 
     Result queryMenusByUsername();
 
+    Result queryMenus();
+
     Result update(MenuDTO menuDTO);
 
     Result insert(MenuDTO menuDTO);

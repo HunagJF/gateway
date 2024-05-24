@@ -14,4 +14,6 @@ public interface GeneralService {
     int insert(String sql);
 
     int delete(String sql);
+
+    String nextVal();
 }

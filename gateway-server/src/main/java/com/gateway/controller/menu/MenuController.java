@@ -50,6 +50,15 @@ public class MenuController {
         return menuService.queryMenusByUsername();
     }
 
+    @Logger(operSource = "获取所有菜单",
+            severity = LogSeverity.MINOR,
+            operName = "查询",
+            isPersistence = true)
+    @PostMapping(value = "/queryMenus")
+    public Result queryMenus() {
+        return menuService.queryMenus();
+    }
+
     @Logger(operSource = "菜单管理",
             severity = LogSeverity.MINOR,
             operName = "更新",

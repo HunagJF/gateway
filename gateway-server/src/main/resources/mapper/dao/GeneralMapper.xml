@@ -13,6 +13,10 @@
         ${value}
     </select>
 
+    <select id="queryCount" parameterType="string" resultType="int">
+        ${value}
+    </select>
+
     <insert id="insert" parameterType="string">
         ${value}
     </insert>
@@ -24,4 +28,8 @@
     <delete id="delete" parameterType="string">
         ${value}
     </delete>
+
+    <select id="nextVal" resultType="string">
+        select uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)
+    </select>
 </mapper>

@@ -49,7 +49,6 @@ const formSchema = baseFormSchema.map(col => {
         ],
         on: {
         change: async (val: number) => {
-          console.log("change" + val)
           const formData = await getFormData()
           if (val === 1) {
             setSchema([
@@ -91,6 +90,7 @@ const formSchema = baseFormSchema.map(col => {
 
 // 监听
 watch(() => props.currentRow, (value) => {
+    console.log(value)
     if (!value) return
     const currentRow = cloneDeep(value)
     cacheComponent.value = currentRow.type === 1 ? currentRow.component : ''

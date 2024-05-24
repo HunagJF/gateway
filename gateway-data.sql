@@ -74,7 +74,7 @@ INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,ic
 	
 insert into user_login ( user_name, "password") values ('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
 
-insert into roles ( role_name, remark, status) values ( '管理员', 'admin', 1);
+insert into roles ( role_name, remark, status) values ( '管理员1', 'admin1', 2);
 
 insert into user_role ( user_id ,role_id)
 select mu.id, r.id from user_login mu, roles r;
@@ -97,3 +97,11 @@ ALTER TABLE gateway.sys_log ADD create_time timestamp DEFAULT now() NULL;
 ALTER TABLE gateway.sys_log ADD update_time timestamp NULL;
 
 
+select r.*,
+(select string_agg(m.title, ',') from role_menu rm, menus m where rm.role_id = r.id and rm.menu_id = m .id) as menu_assignment
+from roles r ;
+
+insert into role_menu (role_id, menu_id)
+select ?,m.id from menus m where id in (?)
+
+update roles set role_name = ?, remark = ?, status = ? where id = ?

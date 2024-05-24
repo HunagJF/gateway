@@ -6,6 +6,7 @@ const Enum = {
     insert : '/api/menu/insert',
     queryTitle: '/api/menu/queryTitle',
     delete: '/api/menu/delete',
+    queryMenus: '/api/menu/queryMenus',
 }
 
 // 菜单查询
@@ -40,5 +41,11 @@ export const deleteApi = (data: any) => {
     return request.post({ 
         url: Enum.delete, 
         data
+    })
+}
+
+export const queryMenusApi = () => {
+    return request.post({ 
+        url: Enum.queryMenus
     })
 }

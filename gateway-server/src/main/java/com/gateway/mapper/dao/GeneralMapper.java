@@ -17,4 +17,8 @@ public interface GeneralMapper {
     int insert(String sql);
 
     int delete(String sql);
+
+    int queryCount(String sql);
+
+    String nextVal();
 }

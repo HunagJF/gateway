@@ -1,11 +1,14 @@
 package com.gateway.vo.menu;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -70,4 +73,8 @@ public class MenusVO {
 
     @ApiModelProperty("菜单类型")
     private int type;
+
+    @ApiModelProperty("子菜单")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<MenusVO> children;
 }

@@ -1,15 +1,11 @@
 package com.gateway.mapper.menu;
 
-
 import com.gateway.dto.menu.MenuDTO;
 import com.gateway.entity.menu.MenuEntity;
-import com.gateway.result.Result;
 import com.gateway.vo.menu.MenusVO;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Map;
 
 public interface MenuMapper {
 
@@ -23,6 +19,8 @@ public interface MenuMapper {
     List<MenuEntity> queryTitle();
 
     List<MenuEntity> queryMenusByUsername(String userName);
+
+    List<MenuEntity> queryMenus();
 
     int update(MenuDTO menuDTO);
 

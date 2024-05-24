@@ -4,52 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace="com.b0.mybatis.mapper.UserMapper" -->
 <mapper namespace="com.gateway.mapper.menu.MenuMapper">
-    <resultMap id="menuMap" type="com.gateway.vo.menu.UserMenusVO">
-        <id column="id" property="id" />
-        <result column="path" property="path" />
-        <result column="component" property="component" />
-        <result column="redirect" property="redirect" />
-        <result column="name" property="name" />
-        <result column="status" property="status" />
-        <!-- 元数据映射 -->
-        <association property="meta" javaType="com.gateway.vo.menu.MenuMetaVo" select="findMetaByMenuId" column="id"/>
-        <!-- 子路由映射 -->
-        <collection property="children" ofType="com.gateway.vo.menu.UserMenusVO" select="findMenuByParentId" column="id"/>
-    </resultMap>
 
-    <!-- MetaData resultMap -->
-    <resultMap id="metaMap" type="com.gateway.vo.menu.MenuMetaVo">
-        <result column="title" property="title" />
-        <result column="icon" property="icon" />
-        <result column="always_show" property="alwaysShow" />
-        <result column="no_cache" property="noCache" />
-        <result column="affix" property="affix" />
-        <result column="hidden" property="hidden" />
-        <result column="can_to" property="canTo" />
-        <result column="active_menu" property="activeMenu" />
-        <result column="breadcrumb" property="breadcrumb" />
-        <result column="no_Tags_View" property="noTagsView" />
-    </resultMap>
-
-    <resultMap id="titleMap" type="com.gateway.vo.menu.MenusTitleVO">
-        <id column="id" property="id" />
-        <result column="title" property="title" />
-        <collection property="children" ofType="com.gateway.vo.menu.MenusTitleVO" select="queryTitleId" column="id"/>
-    </resultMap>
-
-    <!-- 查询所有的主路由 -->
-    <select id="queryMenusByName" resultType="menusVO">
-        SELECT
-        m.*
-        FROM MENUS m
-        <where>
-            <if test="title != null">
-                m.TITLE LIKE CONCAT('%', #{title}, '%')
-            </if>
-        </where>
-        ORDER BY m.sort
-        LIMIT #{size} OFFSET #{page} * #{size}
-    </select>
+<!--    &lt;!&ndash; 查询所有的主路由 &ndash;&gt;-->
+<!--    <select id="queryMenusByName" resultType="menusVO">-->
+<!--        SELECT-->
+<!--        m.*-->
+<!--        FROM MENUS m-->
+<!--        <where>-->
+<!--            <if test="title != null">-->
+<!--                m.TITLE LIKE CONCAT('%', #{title}, '%')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY m.sort-->
+<!--        LIMIT #{size} OFFSET #{page} * #{size}-->
+<!--    </select>-->
 
     <select id="queryCount" parameterType="string" resultType="int">
         select count(1) from MENUS m
@@ -59,6 +27,12 @@
             </if>
         </where>
     </select>
+
+    <resultMap id="titleMap" type="com.gateway.vo.menu.MenusTitleVO">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <collection property="children" ofType="com.gateway.vo.menu.MenusTitleVO" select="queryTitleId" column="id"/>
+    </resultMap>
 
     <select id="queryTitle" resultMap="titleMap">
         SELECT
@@ -78,6 +52,57 @@
             M.PARENT_ID = #{id} ORDER BY M.SORT
     </select>
 
+    <sql id="commonSelect">
+        SELECT
+            R.ID, R.PATH, R.COMPONENT, R.REDIRECT, R.NAME, R.STATUS, M.USER_NAME
+        FROM
+            USER_LOGIN M
+                JOIN USER_ROLE UR ON M.ID = UR.USER_ID
+                JOIN ROLES R2 ON UR.ROLE_ID = R2.ID
+                JOIN ROLE_MENU RR ON R2.ID = RR.ROLE_ID
+                JOIN MENUS R ON RR.MENU_ID = R.ID
+    </sql>
+
+    <resultMap id="menuMap" type="com.gateway.vo.menu.UserMenusVO">
+        <id column="id" property="id" />
+        <result column="path" property="path" />
+        <result column="component" property="component" />
+        <result column="redirect" property="redirect" />
+        <result column="name" property="name" />
+        <result column="status" property="status" />
+        <association property="meta" javaType="com.gateway.vo.menu.MenuMetaVo" select="findMetaByMenuId" column="id"/>
+        <collection property="children" ofType="com.gateway.vo.menu.UserMenusVO" select="findMenuByParentId" column="{parentId=id, userName=user_name}"/>
+    </resultMap>
+
+    <resultMap id="metaMap" type="com.gateway.vo.menu.MenuMetaVo">
+        <result column="title" property="title" />
+        <result column="icon" property="icon" />
+        <result column="always_show" property="alwaysShow" />
+        <result column="no_cache" property="noCache" />
+        <result column="affix" property="affix" />
+        <result column="hidden" property="hidden" />
+        <result column="can_to" property="canTo" />
+        <result column="active_menu" property="activeMenu" />
+        <result column="breadcrumb" property="breadcrumb" />
+        <result column="no_Tags_View" property="noTagsView" />
+    </resultMap>
+
+    <select id="queryMenusByUsername" parameterType="string" resultMap="menuMap">
+        <include refid="commonSelect"/>
+        WHERE
+            R.PARENT_ID IS NULL
+          AND M.USER_NAME = #{value}
+        ORDER BY R.SORT
+    </select>
+
+    <!-- 递归查询子路由-->
+    <select id="findMenuByParentId" resultMap="menuMap" parameterType="map">
+        <include refid="commonSelect"/>
+        WHERE
+            R.PARENT_ID = #{parentId}
+            AND M.USER_NAME = #{userName}
+        ORDER BY R.SORT
+    </select>
 
     <!-- 查询元数据Meta -->
     <select id="findMetaByMenuId" resultMap="metaMap">
@@ -95,67 +120,57 @@
         from menus where id = #{id}
     </select>
 
-    <!-- 递归查询子路由-->
-    <select id="findMenuByParentId" resultMap="menuMap">
-        SELECT
-            m.ID,
-            m.PATH,
-            m.COMPONENT,
-            m.REDIRECT,
-            m.NAME,
-            m.STATUS
+
+    <resultMap id="menuMap2" type="com.gateway.vo.menu.UserMenusVO">
+        <id column="id" property="id" />
+        <association property="meta" javaType="com.gateway.vo.menu.MenuMetaVo" select="findMetaByMenuId" column="id"/>
+        <collection property="children" ofType="com.gateway.vo.menu.UserMenusVO" select="findMenuByParentId2" column="id"/>
+    </resultMap>
+
+    <select id="queryMenus" resultMap="menuMap2">
+        select m.ID from menus m where m.parent_id is null order by m.sort
+    </select>
+
+    <select id="findMenuByParentId2" resultMap="menuMap2">
+        select
+            m.ID
         FROM MENUS m
         WHERE m.PARENT_ID = #{id} order by m.sort
     </select>
 
-    <select id="queryMenusByUsername" parameterType="string" resultMap="menuMap">
-        SELECT
-            R.ID,R.PATH,R.COMPONENT,R.REDIRECT,R.NAME,R.STATUS
-        FROM
-            USER_LOGIN M,
-            USER_ROLE UR,
-            ROLES R2,
-            ROLE_MENU RR,
-            MENUS R
-        WHERE R.PARENT_ID IS NULL
-          AND M.ID = UR.USER_ID
-          AND UR.ROLE_ID  = R2.ID
-          AND R2.ID = RR.ROLE_ID
-          AND RR.MENU_ID = R.ID
-          AND M.USER_NAME = #{value}
-        ORDER BY R.SORT
+    <resultMap id="menuMap3" type="com.gateway.vo.menu.MenusVO">
+        <id column="id" property="id" />
+        <result column="path" property="path" />
+        <result column="name" property="name" />
+
+        <result column="component" property="component" />
+        <result column="redirect" property="redirect" />
+        <result column="parent_id" property="parentId" />
+        <result column="status" property="status" />
+        <result column="title" property="title" />
+        <result column="icon" property="icon" />
+        <result column="always_show" property="alwaysShow" />
+        <result column="affix" property="affix" />
+        <result column="no_oache" property="noCache" />
+        <result column="hidden" property="hidden" />
+        <result column="can_to" property="canTo" />
+        <result column="active_menu" property="activeMenu" />
+        <result column="breadcrumb" property="breadcrumb" />
+        <result column="no_tags_view" property="noTagsView" />
+        <result column="sort" property="sort" />
+        <result column="type" property="type" />
+        <collection property="children" ofType="com.gateway.vo.menu.UserMenusVO" select="findMenuByParentId3" column="id"/>
+    </resultMap>
+
+    <!-- 查询所有的主路由 -->
+    <select id="queryMenusByName" resultMap="menuMap3">
+        select m.* from menus m where m.parent_id is null order by m.sort
     </select>
 
-    <update id="update" parameterType="menuDTO">
-        UPDATE menus
-        SET
-            type = #{type},
-            parent_id = #{parentId},
-            title = #{title},
-            component = #{component},
-            name = #{name},
-            path = #{path},
-            status = #{status},
-            sort = #{sort},
-            hidden = #{hidden},
-            always_show = #{alwaysShow},
-            no_cache = #{noCache},
-            breadcrumb = #{breadcrumb},
-            affix = #{affix},
-            no_tags_view = #{noTagsView},
-            can_to = #{canTo},
-            update_time = now(),
-            icon = #{icon}
-        WHERE
-            id = #{id}
-    </update>
-
-    <insert id="insert" parameterType="menuDTO">
-        insert into menus
-            (path,name,component,redirect,parent_id,status,title,icon,always_show,
-             affix,no_cache,hidden,can_to,breadcrumb,no_tags_view,sort,type)
-        values
-            (#{path},#{name},#{component},#{redirect},#{parentId},#{status},#{title},#{icon},#{alwaysShow},#{affix},
-             #{noCache},#{hidden},#{canTo},#{breadcrumb},#{noTagsView},(select max(sort) + 1 from menus),#{type})
-    </insert>
+    <select id="findMenuByParentId3" resultMap="menuMap3">
+        select
+            m.*
+        FROM MENUS m
+        WHERE m.PARENT_ID = #{id} order by m.sort
+    </select>
 </mapper>

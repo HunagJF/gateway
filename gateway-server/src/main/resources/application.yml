@@ -15,6 +15,12 @@ spring:
   # 二级缓存
   cache:
     type: caffeine
+  #全局时间格式化
+  mvc:
+    format:
+      date: yyyy-MM-dd
+      time: HH:mm:ss
+      datetime: yyyy-MM-dd HH:mm:ss
 
 mybatis:
   #mapper配置文件
