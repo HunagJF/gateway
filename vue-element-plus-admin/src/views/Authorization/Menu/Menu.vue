@@ -1,14 +1,10 @@
 <template>
   <ContentWrap>
-    <Search :schema="schema" @reset="setSearchParams" @search="setSearchParams" />
-    <BaseButton type="primary" @click="AddAction">添加</BaseButton>
+    <!-- <Search :schema="schema" @reset="setSearchParams" @search="setSearchParams" /> -->
+    <div class="mb-10px">
+      <BaseButton type="primary" @click="AddAction">添加</BaseButton>
+    </div>
     <Table 
-      :pagination="{
-        total: total,
-        pageSizes: [20, 40, 100]
-      }"
-      v-model:pageSize="pageSize"
-      v-model:currentPage="currentPage"
       :columns 
       default-expand-all 
       node-key="id" 
@@ -38,7 +34,7 @@
 import { h, ref, unref } from 'vue'
 import { ContentWrap } from '@/components/ContentWrap'
 //应用参数
-import { columns as baseColumns, schema } from '.'
+import { columns as baseColumns } from '.'
 //URL地址
 import { queryMenusByNameApi, updateApi, insertApi, deleteApi } from '@/api/menu'
 //BaseButton 按钮组件
@@ -46,23 +42,18 @@ import { BaseButton } from '@/components/Button'
 //Table 表格组件
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
-import { Search } from '@/components/Search'
+// import { Search } from '@/components/Search'
 
 import Edit from './components/Edit.vue'
 import Add from './components/Add.vue'
 import { Dialog } from '@/components/Dialog'
 
 // 查询条件
-const searchParams = ref({})
+// const searchParams = ref({})
 // 列表组件
 const { tableRegister, tableState, tableMethods } = useTable({
   fetchDataApi: async () => {
-    const { currentPage, pageSize } = tableState
-    const res = await queryMenusByNameApi({
-      ...unref(searchParams),
-      page: unref(currentPage),
-      size: unref(pageSize)
-    })
+    const res = await queryMenusByNameApi({})
     return {
       list: res.data || [],
       total: res.total
@@ -71,12 +62,12 @@ const { tableRegister, tableState, tableMethods } = useTable({
 })
 
 const { getList } = tableMethods
-const { loading, dataList, total, currentPage, pageSize } = tableState
+const { loading, dataList} = tableState
 
-const setSearchParams = (data: any) => {
-  searchParams.value = data
-  getList()
-}
+// const setSearchParams = (data: any) => {
+//   searchParams.value = data
+//   getList()
+// }
 
 const dialogVisible = ref(false)
 const addDialog = ref(false)

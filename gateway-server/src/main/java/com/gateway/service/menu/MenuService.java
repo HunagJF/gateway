@@ -6,7 +6,7 @@ import com.gateway.result.Result;
 import java.util.Map;
 
 public interface MenuService {
-    Result queryMenusByName(Map<String,Object> param);
+    Result queryMenusByName();
 
     Result queryTitle();
 

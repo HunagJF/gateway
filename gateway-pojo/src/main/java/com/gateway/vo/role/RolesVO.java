@@ -30,6 +30,9 @@ public class RolesVO {
     @ApiModelProperty("备注")
     private String remark;
 
+    @ApiModelProperty("菜单分配")
+    private String menusStr;
+
     @ApiModelProperty("创建时间")
     private String createTime;
 }

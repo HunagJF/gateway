@@ -9,10 +9,7 @@ import java.util.List;
 
 public interface MenuMapper {
 
-    List<MenusVO> queryMenusByName(
-            @Param("title") String title,
-            @Param("page") int page,
-            @Param("size") int size);
+    List<MenusVO> queryMenusByName();
 
     int queryCount(String title);
 

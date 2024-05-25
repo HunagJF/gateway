@@ -5,20 +5,6 @@
 <!-- namespace="com.b0.mybatis.mapper.UserMapper" -->
 <mapper namespace="com.gateway.mapper.menu.MenuMapper">
 
-<!--    &lt;!&ndash; 查询所有的主路由 &ndash;&gt;-->
-<!--    <select id="queryMenusByName" resultType="menusVO">-->
-<!--        SELECT-->
-<!--        m.*-->
-<!--        FROM MENUS m-->
-<!--        <where>-->
-<!--            <if test="title != null">-->
-<!--                m.TITLE LIKE CONCAT('%', #{title}, '%')-->
-<!--            </if>-->
-<!--        </where>-->
-<!--        ORDER BY m.sort-->
-<!--        LIMIT #{size} OFFSET #{page} * #{size}-->
-<!--    </select>-->
-
     <select id="queryCount" parameterType="string" resultType="int">
         select count(1) from MENUS m
         <where>

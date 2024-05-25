@@ -4,12 +4,11 @@ import com.gateway.vo.role.RolesVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RoleMapper {
 
-    List<RolesVO> queryRoelsByName(
-            @Param("roleName") String roleName,
-            @Param("page") int page,
-            @Param("size") int size
-    );
+    List<RolesVO> queryRoelsByName(Map<String, Object> parem);
+
+    int queryRoelsByNameCount(Map<String, Object> parem);
 }

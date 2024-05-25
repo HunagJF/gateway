@@ -10,4 +10,47 @@
     <select id="queryName" resultType="userLoginEntity" parameterType="userTypeDTO">
         select * from user_login where user_name = #{username}
     </select>
+
+
+    <resultMap id="loginUserMap" type="com.gateway.vo.login.UserTypeVO">
+        <id column="id" property="id" />
+        <result column="user_name" property="username" />
+        <result column="name" property="name" />
+        <result column="roles_str" property="rolesStr" />
+        <result column="create_time" property="createTime" />
+        <!-- 添加关联属性 menu -->
+        <collection property="roles" ofType="String" select="findRolesByLoginUserId" column="id"/>
+    </resultMap>
+
+    <sql id="queryLoginUserParem">
+        <if test="userName != null">
+            ul.user_name = #{userName}
+        </if>
+        <if test="name != null">
+            and ul.name = #{name}
+        </if>
+    </sql>
+      <!-- 查询用户登录信息 -->
+    <select id="queryLoginUser" parameterType="java.util.Map" resultMap="loginUserMap">
+        SELECT
+            ul.*,
+            (select string_agg(r.role_name, ',') from user_role ur, roles r where ur.role_id = r.id and ur.user_id = ul.id) roles_str
+        FROM user_login ul
+        <where>
+           <include refid="queryLoginUserParem" />
+        </where>
+        order by ul.create_time
+        LIMIT #{size} OFFSET #{page} * #{size}
+    </select>
+
+    <select id="findRolesByLoginUserId" resultType="string">
+        select r.id from user_role ur, roles r where ur.role_id = r.id and ur.user_id = #{id}
+    </select>
+
+    <select id="queryLoginUserCount" parameterType="map" resultType="int">
+        select count(1) from user_login ul
+        <where>
+            <include refid="queryLoginUserParem" />
+        </where>
+    </select>
 </mapper>

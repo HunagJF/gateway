@@ -116,6 +116,11 @@ const formSchema = ref<FormSchema[]>([
     }
   },
   {
+    field: 'remark',
+    label: '备注',
+    component: 'Input'
+  },
+  {
     field: 'menu',
     label: '菜单分配',
     colProps: {

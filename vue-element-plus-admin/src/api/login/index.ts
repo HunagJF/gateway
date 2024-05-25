@@ -4,7 +4,9 @@ import type { UserType } from './types'
 const Enum = {
   login: '/api/login',
   loginOut: '/api/loginOut',
-  queryMenusByUsername: '/api/menu/queryMenusByUsername'
+  queryMenusByUsername: '/api/menu/queryMenusByUsername',
+  queryLoginUser: '/api/queryLoginUser',
+  saveOrUpdateLogin: '/api/saveOrUpdateLogin'
 }
 
 export const loginApi = (data: UserType): Promise<IResponse<UserType>> => {
@@ -21,6 +23,20 @@ export const queryMenusByUsernameApi = (
   return request.post({ 
     url: Enum.queryMenusByUsername, 
     params 
+  })
+}
+
+export const queryLoginUserApi = (data: any) => {
+  return request.post({
+    url: Enum.queryLoginUser,
+    data
+  })
+}
+
+export const saveOrUpdateLoginApi = (data: any) => {
+  return request.post({
+    url: Enum.saveOrUpdateLogin,
+    data
   })
 }
 

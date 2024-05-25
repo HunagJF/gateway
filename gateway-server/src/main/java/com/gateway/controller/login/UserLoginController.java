@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 
 @Slf4j
@@ -47,5 +48,23 @@ public class UserLoginController {
             isPersistence = true)
     public Result loginOut(){
         return userLoginService.loginOut();
+    }
+
+    @PostMapping(value = "/queryLoginUser")
+    @Logger(operSource = "用户管理",
+            severity = LogSeverity.MINOR,
+            operName = "查询",
+            isPersistence = true)
+    public Result queryLoginUser(@RequestBody Map<String, Object> parem) {
+        return userLoginService.queryLoginUser(parem);
+    }
+
+    @Logger(operSource = "用户管理",
+            severity = LogSeverity.MINOR,
+            operName = "添加或编辑",
+            isPersistence = true)
+    @PostMapping(value = "/saveOrUpdateLogin")
+    public Result saveOrUpdateLogin(@RequestBody Map<String, Object> parem) {
+        return userLoginService.saveOrUpdateLogin(parem);
     }
 }

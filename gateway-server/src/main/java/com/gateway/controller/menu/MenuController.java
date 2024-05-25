@@ -28,8 +28,8 @@ public class MenuController {
             operName = "查询",
             isPersistence = true)
     @PostMapping(value = "/queryMenusByName")
-    public Result queryMenusByName(@RequestBody Map<String,Object> param) {
-        return menuService.queryMenusByName(param);
+    public Result queryMenusByName() {
+        return menuService.queryMenusByName();
     }
 
     @Logger(operSource = "菜单管理",

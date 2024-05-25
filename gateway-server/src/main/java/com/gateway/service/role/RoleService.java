@@ -11,4 +11,6 @@ public interface RoleService {
     Result saveOrUpdateRole(Map<String,Object> param);
 
     Result deleteById(Map<String,Object> param);
+
+    Result queryNames();
 }

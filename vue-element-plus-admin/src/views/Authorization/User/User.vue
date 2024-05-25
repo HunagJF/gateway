@@ -2,7 +2,7 @@
   <ContentWrap>
     <Search :schema="searchSchema" @reset="setSearchParams" @search="setSearchParams" />
     <div class="mb-10px">
-      <BaseButton type="primary" @click="AddAction">添加</BaseButton>
+      <BaseButton type="primary" @click="AddBut">添加</BaseButton>
     </div>
     <Table
       :columns="tableColumns"
@@ -21,18 +21,10 @@
   </ContentWrap>
 
   <Dialog v-model="dialogVisible" :title="dialogTitle">
-    <Write v-if="actionType !== 'detail'" ref="writeRef" :current-row="currentRow" />
-    <Detail v-else :current-row="currentRow" />
+    <Write ref="writeRef" :current-row="currentRow"/>
 
     <template #footer>
-      <BaseButton
-        v-if="actionType !== 'detail'"
-        type="primary"
-        :loading="saveLoading"
-        @click="save"
-      >
-        保存
-      </BaseButton>
+      <BaseButton type="primary" @click="save">保存</BaseButton>
       <BaseButton @click="dialogVisible = false">关闭</BaseButton>
     </template>
   </Dialog>
@@ -40,26 +32,23 @@
 
 <script setup lang="tsx">
 import { reactive, ref, unref } from 'vue'
-import { queryRolesByNameApi } from '@/api/role'
 import { useTable } from '@/hooks/web/useTable'
-import { useI18n } from '@/hooks/web/useI18n'
 import { Table, TableColumn } from '@/components/Table'
 import { ElTag, ElMessageBox } from 'element-plus'
 import { Search } from '@/components/Search'
 import { FormSchema } from '@/components/Form'
 import { ContentWrap } from '@/components/ContentWrap'
-import Write from './components/Write.vue'
-import Detail from './components/Detail.vue'
 import { Dialog } from '@/components/Dialog'
 import { BaseButton } from '@/components/Button'
-import { saveOrUpdateRoleApi, deleteByIdApi } from '@/api/role'
+import { queryLoginUserApi, saveOrUpdateLoginApi } from '@/api/login'
+import Write from './components/Write.vue'
 
-const { t } = useI18n()
+const writeRef = ref<ComponentRef<typeof Write>>()
 
 const { tableRegister, tableState, tableMethods } = useTable({
   fetchDataApi: async () => {
     const { currentPage, pageSize } = tableState
-    const res = await queryRolesByNameApi({
+    const res = await queryLoginUserApi({
       ...unref(searchParams),
       page: unref(currentPage),
       size: unref(pageSize)
@@ -80,38 +69,30 @@ const setSearchParams = (data: any) => {
   getList()
 }
 
+const currentRow = ref()
 const dialogVisible = ref(false)
 const dialogTitle = ref('')
 
-const currentRow = ref()
-const actionType = ref('')
+const AddBut = () => {
+  dialogTitle.value = '添加'
+  currentRow.value = undefined
+  dialogVisible.value = true
+}
 
-const writeRef = ref<ComponentRef<typeof Write>>()
-
-const saveLoading = ref(false)
-
-const action = (row: any, type: string) => {
-  dialogTitle.value = t(type === 'edit' ? 'exampleDemo.edit' : 'exampleDemo.detail')
-  actionType.value = type
+const editBut = async (row: any) => {
+  dialogTitle.value = '编辑'
   currentRow.value = row
   dialogVisible.value = true
 }
 
-const AddAction = () => {
-  dialogTitle.value = t('exampleDemo.add')
-  currentRow.value = undefined
-  dialogVisible.value = true
-  actionType.value = ''
-}
-
-const deleteBut = async (row: any) => {
-  ElMessageBox.confirm('此操作将永久删除该角色, 是否继续?',{
+const deleteBut = (row: any) => {
+  ElMessageBox.confirm('此操作将永久删除该用户, 是否继续?',{
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
   }).then(
     async () => {
-      await deleteByIdApi(row)
+      console.log(row)
       getList()
     }
   )
@@ -120,7 +101,8 @@ const deleteBut = async (row: any) => {
 const save = async () => {
   const write = unref(writeRef)
   const formData = await write?.submit()
-  await saveOrUpdateRoleApi(formData)
+  console.log(formData)
+  await saveOrUpdateLoginApi(formData)
   dialogVisible.value = false
   getList()
 }
@@ -132,39 +114,20 @@ const tableColumns = reactive<TableColumn[]>([
     type: 'index',
   },
   {
-    field: 'roleName',
-    label: '角色名称',
-    width: 200,
+    field: 'name',
+    label: '用户名',
   },
   {
-    field: 'status',
-    label: '状态',
-    width: 80,
-    slots: {
-      default: (data: any) => {
-        return (
-          <>
-            <ElTag type={data.row.status === 0 ? 'danger' : 'success'}>
-              {data.row.status === 1 ? t('userDemo.enable') : t('userDemo.disable')}
-            </ElTag>
-          </>
-        )
-      }
-    }
+    field: 'username',
+    label: '账号',
   },
   {
-    field: 'remark',
-    label: '备注',
-    width: 200,
-  },
-  {
-    field: 'menusStr',
-    label: '菜单分配'
+    field: 'rolesStr',
+    label: '角色分配',
   },
   {
     field: 'createTime',
     label: '创建时间',
-    width: 200,
   },
   {
     field: 'action',
@@ -175,7 +138,7 @@ const tableColumns = reactive<TableColumn[]>([
         const row = data.row
         return (
           <>
-            <BaseButton type="primary" onClick={() => action(row, 'edit')}>
+            <BaseButton type="primary" onClick={() => editBut(row)}>
               编辑
             </BaseButton>
             {/* <BaseButton type="success" onClick={() => action(row, 'detail')}>
@@ -191,9 +154,14 @@ const tableColumns = reactive<TableColumn[]>([
 
 const searchSchema = reactive<FormSchema[]>([
   {
-    field: 'roleName',
-    label: '角色名称',
+    field: 'name',
+    label: '用户名',
     component: 'Input'
-  }
+  },
+  {
+    field: 'userName',
+    label: '账号',
+    component: 'Input'
+  },
 ])
 </script>

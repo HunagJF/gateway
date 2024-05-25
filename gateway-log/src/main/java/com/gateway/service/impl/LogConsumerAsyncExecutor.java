@@ -17,7 +17,7 @@ public class LogConsumerAsyncExecutor implements ILogConsumerAsyncExecutor {
     @Async("logAsyncExecutor")
     @Override
     public void asyncConsume(AuditLog auditLog) {
-        log.info(auditLog.toString());
+//        log.info(auditLog.toString());
         auditLoggerSender.send(auditLog);
     }
 }

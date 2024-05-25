@@ -30,13 +30,16 @@ mybatis:
     #开启驼峰命名
     map-underscore-to-camel-case: true
 
+#日志打印
 logging:
   level:
-    com:
-      sky:
-        mapper: debug
-        service: info
-        controller: info
+    root: INFO
+    org:
+      apache:
+        ibatis: DEBUG
+      mybatis: DEBUG
+  log4j2:
+    config: classpath:log4j2-spring.xml
 
 sky:
   jwt:

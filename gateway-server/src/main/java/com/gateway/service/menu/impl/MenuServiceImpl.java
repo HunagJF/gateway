@@ -26,11 +26,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Result queryMenusByName(Map<String,Object> param) {
-        String title = MapUtils.getString(param, "title");
-        Integer page = MapUtils.getInteger(param, "page", 1) - 1;
-        Integer size = MapUtils.getInteger(param, "size", 10);
-        return Result.success(menuMapper.queryMenusByName(title, page, size), queryCount(title));
+    public Result queryMenusByName() {
+
+        return Result.success(menuMapper.queryMenusByName());
     }
 
     @Override

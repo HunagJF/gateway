@@ -35,16 +35,14 @@ INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,ic
 	 ('4af54d8f-b41a-286e-1e0d-046a95d0f248','avatars','Avatars','views/model/Components/Avatars',NULL,'a36613e5-e249-41a5-9ee6-edc6524c648e',1,'头像列表',NULL,false,false,true,false,false,NULL,false,false,36,1,'2024-05-09 16:00:21.033128',NULL),
 	 ('7099562c-2112-7464-abc6-8a6a9033ec43','i-agree','IAgree','views/model/Components/IAgree',NULL,'a36613e5-e249-41a5-9ee6-edc6524c648e',1,'我同意',NULL,false,false,true,false,false,NULL,false,false,37,1,'2024-05-09 16:00:52.19633',NULL),
 	 ('eb8cd725-09f1-9992-aabf-1a7f6b4cc5c9','function','Function','##',NULL,'0fadbea2-0c0a-24ad-3d47-010a264e6cf6',1,'功能','ri:function-fill',true,false,false,false,false,NULL,false,false,38,0,'2024-05-09 16:03:06.054326',NULL),
-	 ('07c31770-d439-daa2-9a04-5c309ad99e5b','/authorization','Authorization','#',NULL,NULL,1,'权限管理',NULL,true,false,false,false,false,NULL,true,false,200,0,'2024-04-29 21:46:51.84204','2024-05-24 15:26:37.363114'),
 	 ('d621c508-5d12-3948-5aaf-4007333192f2','analysis','Analysis','views/Dashboard/Analysis',NULL,'c420e68a-c8cd-04db-b707-9fb4584d1854',1,'java',NULL,false,false,true,false,false,NULL,true,false,3,1,'2024-04-29 21:46:51.84204','2024-05-24 10:09:43.993407'),
 	 ('14d4cab6-f978-6847-8388-24aa9ab5eac3','workplace','Workplace','views/Dashboard/Workplace',NULL,'c420e68a-c8cd-04db-b707-9fb4584d1854',1,'你猜',NULL,false,false,true,false,false,NULL,true,false,2,1,'2024-04-29 21:46:51.84204','2024-05-10 09:28:05.162408'),
-	 ('0fadbea2-0c0a-24ad-3d47-010a264e6cf6','/model','Model','#','/model/components/form/default-form',NULL,1,'案例',NULL,true,false,false,false,false,NULL,false,false,300,0,'2024-05-08 21:06:13.292083','2024-05-24 17:42:08.950514'),
 	 ('b2efc652-e412-94d5-ca2e-50ec90ac0023','multipleTabs','MultipleTabs','views/model/Function/MultipleTabs',NULL,'eb8cd725-09f1-9992-aabf-1a7f6b4cc5c9',1,'多开标签页',NULL,false,false,true,false,false,NULL,false,false,39,1,'2024-05-09 16:03:45.1763',NULL),
 	 ('b387dc45-f6ff-0df8-4e3c-54dda0a535b1','multiple-tabs-demo/:id','MultipleTabsDemo','views/model/Function/MultipleTabsDemo',NULL,'eb8cd725-09f1-9992-aabf-1a7f6b4cc5c9',1,'详情页',NULL,false,false,false,true,true,NULL,false,false,40,1,'2024-05-09 16:07:13.79171',NULL),
-	 ('52b07001-d572-1a51-e4bc-e8cb14f0168f','request','Request','views/model/Function/Request',NULL,'eb8cd725-09f1-9992-aabf-1a7f6b4cc5c9',0,'请求',NULL,false,false,false,false,false,NULL,false,false,41,1,'2024-05-09 16:07:46.655467',NULL);
-INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,icon,always_show,affix,no_cache,hidden,can_to,active_menu,breadcrumb,no_tags_view,sort,"type",create_time,update_time) VALUES
+	 ('52b07001-d572-1a51-e4bc-e8cb14f0168f','request','Request','views/model/Function/Request',NULL,'eb8cd725-09f1-9992-aabf-1a7f6b4cc5c9',0,'请求',NULL,false,false,false,false,false,NULL,false,false,41,1,'2024-05-09 16:07:46.655467',NULL),
 	 ('1d2fae42-de04-97a2-2a29-94a01017b6ea','test','Test','views/model/Function/Test',NULL,'eb8cd725-09f1-9992-aabf-1a7f6b4cc5c9',1,'权限测试页',NULL,false,false,true,false,false,NULL,false,false,42,1,'2024-05-09 16:08:20.810648',NULL),
-	 ('1a4e1118-ef7b-37e4-78f0-84129f6d8971','hooks','Hooks','##',NULL,'0fadbea2-0c0a-24ad-3d47-010a264e6cf6',1,'hooks','ic:outline-webhook',true,false,false,false,false,NULL,false,false,43,0,'2024-05-09 16:09:29.293371',NULL),
+	 ('1a4e1118-ef7b-37e4-78f0-84129f6d8971','hooks','Hooks','##',NULL,'0fadbea2-0c0a-24ad-3d47-010a264e6cf6',1,'hooks','ic:outline-webhook',true,false,false,false,false,NULL,false,false,43,0,'2024-05-09 16:09:29.293371',NULL);
+INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,icon,always_show,affix,no_cache,hidden,can_to,active_menu,breadcrumb,no_tags_view,sort,"type",create_time,update_time) VALUES
 	 ('9a10db0e-da42-318e-2833-fc7d8da991bd','useWatermark','UseWatermark','views/model/hooks/useWatermark',NULL,'1a4e1118-ef7b-37e4-78f0-84129f6d8971',1,'useWatermark',NULL,false,false,true,false,false,NULL,false,false,44,1,'2024-05-09 16:10:07.777818',NULL),
 	 ('c444d5f1-83d8-764b-c0ec-ff6d435d6b28','useTagsView','UseTagsView','views/model/hooks/useTagsView',NULL,'1a4e1118-ef7b-37e4-78f0-84129f6d8971',1,'useTagsView',NULL,false,false,true,false,false,NULL,false,false,45,1,'2024-05-09 16:14:29.829083',NULL),
 	 ('d0e78c9f-6224-198f-a92c-f5579ae1ce7b','useValidator','UseValidator','views/model/hooks/useValidator',NULL,'1a4e1118-ef7b-37e4-78f0-84129f6d8971',1,'useValidator',NULL,false,false,true,false,false,NULL,false,false,46,1,'2024-05-09 16:15:00.375577',NULL),
@@ -52,10 +50,10 @@ INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,ic
 	 ('5c1b6bb2-5dfd-7b81-8f76-7a9e07125135','useClipboard','UseClipboard','views/model/hooks/useClipboard',NULL,'1a4e1118-ef7b-37e4-78f0-84129f6d8971',1,'useClipboard',NULL,false,false,true,false,false,NULL,false,false,48,1,'2024-05-09 16:15:51.594713',NULL),
 	 ('b6a29ae7-d1cc-7414-f53d-eb2a3a3f0a09','useNetwork','UseNetwork','views/model/hooks/useNetwork',NULL,'1a4e1118-ef7b-37e4-78f0-84129f6d8971',1,'useNetwork',NULL,false,false,true,false,false,NULL,false,false,49,1,'2024-05-09 16:16:16.81775',NULL),
 	 ('c223bbdf-095b-d133-8c6e-7cfb9adc9335','level','Level','##',NULL,'0fadbea2-0c0a-24ad-3d47-010a264e6cf6',1,'多级菜单','carbon:skill-level-advanced',true,false,false,false,false,NULL,false,false,50,0,'2024-05-09 16:16:59.96367',NULL),
-	 ('024e02e8-1c84-044a-177e-3b6cca889fe5','menu1','Menu1','##',NULL,'c223bbdf-095b-d133-8c6e-7cfb9adc9335',1,'菜单1',NULL,true,false,false,false,false,NULL,false,false,51,0,'2024-05-09 16:17:41.108904',NULL);
-INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,icon,always_show,affix,no_cache,hidden,can_to,active_menu,breadcrumb,no_tags_view,sort,"type",create_time,update_time) VALUES
+	 ('024e02e8-1c84-044a-177e-3b6cca889fe5','menu1','Menu1','##',NULL,'c223bbdf-095b-d133-8c6e-7cfb9adc9335',1,'菜单1',NULL,true,false,false,false,false,NULL,false,false,51,0,'2024-05-09 16:17:41.108904',NULL),
 	 ('9d16de49-e370-74d1-9425-aa58731a931d','menu1-1','Menu11','##',NULL,'024e02e8-1c84-044a-177e-3b6cca889fe5',1,'菜单1-1',NULL,true,false,false,false,false,NULL,false,false,52,0,'2024-05-09 16:19:45.936514',NULL),
-	 ('4d58ec8f-2c2d-63f0-af26-7eede454a6ad','menu1-1-1','Menu111','views/model/Level/Menu111',NULL,'9d16de49-e370-74d1-9425-aa58731a931d',1,'菜单1-1-1',NULL,false,false,false,true,false,NULL,false,false,53,1,'2024-05-09 16:20:19.211794',NULL),
+	 ('4d58ec8f-2c2d-63f0-af26-7eede454a6ad','menu1-1-1','Menu111','views/model/Level/Menu111',NULL,'9d16de49-e370-74d1-9425-aa58731a931d',1,'菜单1-1-1',NULL,false,false,false,true,false,NULL,false,false,53,1,'2024-05-09 16:20:19.211794',NULL);
+INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,icon,always_show,affix,no_cache,hidden,can_to,active_menu,breadcrumb,no_tags_view,sort,"type",create_time,update_time) VALUES
 	 ('f69fb94e-711a-039a-dd74-2590b7cf734d','menu1-2','Menu12','views/model/Level/Menu12',NULL,'024e02e8-1c84-044a-177e-3b6cca889fe5',1,'菜单1-2',NULL,false,false,true,false,false,NULL,false,false,54,1,'2024-05-09 16:21:00.132864',NULL),
 	 ('3a8c3670-a360-3b72-7e49-9bd5097a06c3','menu2','Menu2Demo','views/model/Level/Menu2',NULL,'c223bbdf-095b-d133-8c6e-7cfb9adc9335',1,'菜单2',NULL,false,false,true,false,false,NULL,false,false,55,1,'2024-05-09 16:21:38.571008',NULL),
 	 ('e393ad39-117f-9a1c-3bdf-ac83ddfc46b9','example','Example','##',NULL,'0fadbea2-0c0a-24ad-3d47-010a264e6cf6',1,'综合示例','ep:management',true,false,false,false,false,NULL,false,false,56,0,'2024-05-09 16:26:44.912268',NULL),
@@ -63,19 +61,23 @@ INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,ic
 	 ('5942cf14-9872-b444-b79c-0e0e42c81581','example-page','ExamplePage','views/model/Example/Page/ExamplePage',NULL,'e393ad39-117f-9a1c-3bdf-ac83ddfc46b9',1,'综合示例 - 页面',NULL,false,false,true,false,false,NULL,false,false,58,1,'2024-05-09 16:30:24.261827',NULL),
 	 ('1b2ac5f2-f1db-3247-5f93-3f918be4a2ea','example-add','ExampleAdd','views/model/Example/Page/ExampleAdd',NULL,'e393ad39-117f-9a1c-3bdf-ac83ddfc46b9',1,'综合示例 - 新增',NULL,false,false,true,false,false,NULL,false,false,59,1,'2024-05-09 16:31:03.857986',NULL),
 	 ('20d7d35f-b45f-0cb6-058d-595f595e7c8b','example-edit','ExampleEdit','views/model/Example/Page/ExampleEdit',NULL,'e393ad39-117f-9a1c-3bdf-ac83ddfc46b9',1,'综合示例 - 编辑',NULL,false,false,true,false,false,NULL,false,false,60,1,'2024-05-09 16:32:52.387704',NULL),
-	 ('7aa95cde-eead-cd1d-f921-4f55d9c4f387','example-detail','ExampleDetail','views/model/Example/Page/ExampleDetail',NULL,'e393ad39-117f-9a1c-3bdf-ac83ddfc46b9',1,'综合示例 - 详情',NULL,false,false,true,false,false,NULL,false,false,61,1,'2024-05-09 16:38:27.809013',NULL);
-INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,icon,always_show,affix,no_cache,hidden,can_to,active_menu,breadcrumb,no_tags_view,sort,"type",create_time,update_time) VALUES
+	 ('7aa95cde-eead-cd1d-f921-4f55d9c4f387','example-detail','ExampleDetail','views/model/Example/Page/ExampleDetail',NULL,'e393ad39-117f-9a1c-3bdf-ac83ddfc46b9',1,'综合示例 - 详情',NULL,false,false,true,false,false,NULL,false,false,61,1,'2024-05-09 16:38:27.809013',NULL),
 	 ('7a6ecb58-1031-b330-7f43-7819741a74ba','error','Error','##',NULL,'0fadbea2-0c0a-24ad-3d47-010a264e6cf6',1,'错误页面','ci:error',true,false,false,false,false,NULL,false,false,62,0,'2024-05-09 16:39:10.838692',NULL),
-	 ('69b609bb-f109-ee38-a2cc-30c5b3e4956e','404-demo','404Demo','views/Error/404',NULL,'7a6ecb58-1031-b330-7f43-7819741a74ba',1,'404',NULL,false,false,true,false,false,NULL,false,false,63,1,'2024-05-09 16:40:27.044979','2024-05-09 16:45:24.176774'),
+	 ('69b609bb-f109-ee38-a2cc-30c5b3e4956e','404-demo','404Demo','views/Error/404',NULL,'7a6ecb58-1031-b330-7f43-7819741a74ba',1,'404',NULL,false,false,true,false,false,NULL,false,false,63,1,'2024-05-09 16:40:27.044979','2024-05-09 16:45:24.176774');
+INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,icon,always_show,affix,no_cache,hidden,can_to,active_menu,breadcrumb,no_tags_view,sort,"type",create_time,update_time) VALUES
 	 ('51caef43-8bc5-1ef2-259e-673f592767df','403-demo','403Demo','views/Error/403',NULL,'7a6ecb58-1031-b330-7f43-7819741a74ba',1,'403',NULL,false,false,true,false,false,NULL,false,false,64,1,'2024-05-09 16:40:52.575872','2024-05-09 16:45:30.903762'),
-	 ('c420e68a-c8cd-04db-b707-9fb4584d1854','/dashboard','Dashboard','#','/dashboard/analysis',NULL,1,'首页','ant-design:dashboard-filled',true,false,false,false,true,NULL,true,false,1,0,'2024-04-29 21:46:51.84204','2024-05-10 09:27:59.128653'),
 	 ('12fe890a-2c94-fe11-70df-021fd9172fca','role','Role','views/Authorization/Role/Role',NULL,'07c31770-d439-daa2-9a04-5c309ad99e5b',1,'角色',NULL,false,false,true,false,false,NULL,false,false,5,1,'2024-05-21 15:42:51.265449','2024-05-22 09:40:10.453635'),
 	 ('a0935db7-0b8e-c9fb-fa71-de0de1c933bc','500-demo','500Demo','views/Error/500',NULL,'7a6ecb58-1031-b330-7f43-7819741a74ba',1,'500',NULL,false,false,true,false,false,NULL,false,false,65,1,'2024-05-09 16:41:18.037139','2024-05-10 11:34:15.136094');
+
+INSERT INTO menus (id,"path","name",component,redirect,parent_id,status,title,icon,always_show,affix,no_cache,hidden,can_to,active_menu,breadcrumb,no_tags_view,sort,"type",create_time,update_time) VALUES
+	 ('07c31770-d439-daa2-9a04-5c309ad99e5b','/authorization','Authorization','#',NULL,NULL,1,'权限管理',NULL,true,false,false,false,false,NULL,true,false,200,0,'2024-04-29 21:46:51.84204','2024-05-24 15:26:37.363114'),
+	 ('0fadbea2-0c0a-24ad-3d47-010a264e6cf6','/model','Model','#','/model/components/form/default-form',NULL,1,'案例',NULL,true,false,false,false,false,NULL,false,false,300,0,'2024-05-08 21:06:13.292083','2024-05-24 17:42:08.950514'),
+	 ('c420e68a-c8cd-04db-b707-9fb4584d1854','/dashboard','Dashboard','#','/dashboard/analysis',NULL,1,'首页','ant-design:dashboard-filled',true,false,false,false,true,NULL,true,false,1,0,'2024-04-29 21:46:51.84204','2024-05-10 09:27:59.128653');
 
 	
 insert into user_login ( user_name, "password") values ('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
 
-insert into roles ( role_name, remark, status) values ( '管理员1', 'admin1', 2);
+insert into roles ( role_name, remark, status) values ( '管理员', 'admin', 1);
 
 insert into user_role ( user_id ,role_id)
 select mu.id, r.id from user_login mu, roles r;
@@ -84,4 +86,3 @@ insert into role_menu (role_id, menu_id)
 select r.id ,r2.id  from roles r, menus r2 ;
 
 -----------------------------------------------------------------
-

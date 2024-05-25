@@ -4,6 +4,7 @@ import com.gateway.mapper.dao.GeneralMapper;
 import com.gateway.mapper.role.RoleMapper;
 import com.gateway.result.Result;
 import com.gateway.service.role.RoleService;
+import com.gateway.utils.PaginationUtil;
 import com.gateway.utils.SQLConverterUtil;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,13 +34,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Result queryRolesByName(Map<String, Object> param) {
-        String roleName = MapUtils.getString(param, "roleName");
-        Integer page = MapUtils.getInteger(param, "page", 1) - 1;
-        Integer size = MapUtils.getInteger(param, "size", 10);
-        return Result.success(roleMapper.queryRoelsByName(roleName, page, size),
-                generalMapper.queryCount("select count(1) from roles r" +
-                        (StringUtils.isNotEmpty(roleName) ? " where r.role_name like '%" + roleName + "%'" : ""))
-        );
+        PaginationUtil.getPagination(param);
+        return Result.success(roleMapper.queryRoelsByName(param), roleMapper.queryRoelsByNameCount(param));
     }
 
     @Override
@@ -47,7 +43,6 @@ public class RoleServiceImpl implements RoleService {
     public Result saveOrUpdateRole(Map<String, Object> param) {
         // 用于存储所有ID的集合
         Set<String> menuIds = new HashSet<>();
-
         String id = MapUtils.getString(param, "id");
         String roleName = MapUtils.getString(param, "roleName");
         String status = MapUtils.getString(param, "status");
@@ -109,6 +104,11 @@ public class RoleServiceImpl implements RoleService {
                 new Object[]{id}));
 
         return Result.success();
+    }
+
+    @Override
+    public Result queryNames() {
+        return Result.success(generalMapper.querys("select r.id, r.role_name name from roles r"));
     }
 
     private void extractIds(Map<String, Object> menu, Set<String> ids) {

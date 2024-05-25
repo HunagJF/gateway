@@ -1,18 +1,20 @@
 CREATE TABLE gateway.user_login (
-	id varchar(50) DEFAULT uuid_in(md5(random()::text || clock_timestamp()::text)::cstring) NOT NULL,
+	id varchar(50) NOT NULL DEFAULT uuid_in(md5(random()::text || clock_timestamp()::text)::cstring),
 	user_name varchar(50) NULL,
 	"password" varchar(200) NULL,
-	create_time timestamp DEFAULT now() NULL,
+	create_time timestamp NULL DEFAULT now(),
 	update_time timestamp NULL,
+	"name" varchar(50) NULL,
+	status int4 NULL,
 	CONSTRAINT user_login_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE gateway.roles (
-	id varchar(50) DEFAULT uuid_in(md5(random()::text || clock_timestamp()::text)::cstring) NOT NULL,
+	id varchar(50) NOT NULL DEFAULT uuid_in(md5(random()::text || clock_timestamp()::text)::cstring),
 	role_name varchar(255) NOT NULL,
 	remark text NULL,
 	status int4 NOT NULL,
-	create_time timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	create_time timestamp NULL DEFAULT CURRENT_TIMESTAMP,
 	update_time timestamp NULL,
 	CONSTRAINT roles_pkey PRIMARY KEY (id),
 	CONSTRAINT roles_status_check CHECK ((status = ANY (ARRAY[0, 1])))
@@ -88,3 +90,4 @@ CREATE TABLE gateway.role_menu (
 	CONSTRAINT role_menu_menu_id_fkey FOREIGN KEY (menu_id) REFERENCES gateway.menus(id),
 	CONSTRAINT role_menu_role_id_fkey FOREIGN KEY (role_id) REFERENCES gateway.roles(id)
 );
+

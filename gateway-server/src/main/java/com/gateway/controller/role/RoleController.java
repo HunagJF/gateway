@@ -49,4 +49,13 @@ public class RoleController {
     public Result deleteById(@RequestBody Map<String, Object> parem){
         return roleService.deleteById(parem);
     }
+
+    @Logger(operSource = "角色管理",
+            severity = LogSeverity.MINOR,
+            operName = "查询所有角色",
+            isPersistence = true)
+    @PostMapping(value = "/queryNames")
+    public Result queryNames() {
+        return roleService.queryNames();
+    }
 }
