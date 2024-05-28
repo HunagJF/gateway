@@ -57,10 +57,7 @@ public class UserLoginAspect {
                 // 登录成功后生成 JWT 令牌
                 Map<String, Object> claims = new HashMap<>();
                 claims.put(JwtClaimsConstant.USER, userTypeVO);
-                String token = JwtUtil.createJWT(
-                        jwtProperties.getAdminSecretKey(),
-                        jwtProperties.getAdminTtl(),
-                        claims);
+                String token = JwtUtil.createJWT(claims);
 
                 response.setHeader("Authorization", token);
                 cacheUtil.putToCache(JwtClaimsConstant.USER,token, userTypeVO);
