@@ -35,18 +35,18 @@ axiosInstance.interceptors.response.use(
     return res
   },
   (error: AxiosError) => {
-    console.log('err： ' + error) // for debug
-    if (error.response && error.response.status === 401) {
-      const userStore = useUserStore()
-      // 重置用户状态
-      userStore.reset()
-      sessionStorage.removeItem('userToken')
-      router.push('/login').catch((e) => {
-        ElMessage.error('登陆已过期' + e)
-      })
-    } else {
-      ElMessage.error(error.message)
-    }
+    // console.log('err： ' + error) // for debug
+    // if (error.response && error.response.status === 401) {
+    //   const userStore = useUserStore()
+    //   // 重置用户状态
+    //   userStore.reset()
+    //   sessionStorage.removeItem('userToken')
+    //   router.push('/login').catch((e) => {
+    //     ElMessage.error('用户没有权限（令牌、用户名、密码错误）!')
+    //   })
+    // } else {
+    //   ElMessage.error(error.message)
+    // }
     return Promise.reject(error)
   }
 )
@@ -85,5 +85,26 @@ const service = {
     abortControllerMap.clear()
   }
 }
+
+// 处理其他错误状态码
+const handleOtherErrors = (status: number, message: string) => {
+  switch (status) {
+    case 400:
+      ElMessage.error('请求错误(400)');
+      break;
+    case 403:
+      ElMessage.error('拒绝访问(403)');
+      break;
+    case 404:
+      ElMessage.error('请求地址出错(404)');
+      break;
+    case 500:
+      ElMessage.error('服务器内部错误(500)');
+      break;
+    default:
+      ElMessage.error(message);
+      break;
+  }
+};
 
 export default service

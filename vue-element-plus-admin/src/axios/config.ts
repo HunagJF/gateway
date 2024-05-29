@@ -39,7 +39,6 @@ const defaultResponseInterceptors = (response: AxiosResponse) => {
   const token = response.headers['Authorization'] || response.headers['authorization']
   if (token) {
     // 登录成功后，存储 token 到 sessionStorage
-    sessionStorage.setItem('userToken', token);
     userStore.setToken(token)
   }
   if (response?.config?.responseType === 'blob') {

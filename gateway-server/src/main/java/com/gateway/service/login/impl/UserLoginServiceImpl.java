@@ -1,12 +1,11 @@
 package com.gateway.service.login.impl;
 
-import com.gateway.constant.JwtClaimsConstant;
+import com.gateway.constant.AppConstant;
 import com.gateway.dto.login.UserTypeDTO;
 import com.gateway.entity.login.UserLoginEntity;
 import com.gateway.mapper.dao.GeneralMapper;
 import com.gateway.mapper.login.UserLoginMapper;
 import com.gateway.result.Result;
-import com.gateway.service.dao.GeneralService;
 import com.gateway.service.login.UserLoginService;
 import com.gateway.utils.*;
 import com.gateway.vo.login.UserTypeVO;
@@ -69,7 +68,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Override
     public Result loginOut() {
-        cacheUtil.evictFromCache(JwtClaimsConstant.USER, getUserToken());
+        cacheUtil.evictFromCache(AppConstant.USER, getUserToken());
         return Result.success();
     }
 

@@ -49,5 +49,16 @@ sky:
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: Authorization
-  cache:
-    enable: true
+
+#token
+jwt:
+  # Base64 编码
+  secret: 'LeBeghVAC0X4vAelaXgcWwuxDV55RwrmQCydf/UMw17DoXonIshdfGr6cVD7vE+/U2O9de+lqL3GKOzy2uBTdA=='
+  # 1小时，单位是毫秒
+  expiration: 3600000
+  # 30分钟，单位是毫秒
+  refreshThreshold: 1800000
+
+#开启本地缓存
+cache:
+  enable: true

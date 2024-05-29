@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * 二级缓存
  */
 @Component
-@ConfigurationProperties(prefix = "sky.cache")
+@ConfigurationProperties(prefix = "cache")
 @Data
 public class CacheProperties {
 

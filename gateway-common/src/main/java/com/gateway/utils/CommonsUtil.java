@@ -1,12 +1,9 @@
 package com.gateway.utils;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.gateway.constant.JwtClaimsConstant;
+import com.gateway.constant.AppConstant;
 import com.gateway.utils.springContent.SpringContextUtil;
-import com.gateway.vo.login.UserTypeVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -15,14 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Clob;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 通用工具类
@@ -209,7 +200,7 @@ public class CommonsUtil {
                 token = CommonsUtil.toString(request.getAttribute("Access-Token"));
             }
             if (token.length() <= 0) {
-                token = CommonsUtil.toString(request.getHeader("Authorization"));
+                token = CommonsUtil.toString(request.getHeader(AppConstant.AUTHORIZATION));
             }
             return token;
         } catch (Exception e) {
@@ -249,7 +240,7 @@ public class CommonsUtil {
         try {
             String token = getUserToken();
             CacheUtil cacheUtil = SpringContextUtil.getBean(CacheUtil.class);
-            T userTypeVO = cacheUtil.getFromCache(JwtClaimsConstant.USER, token, tClass).get();// 假设你有相应的方法实现
+            T userTypeVO = cacheUtil.getFromCache(AppConstant.USER, token, tClass).get();// 假设你有相应的方法实现
             if (userTypeVO == null) {
                 return null;
             }

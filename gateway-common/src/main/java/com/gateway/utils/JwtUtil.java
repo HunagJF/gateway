@@ -1,65 +1,90 @@
 package com.gateway.utils;
 
 import com.gateway.properties.JwtProperties;
-import com.gateway.utils.springContent.SpringContextUtil;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.swing.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class JwtUtil {
-    /**
-     * 生成jwt
-     * 使用Hs256算法, 私匙使用固定秘钥
-     * @param claims    设置的信息
-     * @return
-     */
-    public static String createJWT(Map<String, Object> claims) {
 
-        JwtProperties jwtProperties = SpringContextUtil.getBean(JwtProperties.class);
+    private final JwtProperties jwtProperties;
 
-        // 指定签名的时候使用的签名算法，也就是header那部分
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
-        // 生成JWT的时间
-        long expMillis = System.currentTimeMillis() + jwtProperties.getAdminTtl();
-        Date exp = new Date(expMillis);
-
-        // 设置jwt的body
-        JwtBuilder builder = Jwts.builder()
-                // 如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值，一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的
-                .setClaims(claims)
-                // 设置签名使用的签名算法和签名使用的秘钥
-                .signWith(signatureAlgorithm, jwtProperties.getAdminSecretKey().getBytes(StandardCharsets.UTF_8))
-                // 设置过期时间
-                .setExpiration(exp);
-
-        return builder.compact();
+    @Autowired
+    public JwtUtil(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
     }
 
     /**
-     * Token解密
+     * 生成JWT令牌
      *
-     * @param secretKey jwt秘钥 此秘钥一定要保留好在服务端, 不能暴露出去, 否则sign就可以被伪造, 如果对接多个客户端建议改造成多个
-     * @param token     加密后的token
-     * @return
+     * @param username 用户名
+     * @return JWT令牌
      */
-    public static Claims parseJWT(String token) {
-        JwtProperties jwtProperties = SpringContextUtil.getBean(JwtProperties.class);
-
-        // 得到DefaultJwtParser
-        Claims claims = Jwts.parser()
-                // 设置签名的秘钥
-                .setSigningKey(jwtProperties.getAdminSecretKey().getBytes(StandardCharsets.UTF_8))
-                // 设置需要解析的jwt
-                .parseClaimsJws(token).getBody();
-        return claims;
+    public String generateToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+        return Jwts.builder()
+                .setClaims(claims) // 设置自定义声明
+                .setSubject(username) // 设置主题为用户名
+                .setIssuedAt(new Date(System.currentTimeMillis())) // 设置令牌签发时间
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration())) // 设置令牌过期时间
+                .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecret()) // 使用HS512算法和密钥签名
+                .compact(); // 压缩为JWT字符串
     }
 
+    /**
+     * 提取JWT声明
+     *
+     * @param token JWT令牌
+     * @return JWT声明
+     */
+    public Claims extractClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(jwtProperties.getSecret()) // 设置用于验证签名的密钥
+                .parseClaimsJws(token) // 解析JWT令牌
+                .getBody(); // 获取声明体
+    }
+
+    /**
+     * 检查令牌是否过期
+     *
+     * @param token JWT令牌
+     * @return 是否过期
+     */
+    public boolean isTokenExpired(String token) {
+        Claims claims = null;
+        try {
+            claims = extractClaims(token);
+        } catch (Exception e) {
+            return false; // 无法解析令牌，视为过期
+        }
+        return !claims.getExpiration().before(new Date());
+    }
+
+    /**
+     * 提取用户名
+     *
+     * @param token JWT令牌
+     * @return 用户名
+     */
+    public String extractUsername(String token) {
+        return extractClaims(token).getSubject();
+    }
+
+    /**
+     * 检查是否需要刷新令牌
+     *
+     * @param token JWT令牌
+     * @return 是否需要刷新
+     */
+    public boolean shouldRefreshToken(String token) {
+        Date expiration = extractClaims(token).getExpiration();
+        return (expiration.getTime() - System.currentTimeMillis()) < jwtProperties.getRefreshThreshold();
+    }
 }

@@ -1,6 +1,6 @@
 package com.gateway.aspect.login;
 
-import com.gateway.constant.JwtClaimsConstant;
+import com.gateway.constant.AppConstant;
 import com.gateway.dto.login.UserTypeDTO;
 import com.gateway.properties.JwtProperties;
 import com.gateway.result.Result;
@@ -15,10 +15,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 用户登录
@@ -32,10 +29,13 @@ public class UserLoginAspect {
     private final JwtProperties jwtProperties;
     private final CacheUtil cacheUtil;
 
+    private final JwtUtil jwtUtil;
+
     @Autowired
-    public UserLoginAspect(JwtProperties jwtProperties, CacheUtil cacheUtil) {
+    public UserLoginAspect(JwtProperties jwtProperties, CacheUtil cacheUtil, JwtUtil jwtUtil) {
         this.jwtProperties = jwtProperties;
         this.cacheUtil = cacheUtil;
+        this.jwtUtil = jwtUtil;
     }
 
     @Pointcut("execution(public * com.gateway.controller.login.UserLoginController.login(..))")
@@ -55,12 +55,9 @@ public class UserLoginAspect {
             UserTypeVO userTypeVO = (UserTypeVO) ((Result) result).getData();
             if (userTypeVO != null && StringUtils.isNotEmpty(userTypeVO.getUsername())) {
                 // 登录成功后生成 JWT 令牌
-                Map<String, Object> claims = new HashMap<>();
-                claims.put(JwtClaimsConstant.USER, userTypeVO);
-                String token = JwtUtil.createJWT(claims);
-
-                response.setHeader("Authorization", token);
-                cacheUtil.putToCache(JwtClaimsConstant.USER,token, userTypeVO);
+                String token = jwtUtil.generateToken(userTypeVO.getUsername());
+                response.setHeader(AppConstant.AUTHORIZATION, token);
+                cacheUtil.putToCache(AppConstant.USER,token, userTypeVO);
             }
         }
         // 返回方法的原始返回值

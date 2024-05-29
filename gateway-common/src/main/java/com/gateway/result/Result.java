@@ -44,4 +44,11 @@ public class Result<T> implements Serializable {
         return result;
     }
 
+    public static <T> Result<T> error401(String message) {
+        Result result = new Result();
+        result.message = message;
+        result.code = 401;
+        return result;
+    }
+
 }

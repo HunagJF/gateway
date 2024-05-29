@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
  * jwt令牌相关配置
  */
 @Component
-@ConfigurationProperties(prefix = "sky.jwt")
+@ConfigurationProperties(prefix = "jwt")
 @Data
 public class JwtProperties {
 
-    private String adminSecretKey;
-    private long adminTtl;
-    private String adminTokenName;
+    private String secret;
+    private long expiration;
+    private long refreshThreshold;
 }
