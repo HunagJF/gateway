@@ -21,6 +21,12 @@ spring:
       date: yyyy-MM-dd
       time: HH:mm:ss
       datetime: yyyy-MM-dd HH:mm:ss
+  #设置response编码
+  servlet:
+    encoding:
+      force-request: true
+      force-response: true
+      charset: UTF-8
 
 mybatis:
   #mapper配置文件
@@ -41,20 +47,11 @@ logging:
   log4j2:
     config: classpath:log4j2-spring.xml
 
-sky:
-  jwt:
-    # 设置jwt签名加密时使用的秘钥
-    admin-secret-key: itcast
-    # 设置jwt过期时间
-    admin-ttl: 7200000
-    # 设置前端传递过来的令牌名称
-    admin-token-name: Authorization
-
 #token
 jwt:
   # Base64 编码
   secret: 'LeBeghVAC0X4vAelaXgcWwuxDV55RwrmQCydf/UMw17DoXonIshdfGr6cVD7vE+/U2O9de+lqL3GKOzy2uBTdA=='
-  # 1小时，单位是毫秒
+  # 1小时，单位是毫秒 3600000
   expiration: 3600000
   # 30分钟，单位是毫秒
   refreshThreshold: 1800000
@@ -62,3 +59,10 @@ jwt:
 #开启本地缓存
 cache:
   enable: true
+
+#请求限流拦截器
+rate-limit:
+  # 时间间隔，单位为毫秒
+  time-interval: 60000
+  # 最大请求数
+  max-count: 1000

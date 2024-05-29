@@ -5,16 +5,22 @@ package com.gateway.constant;
  */
 public class AppConstant {
 
-    // 防止实例化
     public AppConstant() {
     }
 
-
-    // 定义常量
-    //获取用户
+    /**
+     * 获取用户
+     */
     public static final String USER = "USER";
 
-    //获取Header的token
+    /**
+     * 获取Header的token
+     */
     public static final String AUTHORIZATION = "Authorization";
+
+    /**
+     * 限流缓存名称
+     */
+    public static final String RATE_LIMIT_CACHE_NAME = "rateLimitCache";
 
 }

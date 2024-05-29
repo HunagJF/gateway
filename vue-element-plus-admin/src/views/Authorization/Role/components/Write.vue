@@ -65,6 +65,7 @@ const submit = async () => {
   const valid = await elForm?.validate().catch((err) => {
     console.log(err)
   })
+  console.log(valid)
   if (valid) {
     const formData = await getFormData()
     const checkedKeys = unref(treeRef)?.getCheckedKeys() || []

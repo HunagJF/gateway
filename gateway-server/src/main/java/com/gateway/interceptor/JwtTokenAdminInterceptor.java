@@ -1,11 +1,12 @@
 package com.gateway.interceptor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gateway.constant.AppConstant;
+import com.gateway.constant.MessageConstant;
 import com.gateway.properties.JwtProperties;
 import com.gateway.result.Result;
 import com.gateway.utils.CommonsUtil;
 import com.gateway.utils.JwtUtil;
+import com.gateway.utils.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,17 +53,16 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         String token = CommonsUtil.getUserToken();
 
         //校验令牌
-//        if (StringUtils.isNotEmpty(token) && jwtUtil.isTokenExpired(token)) {
-//            // 检查是否需要刷新令牌
-//            if (jwtUtil.shouldRefreshToken(token)) {
-//                String refreshedToken = jwtUtil.generateToken(jwtUtil.extractUsername(token));
-//                response.setHeader(AppConstant.AUTHORIZATION, refreshedToken);
-//            }
-//            return true;
-//        }
-        Result<Void> result = Result.error401("用户没有权限（令牌、用户名、密码错误）!");
-//        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().write(new ObjectMapper().writeValueAsString(result));
+        if (StringUtils.isNotEmpty(token) && jwtUtil.isTokenExpired(token)) {
+            // 检查是否需要刷新令牌
+            if (jwtUtil.shouldRefreshToken(token)) {
+                String refreshedToken = jwtUtil.generateToken(jwtUtil.extractUsername(token));
+                response.setHeader(AppConstant.AUTHORIZATION, refreshedToken);
+            }
+            return true;
+        }
+        ResponseUtil.writeJson(response, Result.error(MessageConstant.UNAUTHORIZED_MESSAGE, HttpServletResponse.SC_UNAUTHORIZED));
         return false;
     }
+
 }

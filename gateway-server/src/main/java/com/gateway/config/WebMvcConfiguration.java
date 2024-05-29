@@ -1,6 +1,7 @@
 package com.gateway.config;
 
 import com.gateway.interceptor.JwtTokenAdminInterceptor;
+import com.gateway.interceptor.RateLimitInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,8 +23,15 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Slf4j
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
+    private final JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+
+    private final RateLimitInterceptor rateLimitInterceptor;
+
     @Autowired
-    private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+    public WebMvcConfiguration(JwtTokenAdminInterceptor jwtTokenAdminInterceptor, RateLimitInterceptor rateLimitInterceptor) {
+        this.jwtTokenAdminInterceptor = jwtTokenAdminInterceptor;
+        this.rateLimitInterceptor = rateLimitInterceptor;
+    }
 
     /**
      * 注册自定义拦截器
@@ -31,11 +39,15 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      * @param registry
      */
     protected void addInterceptors(InterceptorRegistry registry) {
-        log.info("开始注册自定义拦截器...");
+        log.info("开始注册jwt令牌校验的拦截器...");
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/loginOut");
+
+        log.info("开始注册请求限流拦截器...");
+        registry.addInterceptor(rateLimitInterceptor)
+                .addPathPatterns("/**");
 
     }
 
@@ -46,9 +58,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Bean
     public Docket docket() {
         ApiInfo apiInfo = new ApiInfoBuilder()
-                .title("苍穹外卖项目接口文档")
+                .title("")
                 .version("2.0")
-                .description("苍穹外卖项目接口文档")
+                .description("")
                 .build();
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo)

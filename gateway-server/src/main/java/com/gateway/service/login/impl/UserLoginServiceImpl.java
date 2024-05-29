@@ -1,6 +1,7 @@
 package com.gateway.service.login.impl;
 
 import com.gateway.constant.AppConstant;
+import com.gateway.constant.MessageConstant;
 import com.gateway.dto.login.UserTypeDTO;
 import com.gateway.entity.login.UserLoginEntity;
 import com.gateway.mapper.dao.GeneralMapper;
@@ -63,13 +64,13 @@ public class UserLoginServiceImpl implements UserLoginService {
                 .username(userLogin.getUsername())
                 .build();
 
-        return Result.success(userTypeVO);
+        return Result.success(MessageConstant.LOGIN_SUCCESS_MESSAGE,userTypeVO);
     }
 
     @Override
     public Result loginOut() {
         cacheUtil.evictFromCache(AppConstant.USER, getUserToken());
-        return Result.success();
+        return Result.success(MessageConstant.LOGOUT_SUCCESS_MESSAGE);
     }
 
     @Override

@@ -38,14 +38,13 @@ const defaultResponseInterceptors = (response: AxiosResponse) => {
   const userStore = useUserStoreWithOut()
   const token = response.headers['Authorization'] || response.headers['authorization']
   if (token) {
-    // 登录成功后，存储 token 到 sessionStorage
     userStore.setToken(token)
   }
   if (response?.config?.responseType === 'blob') {
     // 如果是文件流，直接过
     return response
   } else if (response.data.code === SUCCESS_CODE) {
-    ElMessage.success('操作成功')
+    ElMessage.success(response?.data?.message)
     return response.data
   } else {
     ElMessage.error(response?.data?.message)
