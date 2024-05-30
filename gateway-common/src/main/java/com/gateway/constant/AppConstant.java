@@ -1,11 +1,15 @@
 package com.gateway.constant;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
- * 全局常量定义
+ * 全局常量定义类
  */
+@Slf4j
 public class AppConstant {
 
     public AppConstant() {
+        log.info("开始初始化全局常量定义类...");
     }
 
     /**

@@ -14,6 +14,7 @@ spring:
       password: ${gateway.datasource.password}
   # 二级缓存
   cache:
+    # 类型：caffeine或redis
     type: caffeine
   #全局时间格式化
   mvc:
@@ -21,12 +22,6 @@ spring:
       date: yyyy-MM-dd
       time: HH:mm:ss
       datetime: yyyy-MM-dd HH:mm:ss
-  #设置response编码
-  servlet:
-    encoding:
-      force-request: true
-      force-response: true
-      charset: UTF-8
 
 mybatis:
   #mapper配置文件
@@ -56,9 +51,10 @@ jwt:
   # 30分钟，单位是毫秒
   refreshThreshold: 1800000
 
-#开启本地缓存
+#开启本地缓存或redis切换
 cache:
-  enable: true
+  # 默认使用本地缓存，设置为true切换到Redis缓存
+  use-redis: false
 
 #请求限流拦截器
 rate-limit:
@@ -66,3 +62,5 @@ rate-limit:
   time-interval: 60000
   # 最大请求数
   max-count: 1000
+
+

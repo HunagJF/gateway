@@ -1,5 +1,6 @@
 package com.gateway.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -8,15 +9,18 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 /**
- * 开启二级缓存
+ * 二级缓存工具类
+ * 提供对二级缓存的基本操作，如添加、获取、删除和清空缓存。
  */
 @Component
+@Slf4j
 public class CacheUtil {
 
     private final CacheManager cacheManager;
 
     @Autowired
     public CacheUtil(CacheManager cacheManager) {
+        log.info("开始初始化二级缓存工具类...");
         this.cacheManager = cacheManager;
     }
 

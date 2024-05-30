@@ -5,6 +5,7 @@ import com.gateway.dto.login.UserTypeDTO;
 import com.gateway.properties.JwtProperties;
 import com.gateway.result.Result;
 import com.gateway.utils.CacheUtil;
+import com.gateway.utils.CombinedCacheUtil;
 import com.gateway.utils.JwtUtil;
 import com.gateway.vo.login.UserTypeVO;
 import org.apache.commons.lang.StringUtils;
@@ -26,14 +27,12 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class UserLoginAspect {
 
-    private final JwtProperties jwtProperties;
-    private final CacheUtil cacheUtil;
-
     private final JwtUtil jwtUtil;
 
+    private CombinedCacheUtil cacheUtil;
+
     @Autowired
-    public UserLoginAspect(JwtProperties jwtProperties, CacheUtil cacheUtil, JwtUtil jwtUtil) {
-        this.jwtProperties = jwtProperties;
+    public UserLoginAspect(CombinedCacheUtil cacheUtil, JwtUtil jwtUtil) {
         this.cacheUtil = cacheUtil;
         this.jwtUtil = jwtUtil;
     }

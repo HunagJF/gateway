@@ -4,6 +4,7 @@ import com.gateway.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,12 +13,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class JwtUtil {
 
     private final JwtProperties jwtProperties;
 
     @Autowired
     public JwtUtil(JwtProperties jwtProperties) {
+        log.info("开始初始化JwtUtil类...");
         this.jwtProperties = jwtProperties;
     }
 

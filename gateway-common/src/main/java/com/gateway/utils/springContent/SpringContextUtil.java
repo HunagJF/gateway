@@ -1,5 +1,6 @@
 package com.gateway.utils.springContent;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import org.springframework.beans.BeansException;
  * 它提供了获取 Spring 管理的 bean 的方法。
  */
 @Component
+@Slf4j
 public class SpringContextUtil implements ApplicationContextAware {
     // 保存应用上下文的静态变量
     private static ApplicationContext applicationContext;
@@ -21,6 +23,7 @@ public class SpringContextUtil implements ApplicationContextAware {
      */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        log.info("开始初始化SpringContextUtil类...");
         SpringContextUtil.applicationContext = applicationContext;
     }
 
