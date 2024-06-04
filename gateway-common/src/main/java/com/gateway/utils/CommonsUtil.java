@@ -23,10 +23,10 @@ import java.sql.SQLException;
 @Slf4j
 public class CommonsUtil {
 
-    private final CacheUtil cacheUtil;
+    private final CombinedCacheUtil cacheUtil;
 
     @Autowired
-    public CommonsUtil(CacheUtil cacheUtil) {
+    public CommonsUtil(CombinedCacheUtil cacheUtil) {
         this.cacheUtil = cacheUtil;
     }
 

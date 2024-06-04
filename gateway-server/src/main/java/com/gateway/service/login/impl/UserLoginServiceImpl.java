@@ -31,12 +31,12 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     private final UserLoginMapper userLoginMapper;
 
-    private final CacheUtil cacheUtil;
+    private final CombinedCacheUtil cacheUtil;
 
     private final GeneralMapper generalMapper;
 
     @Autowired
-    public UserLoginServiceImpl(UserLoginMapper userLoginMapper, CacheUtil cacheUtil,
+    public UserLoginServiceImpl(UserLoginMapper userLoginMapper, CombinedCacheUtil cacheUtil,
                                 GeneralMapper generalMapper) {
         this.userLoginMapper = userLoginMapper;
         this.cacheUtil = cacheUtil;

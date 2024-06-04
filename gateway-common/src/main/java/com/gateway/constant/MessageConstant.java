@@ -1,8 +1,11 @@
 package com.gateway.constant;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 信息提示常量类
  */
+@Slf4j
 public class MessageConstant {
 
     /**
@@ -32,7 +35,7 @@ public class MessageConstant {
 
 
     private MessageConstant() {
-        // 私有构造方法，防止被实例化
+        log.info("开始初始化信息提示常量类...");
     }
 
 }

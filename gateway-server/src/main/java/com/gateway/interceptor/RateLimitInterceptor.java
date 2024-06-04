@@ -5,6 +5,7 @@ import com.gateway.constant.MessageConstant;
 import com.gateway.properties.RateLimitProperties;
 import com.gateway.result.Result;
 import com.gateway.utils.CacheUtil;
+import com.gateway.utils.CombinedCacheUtil;
 import com.gateway.utils.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,12 @@ import java.util.Optional;
 @Slf4j
 public class RateLimitInterceptor implements HandlerInterceptor {
 
-    private final CacheUtil cacheUtil;
+    private final CombinedCacheUtil cacheUtil;
 
     private final RateLimitProperties rateLimitProperties;
 
     @Autowired
-    public RateLimitInterceptor(CacheUtil cacheUtil, RateLimitProperties rateLimitProperties) {
+    public RateLimitInterceptor(CombinedCacheUtil cacheUtil, RateLimitProperties rateLimitProperties) {
         this.cacheUtil = cacheUtil;
         this.rateLimitProperties = rateLimitProperties;
     }
