@@ -1,127 +1,171 @@
-<script setup lang="ts">
-import PanelGroup from './components/PanelGroup.vue'
-import { ElRow, ElCol, ElCard, ElSkeleton } from 'element-plus'
-import { Echart } from '@/components/Echart'
-import { pieOptions, barOptions, lineOptions } from './echarts-data'
-import { ref, reactive } from 'vue'
-import {
-  getUserAccessSourceApi,
-  getWeeklyUserActivityApi,
-  getMonthlySalesApi
-} from '@/api/dashboard/analysis'
-import { set } from 'lodash-es'
-import { EChartsOption } from 'echarts'
-import { useI18n } from '@/hooks/web/useI18n'
+<template>
+  <div class="scroll-container">
+    <!-- 左滚动按钮 -->
+    <button class="scroll-button left" @click="scrollLeft">‹</button>
+    <div class="horizontal-scroll" ref="scrollContainer">
+      <div class="row-container">
+        <el-row gutter={20} class="row">
+          <el-col v-for="(box, index) in visibleBoxes" :key="index" :span="6" class="box">
+            <div class="box-content">
+              <h1> {{ box.name }} </h1>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
+    <!-- 右滚动按钮 -->
+    <button class="scroll-button right" @click="scrollRight">›</button>
+  </div>
+</template>
 
-const { t } = useI18n()
+<script setup lang="tsx">
+import { ref, unref, computed, onMounted } from 'vue'
+import { queryHomePageAppApi } from '@/api/app'
 
-const loading = ref(true)
+// 引用滚动容器
+const scrollContainer = ref<HTMLDivElement | null>(null);
+const currentIndex = ref(0);
 
-const pieOptionsData = reactive<EChartsOption>(pieOptions) as EChartsOption
+// 数据源，可以根据需要调整
+const boxes = ref<any>([])
 
-// 用户来源
-const getUserAccessSource = async () => {
-  const res = await getUserAccessSourceApi().catch(() => {})
-  if (res) {
-    set(
-      pieOptionsData,
-      'legend.data',
-      res.data.map((v) => t(v.name))
-    )
-    pieOptionsData!.series![0].data = res.data.map((v) => {
-      return {
-        name: t(v.name),
-        value: v.value
-      }
-    })
+// 获取数据的函数
+const fetchData = async () => {
+  const response = await queryHomePageAppApi()
+  console.log(response.data)
+  boxes.value = response.data
+};
+
+// 计算当前显示的容器
+const visibleBoxes = computed(() => {
+  return boxes.value.slice(unref(currentIndex), unref(currentIndex) + 6);
+});
+
+// 左滚动函数
+const scrollLeft = () => {
+  if (unref(currentIndex) > 0) {
+    currentIndex.value -= 1;
   }
 }
 
-const barOptionsData = reactive<EChartsOption>(barOptions) as EChartsOption
-
-// 周活跃量
-const getWeeklyUserActivity = async () => {
-  const res = await getWeeklyUserActivityApi().catch(() => {})
-  if (res) {
-    set(
-      barOptionsData,
-      'xAxis.data',
-      res.data.map((v) => t(v.name))
-    )
-    set(barOptionsData, 'series', [
-      {
-        name: t('analysis.activeQuantity'),
-        data: res.data.map((v) => v.value),
-        type: 'bar'
-      }
-    ])
+// 右滚动函数
+const scrollRight = () => {
+  if (unref(currentIndex) < unref(boxes).length - 6) {
+    currentIndex.value += 1;
   }
 }
 
-const lineOptionsData = reactive<EChartsOption>(lineOptions) as EChartsOption
-
-// 每月销售总额
-const getMonthlySales = async () => {
-  const res = await getMonthlySalesApi().catch(() => {})
-  if (res) {
-    set(
-      lineOptionsData,
-      'xAxis.data',
-      res.data.map((v) => t(v.name))
-    )
-    set(lineOptionsData, 'series', [
-      {
-        name: t('analysis.estimate'),
-        smooth: true,
-        type: 'line',
-        data: res.data.map((v) => v.estimate),
-        animationDuration: 2800,
-        animationEasing: 'cubicInOut'
-      },
-      {
-        name: t('analysis.actual'),
-        smooth: true,
-        type: 'line',
-        itemStyle: {},
-        data: res.data.map((v) => v.actual),
-        animationDuration: 2800,
-        animationEasing: 'quadraticOut'
-      }
-    ])
-  }
-}
-
-const getAllApi = async () => {
-  await Promise.all([getUserAccessSource(), getWeeklyUserActivity(), getMonthlySales()])
-  loading.value = false
-}
-
-getAllApi()
+// 组件挂载时获取数据
+onMounted(() => {
+  fetchData()
+})
 </script>
 
-<template>
-  <PanelGroup />
-  <ElRow :gutter="20" justify="space-between">
-    <ElCol :xl="10" :lg="10" :md="24" :sm="24" :xs="24">
-      <ElCard shadow="hover" class="mb-20px">
-        <ElSkeleton :loading="loading" animated>
-          <Echart :options="pieOptionsData" :height="300" />
-        </ElSkeleton>
-      </ElCard>
-    </ElCol>
-    <ElCol :xl="14" :lg="14" :md="24" :sm="24" :xs="24">
-      <ElCard shadow="hover" class="mb-20px">
-        <ElSkeleton :loading="loading" animated>
-          <Echart :options="barOptionsData" :height="300" />
-        </ElSkeleton>
-      </ElCard>
-    </ElCol>
-    <ElCol :span="24">
-      <ElCard shadow="hover" class="mb-20px">
-        <ElSkeleton :loading="loading" animated :rows="4">
-          <Echart :options="lineOptionsData" :height="350" />
-        </ElSkeleton>
-      </ElCard>
-    </ElCol>
-  </ElRow>
-</template>
+
+<style scoped>
+/* 容器样式 */
+.scroll-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* 滚动按钮样式 */
+.scroll-button {
+  position: absolute;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* 半透明背景 */
+  color: white;
+  border: none;
+  font-size: 2rem;
+  /* 字体大小 */
+  cursor: pointer;
+  padding: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.scroll-button.left {
+  left: 0;
+}
+
+.scroll-button.right {
+  right: 0;
+}
+
+/* 内层水平滚动容器 */
+.horizontal-scroll {
+  width: 100%;
+  /* 设置容器宽度 */
+  overflow-x: auto;
+  /* 启用水平滚动条 */
+  white-space: nowrap;
+  /* 防止内容换行 */
+  background-image: url('@/assets/Group.png');
+  /* 使用 Group.png 作为背景 */
+  background-size: cover;
+  /* 宽度拉伸至整个屏幕，高度保持不变 */
+  background-repeat: no-repeat;
+  /* 禁止背景图片重复 */
+  background-position: center;
+  /* 居中对齐背景图片 */
+  scrollbar-width: none;
+  /* 隐藏 Firefox 的滚动条 */
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+  /* 隐藏 Chrome, Safari 和 Opera 的滚动条 */
+}
+
+/* 行容器样式 */
+.row-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* 行样式 */
+.row {
+  display: inline-flex;
+  /* 使子元素横向排列 */
+  width: max-content;
+  /* 确保所有子元素在一行内显示 */
+  width: max-content;
+  /* 确保所有子元素在一行内显示 */
+}
+
+/* 盒子样式 */
+.box {
+  /* 使用本地图片作为背景 */
+  background-image: url('@/assets/app-item-bg.png');
+  background-size: contain;
+  /* 根据盒子大小自适应缩放背景图片 */
+  background-repeat: no-repeat;
+  /* 禁止背景图片重复 */
+  background-position: center;
+  /* 居中对齐背景图片 */
+  padding: 20px;
+  /* 设置内边距 */
+  margin: 20px;
+  /* 设置外边距 */
+  text-align: center;
+  /* 文本居中 */
+  min-width: 25vh;
+  /* 设置最小宽度 */
+  height: 80vh;
+  /* 设置高度为视口高度的80% */
+  box-sizing: border-box;
+  /* 包括内边距和边框 */
+}
+
+/* 盒子内容样式 */
+.box-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+</style>

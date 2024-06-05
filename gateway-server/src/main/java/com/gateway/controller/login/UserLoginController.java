@@ -67,4 +67,13 @@ public class UserLoginController {
     public Result saveOrUpdateLogin(@RequestBody Map<String, Object> parem) {
         return userLoginService.saveOrUpdateLogin(parem);
     }
+
+    @Logger(operSource = "用户登录",
+            severity = LogSeverity.MINOR,
+            operName = "校验",
+            isPersistence = true)
+    @PostMapping(value = "/loginVerify")
+    public Result loginVerify() {
+        return Result.success();
+    }
 }

@@ -78,6 +78,7 @@
         WHERE
             R.PARENT_ID IS NULL
           AND M.USER_NAME = #{value}
+          AND R.STATUS = 1
         ORDER BY R.SORT
     </select>
 
@@ -87,6 +88,7 @@
         WHERE
             R.PARENT_ID = #{parentId}
             AND M.USER_NAME = #{userName}
+            AND R.STATUS = 1
         ORDER BY R.SORT
     </select>
 

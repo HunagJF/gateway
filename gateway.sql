@@ -6,6 +6,8 @@ CREATE TABLE gateway.user_login (
 	update_time timestamp NULL,
 	"name" varchar(50) NULL,
 	status int4 NULL,
+	account_type_id varchar(50) NULL,
+	permission_type_id varchar(50) NULL,
 	CONSTRAINT user_login_pkey PRIMARY KEY (id)
 );
 

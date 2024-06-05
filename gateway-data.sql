@@ -86,3 +86,6 @@ select r.id ,r2.id  from roles r, menus r2 ;
 
 -----------------------------------------------------------------
 select * from menus m ;
+select * from sys_log sl order by create_time desc;
+
+select * from user_login ul ;

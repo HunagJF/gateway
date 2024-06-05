@@ -7,6 +7,7 @@ import { usePermissionStoreWithOut } from '@/store/modules/permission'
 import { usePageLoading } from '@/hooks/web/usePageLoading'
 import { NO_REDIRECT_WHITE_LIST } from '@/constants'
 import { useUserStoreWithOut } from '@/store/modules/user'
+import { loginVerifyApi } from '@/api/login'
 
 const { start, done } = useNProgress()
 
@@ -23,6 +24,7 @@ router.beforeEach(async (to, from, next) => {
       next({ path: '/' })
     } else {
       if (permissionStore.getIsAddRouters) {
+        await loginVerifyApi()
         next()
         return
       }
