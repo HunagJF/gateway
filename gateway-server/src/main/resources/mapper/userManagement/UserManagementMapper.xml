@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gateway.mapper.userManagement.UserManagementMapper">
+
+    <select id="queryUser" parameterType="map" resultType="userManagementVO">
+        select
+            ul.user_name userName,
+            ul.name,
+            ul.app_organization_id organizationName,
+            ul.create_time createTime,
+            ul.account_type_id accountTypeName,
+            ul.permission_type_id permissionTypeName,
+            ul.status,
+            '' appRolesName,
+            '' appsName
+        from user_login ul
+    </select>
+
+</mapper>

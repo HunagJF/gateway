@@ -21,12 +21,12 @@ import { Search } from '@/components/Search'
 import { FormSchema } from '@/components/Form'
 import { ContentWrap } from '@/components/ContentWrap'
 import { BaseButton } from '@/components/Button'
-import { queryLoginUserApi, saveOrUpdateLoginApi } from '@/api/login'
+import { queryUserApi } from '@/api/userManagement'
 
 const { tableRegister, tableState, tableMethods } = useTable({
     fetchDataApi: async () => {
         const { currentPage, pageSize } = tableState
-        const res = await queryLoginUserApi({
+        const res = await queryUserApi({
             ...unref(searchParams),
             page: unref(currentPage),
             size: unref(pageSize)
@@ -87,15 +87,15 @@ const tableColumns = reactive<TableColumn[]>([
         label: '用户姓名',
     },
     {
-        field: 'rolesStr',
+        field: 'appOrganizationName',
         label: '组织机构',
     },
     {
-        field: 'createTime',
+        field: 'appRolesName',
         label: '角色',
     },
     {
-        field: 'createTime',
+        field: 'appsName',
         label: '模块',
     },
     {

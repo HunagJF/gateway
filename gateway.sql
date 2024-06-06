@@ -11,6 +11,12 @@ CREATE TABLE gateway.user_login (
 	CONSTRAINT user_login_pkey PRIMARY KEY (id)
 );
 
+--ALTER TABLE gateway.user_login ADD account_type_id varchar(50) NULL;
+--ALTER TABLE gateway.user_login ADD permission_type_id varchar(50) NULL;
+--ALTER TABLE gateway.user_login ADD organization_id varchar(50) NULL;
+
+
+
 CREATE TABLE gateway.roles (
 	id varchar(50) NOT NULL DEFAULT uuid_in(md5(random()::text || clock_timestamp()::text)::cstring),
 	role_name varchar(255) NOT NULL,

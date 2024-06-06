@@ -38,7 +38,7 @@ const fetchData = async () => {
 
 // 计算当前显示的容器
 const visibleBoxes = computed(() => {
-  return boxes.value.slice(unref(currentIndex), unref(currentIndex) + 6);
+  return boxes.value.slice(unref(currentIndex), unref(currentIndex) + 5);
 });
 
 // 左滚动函数
@@ -50,7 +50,7 @@ const scrollLeft = () => {
 
 // 右滚动函数
 const scrollRight = () => {
-  if (unref(currentIndex) < unref(boxes).length - 6) {
+  if (unref(currentIndex) < unref(boxes).length - 5) {
     currentIndex.value += 1;
   }
 }
