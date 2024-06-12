@@ -97,3 +97,51 @@ CREATE TABLE gateway.role_menu (
 	CONSTRAINT role_menu_menu_id_fkey FOREIGN KEY (menu_id) REFERENCES gateway.menus(id),
 	CONSTRAINT role_menu_role_id_fkey FOREIGN KEY (role_id) REFERENCES gateway.roles(id)
 );
+
+create table organizations (
+	id varchar(50) NOT NULL DEFAULT uuid_in(md5(random()::text || clock_timestamp()::text)::cstring),
+	parentid varchar(50) null,
+	name varchar(255) not null,
+	level int4 null,
+	create_time timestamp NULL DEFAULT now(),
+	update_time timestamp NULL
+);
+
+create table app_roles (
+	id varchar(50) NOT NULL DEFAULT uuid_in(md5(random()::text || clock_timestamp()::text)::cstring),
+	name varchar(255) null,
+	remark varchar(255) not null,
+	status int4 null,
+	app_id varchar(50) null,
+	create_time timestamp NULL DEFAULT now(),
+	update_time timestamp NULL
+);
+
+create table user_app_roles (
+	id varchar(50) NOT NULL DEFAULT uuid_in(md5(random()::text || clock_timestamp()::text)::cstring),
+	user_id varchar(50) NOT NULL,
+	app_roles_id varchar(50) NOT NULL,
+	create_time timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+	update_time timestamp NULL
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

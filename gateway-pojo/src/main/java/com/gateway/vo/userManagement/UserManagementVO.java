@@ -24,7 +24,7 @@ public class UserManagementVO {
     private String name;
 
     @ApiModelProperty("组织机构")
-    private String organizationName;
+    private String appOrganizationName;
 
     @ApiModelProperty("角色")
     private String appRolesName;
@@ -42,5 +42,5 @@ public class UserManagementVO {
     private String permissionTypeName;
 
     @ApiModelProperty("状态")
-    private String status;
+    private Integer status;
 }

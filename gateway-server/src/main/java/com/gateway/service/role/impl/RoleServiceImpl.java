@@ -108,7 +108,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Result queryNames() {
-        return Result.success(generalMapper.querys("select r.id, r.role_name name from roles r"));
+        return Result.success(generalMapper.querys("select r.id, r.role_name as name from roles r where r.role_name is not null"));
     }
 
     private void extractIds(Map<String, Object> menu, Set<String> ids) {

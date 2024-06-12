@@ -6,14 +6,15 @@
 
     <select id="queryUser" parameterType="map" resultType="userManagementVO">
         select
+            ul.id,
             ul.user_name userName,
             ul.name,
-            ul.app_organization_id organizationName,
+            (select name from app_organizations o  where o.id = ul.app_organization_id) appOrganizationName,
             ul.create_time createTime,
             ul.account_type_id accountTypeName,
             ul.permission_type_id permissionTypeName,
             ul.status,
-            '' appRolesName,
+            (select string_agg(ap.name, ',') from app_roles ap ,user_app_roles uap where ap.id = uap.app_roles_id and uap.user_id = ul.id) appRolesName,
             '' appsName
         from user_login ul
     </select>
