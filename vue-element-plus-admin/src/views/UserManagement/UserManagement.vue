@@ -79,6 +79,8 @@ const AddBut = () => {
 }
 
 const editBut = async (row: any) => {
+  const elTableRef = await getElTableExpose()
+  console.log(elTableRef?.getSelectionRows())
   dialogTitle.value = '编辑'
   currentRow.value = row
   dialogVisible.value = true
@@ -86,8 +88,13 @@ const editBut = async (row: any) => {
 
 const currentSelectedId = ref(null)
 const handleSelectionChange = async (selection: any[]) => {
-  const elTableRef = await getElTableExpose()
+  const datas = dataList.value.length
   const rowLen = selection.length
+
+  if (datas === rowLen || rowLen === 0) 
+    return
+
+  const elTableRef = await getElTableExpose()
   if (rowLen === 1) {
     currentSelectedId.value = selection[0].id
   } else if (rowLen >= 2) {
