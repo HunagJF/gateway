@@ -43,4 +43,7 @@ public class UserManagementVO {
 
     @ApiModelProperty("状态")
     private Integer status;
+
+    @ApiModelProperty("数据权限范围")
+    private String appRegionName;
 }

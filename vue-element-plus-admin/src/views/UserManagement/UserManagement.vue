@@ -41,7 +41,7 @@ import { FormSchema } from '@/components/Form'
 import { ContentWrap } from '@/components/ContentWrap'
 import { BaseButton } from '@/components/Button'
 import { queryUserApi } from '@/api/userManagement'
-import { queryOrganizationsApi, queryRolesApi } from '@/api/dropDownBox/conditionPullBox'
+import { queryAppOrganizationsApi, queryAppRolesApi, queryAppRegionApi, queryAccountTypeApi, queryPermissionTypeApi } from '@/api/dropDownBox/conditionPullBox'
 
 const { tableRegister, tableState, tableMethods } = useTable({
   fetchDataApi: async () => {
@@ -169,23 +169,6 @@ const tableColumns = reactive<TableColumn[]>([
       }
     }
   }
-  // {
-  //   field: 'action',
-  //   label: '操作',
-  //   width: 180,
-  //   slots: {
-  //     default: (data: any) => {
-  //       const row = data.row
-  //       return (
-  //         <>
-  //           <BaseButton type="primary" onClick={() => editBut(row)}>
-  //             编辑
-  //           </BaseButton>
-  //         </>
-  //       )
-  //     }
-  //   }
-  // }
 ])
 
 const searchSchema = reactive<FormSchema[]>([
@@ -208,7 +191,18 @@ const searchSchema = reactive<FormSchema[]>([
   {
     field: 'appRegionId',
     label: '数据权限范围',
-    component: 'Select'
+    component: 'Select',
+    componentProps: {
+      filterable: true,
+      remote: true
+    },
+    optionApi: async () => {
+      const res = await queryAppRegionApi()
+      return res.data.map((item: any) => ({
+        label: item.name,
+        value: item.id
+      }))
+    }
   },
   {
     field: 'appOrganizationId',
@@ -219,22 +213,12 @@ const searchSchema = reactive<FormSchema[]>([
       remote: true
     },
     optionApi: async () => {
-      const res = await queryOrganizationsApi()
+      const res = await queryAppOrganizationsApi()
       return res.data.map((item: any) => ({
         label: item.name,
         value: item.id
       }))
     }
-  },
-  {
-    field: 'accountTypeId',
-    label: '账号类型',
-    component: 'Select'
-  },
-  {
-    field: 'permissionTypeId',
-    label: '权限类型',
-    component: 'Select'
   },
   {
     field: 'appRolesId',
@@ -245,9 +229,41 @@ const searchSchema = reactive<FormSchema[]>([
       remote: true
     },
     optionApi: async () => {
-      const res = await queryRolesApi()
+      const res = await queryAppRolesApi()
       return res.data.map((item: any) => ({
         label: item.name,
+        value: item.id
+      }))
+    }
+  },
+  {
+    field: 'accountTypeId',
+    label: '账号类型',
+    component: 'Select',
+    componentProps: {
+      filterable: true,
+      remote: true
+    },
+    optionApi: async () => {
+      const res = await queryAccountTypeApi()
+      return res.data.map((item: any) => ({
+        label: item.description,
+        value: item.id
+      }))
+    }
+  },
+  {
+    field: 'permissionTypeId',
+    label: '权限类型',
+    component: 'Select',
+    componentProps: {
+      filterable: true,
+      remote: true
+    },
+    optionApi: async () => {
+      const res = await queryPermissionTypeApi()
+      return res.data.map((item: any) => ({
+        label: item.description,
         value: item.id
       }))
     }

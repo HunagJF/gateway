@@ -2,18 +2,39 @@
 import request from '@/axios'
 
 const Enum = {
-    queryOrganizations: '/api/conditionPullBoxController/queryOrganizations',
-    queryRoles: '/api/conditionPullBoxController/queryRoles'
+    queryAppOrganizations: '/api/conditionPullBoxController/queryAppOrganizations',
+    queryAppRoles: '/api/conditionPullBoxController/queryAppRoles',
+    queryAppRegion: '/api/conditionPullBoxController/queryAppRegion',
+    queryAccountType: '/api/conditionPullBoxController/queryAccountType',
+    queryPermissionType: '/api/conditionPullBoxController/queryPermissionType',
 }
 
-export const queryOrganizationsApi = () => {
+export const queryAppOrganizationsApi = () => {
     return request.post({
-        url: Enum.queryOrganizations,
+        url: Enum.queryAppOrganizations,
     })
 }
 
-export const queryRolesApi = () => {
+export const queryAppRolesApi = () => {
     return request.post({
-        url: Enum.queryRoles,
+        url: Enum.queryAppRoles,
+    })
+}
+
+export const queryAppRegionApi = () => {
+    return request.post({
+        url: Enum.queryAppRegion,
+    })
+}
+
+export const queryAccountTypeApi = () => {
+    return request.post({
+        url: Enum.queryAccountType,
+    })
+}
+
+export const queryPermissionTypeApi = () => {
+    return request.post({
+        url: Enum.queryPermissionType,
     })
 }

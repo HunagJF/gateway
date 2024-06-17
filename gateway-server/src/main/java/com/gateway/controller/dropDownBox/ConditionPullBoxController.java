@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 查询添加下拉框值查询
+ */
 @Slf4j
 @RestController
 @RequestMapping(value = "/conditionPullBoxController")
@@ -26,7 +29,7 @@ public class ConditionPullBoxController {
             severity = LogSeverity.MINOR,
             operName = "组织机构下拉框",
             isPersistence = true)
-    @PostMapping(value = "/queryOrganizations")
+    @PostMapping(value = "/queryAppOrganizations")
     public Result queryAppOrganizations() {
         return conditionPullBoxService.queryAppOrganizations();
     }
@@ -35,8 +38,35 @@ public class ConditionPullBoxController {
             severity = LogSeverity.MINOR,
             operName = "角色下拉框",
             isPersistence = true)
-    @PostMapping(value = "/queryRoles")
+    @PostMapping(value = "/queryAppRoles")
     public Result queryAppRoles() {
         return conditionPullBoxService.queryAppRoles();
+    }
+
+    @Logger(operSource = "下拉框",
+            severity = LogSeverity.MINOR,
+            operName = "数据权限范围下拉框",
+            isPersistence = true)
+    @PostMapping(value = "queryAppRegion")
+    public Result queryAppRegion() {
+        return conditionPullBoxService.queryAppRegion();
+    }
+
+    @Logger(operSource = "下拉框",
+            severity = LogSeverity.MINOR,
+            operName = "账号类型下拉框",
+            isPersistence = true)
+    @PostMapping(value = "queryAccountType")
+    public Result queryAccountType() {
+        return conditionPullBoxService.queryAccountType();
+    }
+
+    @Logger(operSource = "下拉框",
+            severity = LogSeverity.MINOR,
+            operName = "权限类型下拉框",
+            isPersistence = true)
+    @PostMapping(value = "queryPermissionType")
+    public Result queryPermissionType() {
+        return conditionPullBoxService.queryPermissionType();
     }
 }
