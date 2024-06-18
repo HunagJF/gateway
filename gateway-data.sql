@@ -727,11 +727,13 @@ INSERT INTO gateway.app_region (id, name, code, parent_id, create_time, update_t
 
 
 --字典值
-insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','ACCOUNT_TYPE_ID', '测试1', 1, 1);
-insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','ACCOUNT_TYPE_ID', '测试2', 2, 1);
-insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','ACCOUNT_TYPE_ID', '测试3', 3, 1);
+--账号类型
+insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','ACCOUNT_TYPE_ID', '电信员工', 1, 1);
+insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','ACCOUNT_TYPE_ID', '外包', 2, 1);
+insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','ACCOUNT_TYPE_ID', '厂家', 3, 1);
+insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','ACCOUNT_TYPE_ID', '接口', 4, 1);
 
-
-insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','PERMISSION_TYPE_ID', '测试1', 1, 1);
-insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','PERMISSION_TYPE_ID', '测试2', 2, 1);
-insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','PERMISSION_TYPE_ID', '测试3', 3, 1);
+--字典值
+--权限类型
+insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','PERMISSION_TYPE_ID', '普通账号', 1, 1);
+insert into "dictionary" (code, name, description, sort_order, status) values ('USER_LOGIN','PERMISSION_TYPE_ID', '管理员', 2, 1);

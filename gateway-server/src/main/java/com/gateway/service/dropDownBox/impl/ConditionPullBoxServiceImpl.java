@@ -1,6 +1,7 @@
 package com.gateway.service.dropDownBox.impl;
 
 import com.gateway.mapper.dao.GeneralMapper;
+import com.gateway.mapper.dropDownBox.ConditionPullBoxMapper;
 import com.gateway.result.Result;
 import com.gateway.service.dropDownBox.ConditionPullBoxService;
 import com.gateway.service.util.impl.DictionaryServiceImpl;
@@ -14,10 +15,13 @@ public class ConditionPullBoxServiceImpl implements ConditionPullBoxService {
 
     private final DictionaryServiceImpl dictionaryService;
 
+    private final ConditionPullBoxMapper conditionPullBoxMapper;
+
     @Autowired
-    public ConditionPullBoxServiceImpl(GeneralMapper generalMapper, DictionaryServiceImpl dictionaryService) {
+    public ConditionPullBoxServiceImpl(GeneralMapper generalMapper, DictionaryServiceImpl dictionaryService, ConditionPullBoxMapper conditionPullBoxMapper) {
         this.generalMapper = generalMapper;
         this.dictionaryService = dictionaryService;
+        this.conditionPullBoxMapper = conditionPullBoxMapper;
     }
 
     @Override
@@ -43,5 +47,15 @@ public class ConditionPullBoxServiceImpl implements ConditionPullBoxService {
     @Override
     public Result queryPermissionType() {
         return Result.success(dictionaryService.queryByCodeOnNames("USER_LOGIN", "PERMISSION_TYPE_ID"));
+    }
+
+    @Override
+    public Result queryAppRegionTree() {
+        return Result.success(conditionPullBoxMapper.queryAppRegionTree());
+    }
+
+    @Override
+    public Result queryAppRolesTree() {
+        return Result.success(conditionPullBoxMapper.queryAppRolesTree());
     }
 }

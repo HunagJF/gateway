@@ -38,4 +38,13 @@ public class UserManagementController {
     public Result queryUser(@RequestBody Map<String, Object> parem) {
         return userManagementService.queryUser(parem);
     }
+
+    @Logger(operSource = "用户管理",
+            severity = LogSeverity.MINOR,
+            operName = "编辑",
+            isPersistence = true)
+    @PostMapping(value = "/update")
+    public Result update(@RequestBody Map<String, Object> parem) {
+        return userManagementService.update(parem);
+    }
 }

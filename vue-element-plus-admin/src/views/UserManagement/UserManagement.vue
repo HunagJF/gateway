@@ -10,7 +10,7 @@
       expand-field="appOrganizationId"
     />
     <div class="mb-10px">
-      <BaseButton type="primary" @click="AddBut">添加</BaseButton>
+      <!-- <BaseButton type="primary" @click="AddBut">添加</BaseButton> -->
       <BaseButton type="primary" @click="editBut">编辑</BaseButton>
     </div>
     <Table
@@ -29,6 +29,14 @@
       @selection-change="handleSelectionChange"
     />
   </ContentWrap>
+  <Dialog v-model="dialogVisible" :title="dialogTitle">
+    <Write ref="writeRef" :current-row="currentRow" />
+
+    <template #footer>
+      <BaseButton type="primary" @click="save"> 保存 </BaseButton>
+      <BaseButton @click="dialogVisible = false">关闭</BaseButton>
+    </template>
+  </Dialog>
 </template>
 
 <script setup lang="tsx">
@@ -40,8 +48,18 @@ import { Search } from '@/components/Search'
 import { FormSchema } from '@/components/Form'
 import { ContentWrap } from '@/components/ContentWrap'
 import { BaseButton } from '@/components/Button'
-import { queryUserApi } from '@/api/userManagement'
-import { queryAppOrganizationsApi, queryAppRolesApi, queryAppRegionApi, queryAccountTypeApi, queryPermissionTypeApi } from '@/api/dropDownBox/conditionPullBox'
+import { queryUserApi, updateApi } from '@/api/userManagement'
+import { Dialog } from '@/components/Dialog'
+import {
+  queryAppOrganizationsApi,
+  queryAppRolesApi,
+  queryAppRegionApi,
+  queryAccountTypeApi,
+  queryPermissionTypeApi
+} from '@/api/dropDownBox/conditionPullBox'
+import Write from './components/Write.vue'
+
+const writeRef = ref<ComponentRef<typeof Write>>()
 
 const { tableRegister, tableState, tableMethods } = useTable({
   fetchDataApi: async () => {
@@ -72,18 +90,26 @@ const currentRow = ref()
 const dialogVisible = ref(false)
 const dialogTitle = ref('')
 
-const AddBut = () => {
-  dialogTitle.value = '添加'
-  currentRow.value = undefined
+// const AddBut = () => {
+//   dialogTitle.value = '添加'
+//   currentRow.value = undefined
+//   dialogVisible.value = true
+// }
+
+const editBut = async () => {
+  const elTableRef = await getElTableExpose()
+  dialogTitle.value = '编辑'
+  currentRow.value = elTableRef?.getSelectionRows()[0]
   dialogVisible.value = true
 }
 
-const editBut = async (row: any) => {
-  const elTableRef = await getElTableExpose()
-  console.log(elTableRef?.getSelectionRows())
-  dialogTitle.value = '编辑'
-  currentRow.value = row
-  dialogVisible.value = true
+const save = async () => {
+  const write = unref(writeRef)
+  const formData = await write?.submit()
+  console.log(formData)
+  await updateApi(formData)
+  dialogVisible.value = false
+  getList()
 }
 
 const currentSelectedId = ref(null)
@@ -91,8 +117,7 @@ const handleSelectionChange = async (selection: any[]) => {
   const datas = dataList.value.length
   const rowLen = selection.length
 
-  if (datas === rowLen || rowLen === 0) 
-    return
+  if (datas === rowLen || rowLen === 0) return
 
   const elTableRef = await getElTableExpose()
   if (rowLen === 1) {
@@ -108,7 +133,7 @@ const handleSelectionChange = async (selection: any[]) => {
       }
     }
   } else {
-    currentSelectedId.value = null;
+    currentSelectedId.value = null
   }
 }
 
@@ -135,24 +160,48 @@ const tableColumns = reactive<TableColumn[]>([
     label: '组织机构'
   },
   {
+    field: 'appOrganizationId',
+    hidden: true
+  },
+  {
     field: 'appRolesName',
     label: '角色'
+  },
+  {
+    field: 'appRolesIds',
+    hidden: true
   },
   {
     field: 'appsName',
     label: '模块'
   },
   {
+    field: 'appsIds',
+    hidden: true
+  },
+  {
     field: 'appRegionName',
     label: '数据权限范围'
+  },
+  {
+    field: 'appRegionIds',
+    hidden: true
   },
   {
     field: 'accountTypeName',
     label: '账号类型'
   },
   {
+    field: 'accountTypeId',
+    hidden: true
+  },
+  {
     field: 'permissionTypeName',
     label: '权限类型'
+  },
+  {
+    field: 'permissionTypeId',
+    hidden: true
   },
   {
     field: 'status',

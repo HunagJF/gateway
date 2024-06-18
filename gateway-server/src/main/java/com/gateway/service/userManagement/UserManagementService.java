@@ -7,4 +7,6 @@ import java.util.Map;
 public interface UserManagementService {
 
     Result queryUser(Map<String, Object> parem);
+
+    Result update(Map<String, Object> parem);
 }

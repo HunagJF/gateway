@@ -13,4 +13,8 @@ public interface ConditionPullBoxService {
     Result queryAccountType();
 
     Result queryPermissionType();
+
+    Result queryAppRegionTree();
+
+    Result queryAppRolesTree();
 }

@@ -19,6 +19,10 @@
         SELECT * FROM dictionary WHERE code = #{code} AND name = #{name}
     </select>
 
+    <select id="queryById" resultMap="DictionaryEntityResultMap">
+        SELECT * FROM dictionary WHERE id = #{id}
+    </select>
+
     <select id="queryByCodeOnNames" resultMap="DictionaryEntityResultMap">
         SELECT * FROM dictionary WHERE code = #{code} AND name LIKE CONCAT('%', #{name}, '%')
     </select>

@@ -69,4 +69,22 @@ public class ConditionPullBoxController {
     public Result queryPermissionType() {
         return conditionPullBoxService.queryPermissionType();
     }
+
+    @Logger(operSource = "下拉框",
+            severity = LogSeverity.MINOR,
+            operName = "数据权限范围下拉框树形图",
+            isPersistence = true)
+    @PostMapping(value = "queryAppRegionTree")
+    public Result queryAppRegionTree() {
+        return conditionPullBoxService.queryAppRegionTree();
+    }
+
+    @Logger(operSource = "下拉框",
+            severity = LogSeverity.MINOR,
+            operName = "角色下拉框树形图",
+            isPersistence = true)
+    @PostMapping(value = "queryAppRolesTree")
+    public Result queryAppRolesTree() {
+        return conditionPullBoxService.queryAppRolesTree();
+    }
 }

@@ -10,14 +10,21 @@
             ul.user_name userName,
             ul.name,
             (select name from app_organizations o  where o.id = ul.app_organization_id) appOrganizationName,
+            ul.app_organization_id appOrganizationId,
             (select string_agg(ap.name, ',') from app_roles ap ,user_app_roles uap where ap.id = uap.app_roles_id and uap.user_id = ul.id) appRolesName,
+            (select string_agg(ap.id, ',') from app_roles ap ,user_app_roles uap where ap.id = uap.app_roles_id and uap.user_id = ul.id) appRolesIds,
             (select string_agg(ar.name, ',') from app_region ar, user_app_region uar where ar.id = uar.app_region_id and uar.user_id = ul.id) appRegionName,
-            '' appsName,
-            ul.account_type_id accountTypeName,
-            ul.permission_type_id permissionTypeName,
+            (select string_agg(ar.id, ',') from app_region ar, user_app_region uar where ar.id = uar.app_region_id and uar.user_id = ul.id) appRegionIds,
+            (select string_agg(a.name, ',') from user_apps ua, apps a where ua.apps_id = a.id and ua.user_id = ul.id) appsName,
+            '' appsIds,
+            (select d.description from dictionary d where d.id = ul.account_type_id) accountTypeName,
+            ul.account_type_id accountTypeId,
+            (select d.description from dictionary d where d.id = ul.permission_type_id) permissionTypeName,
+            ul.permission_type_id permissionTypeId,
             ul.status,
             ul.create_time createTime
         from user_login ul
+        order by ul.create_time
     </select>
 
 </mapper>

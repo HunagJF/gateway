@@ -169,6 +169,23 @@ create table dictionary
     update_time timestamp
 );
 
+create table apps(
+    id          varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
+    name        varchar(100)                                                                                 not null,
+    create_time timestamp   default CURRENT_TIMESTAMP,
+    update_time timestamp
+);
+
+create table user_apps (
+	id          varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
+    user_id        varchar(50)                                                                            not null,
+    apps_id        varchar(50)                                                                            not null,
+    create_time timestamp   default CURRENT_TIMESTAMP,
+    update_time timestamp
+);
+
+
+
 
 
 

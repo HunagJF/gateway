@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="com.b0.mybatis.mapper.UserMapper" -->
+<mapper namespace="com.gateway.mapper.dropDownBox.ConditionPullBoxMapper">
+
+    <resultMap id="appRegionMap" type="com.gateway.vo.dropDownBox.ConditionPullBoxVO">
+        <id column="id" property="value" />
+        <result column="name" property="label" />
+        <collection property="children" 
+                    ofType="com.gateway.vo.dropDownBox.ConditionPullBoxVO" 
+                    select="queryAppRegionById" column="id"/>
+    </resultMap>
+    
+    <select id="queryAppRegionTree" resultMap="appRegionMap">
+        select id, name, parent_id from app_region ap where ap.parent_id is null order by ap.id::numeric
+    </select>
+
+    <select id="queryAppRegionById" resultMap="appRegionMap">
+        select id, name, parent_id from app_region ap where ap.parent_id = #{id} order by ap.id::numeric
+    </select>
+
+    <resultMap id="appRolesMap" type="com.gateway.vo.dropDownBox.ConditionPullBoxVO">
+        <id column="id" property="value" />
+        <result column="name" property="label" />
+        <collection property="children"
+                    ofType="com.gateway.vo.dropDownBox.ConditionPullBoxVO"
+                    select="queryAppRolesById" column="id"/>
+    </resultMap>
+
+    <select id="queryAppRolesTree" resultMap="appRolesMap">
+        select a.id, a.name, a.id parent_id from apps a
+    </select>
+
+    <select id="queryAppRolesById" resultMap="appRolesMap">
+        SELECT id, name, '' parent_id FROM app_roles WHERE app_id = #{id}
+    </select>
+</mapper>

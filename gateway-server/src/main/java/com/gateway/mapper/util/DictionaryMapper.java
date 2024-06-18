@@ -8,6 +8,8 @@ public interface DictionaryMapper {
 
     DictionaryEntity queryByCodeOnName(String code, String name);
 
+    DictionaryEntity queryById(String id);
+
     List<DictionaryEntity> queryByCodeOnNames(String code, String name);
 
     int insert(DictionaryEntity dictionary);

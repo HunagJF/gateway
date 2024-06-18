@@ -25,25 +25,31 @@ public class UserManagementVO {
 
     @ApiModelProperty("组织机构")
     private String appOrganizationName;
+    private String appOrganizationId;
 
     @ApiModelProperty("角色")
     private String appRolesName;
+    private String appRolesIds;
 
     @ApiModelProperty("模块")
     private String appsName;
+    private String appsIds;
 
     @ApiModelProperty("创建时间")
     private String createTime;
 
     @ApiModelProperty("账号权限")
     private String accountTypeName;
+    private String accountTypeId;
 
     @ApiModelProperty("权限类型")
     private String permissionTypeName;
+    private String permissionTypeId;
 
     @ApiModelProperty("状态")
     private Integer status;
 
     @ApiModelProperty("数据权限范围")
     private String appRegionName;
+    private String appRegionIds;
 }
