@@ -1,0 +1,3 @@
+INSERT INTO gateway.user_app_region (id, user_id, app_region_id, create_time, update_time) VALUES ('a43aadea-d5eb-31d7-cf19-9c25a5719fec', '59ecbb85-78c9-19a4-7ae0-ca21464d21ec', '100', '2024-06-18 18:00:37.971949', null);
+INSERT INTO gateway.user_app_region (id, user_id, app_region_id, create_time, update_time) VALUES ('8a2392ad-542a-537c-6a64-a44c5193e79e', '59ecbb85-78c9-19a4-7ae0-ca21464d21ec', '101', '2024-06-18 18:00:37.971949', null);
+INSERT INTO gateway.user_app_region (id, user_id, app_region_id, create_time, update_time) VALUES ('910f1e1c-8b4d-09ce-7ce5-a184b5fd7a76', '59ecbb85-78c9-19a4-7ae0-ca21464d21ec', '0', '2024-06-18 18:00:37.971949', null);
