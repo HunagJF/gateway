@@ -94,7 +94,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         }
 
         String roleIdStr = roleIds.stream()
-                .map(idValue -> "'" + idValue + "'")
+//                .map(idValue -> "'" + idValue + "'")
                 .collect(Collectors.joining(","));
 
         if (StringUtils.isNotEmpty(id)) {

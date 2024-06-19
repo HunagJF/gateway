@@ -1,6 +1,29 @@
+-- 步骤 1: 创建序列
+CREATE SEQUENCE GID_NUM
+START 1
+INCREMENT BY 1;
+
+-- 步骤 2: 创建函数
+CREATE OR REPLACE FUNCTION gid_num_id()
+RETURNS NUMERIC AS $$
+DECLARE
+    next_id BIGINT;
+    fixed_part TEXT := '44108500000000';
+BEGIN
+    -- 获取序列的下一个值
+    next_id := nextval('GID_NUM');
+    
+    -- 生成自定义ID，将固定部分与序列值结合
+    RETURN fixed_part::NUMERIC * 100000000 + next_id; -- Adjust as per your numbering scheme
+END;
+$$ LANGUAGE plpgsql;
+
+select gid_num_id();
+
+
 create table user_login
 (
-    id                  varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null
+    id                  numeric(24) default gateway.gid_num_id() not null
         primary key,
     user_name           varchar(50),
     password            varchar(200),
@@ -8,37 +31,37 @@ create table user_login
     update_time         timestamp,
     name                varchar(50),
     status              integer,
-    account_type_id     varchar(50),
-    permission_type_id  varchar(50),
-    app_organization_id varchar(50)
+    account_type_id     numeric(24),
+    permission_type_id  numeric(24),
+    app_organization_id numeric(24)
 );
 
 create table roles
 (
-    id          varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null
+    id          numeric(24) default gateway.gid_num_id() not null
         primary key,
-    role_name   varchar(255)                                                                                 not null,
+    role_name   varchar(255)                             not null,
     remark      text,
-    status      integer                                                                                      not null
+    status      integer                                  not null
         constraint roles_status_check
             check (status = ANY (ARRAY [0, 1])),
     create_time timestamp   default CURRENT_TIMESTAMP,
     update_time timestamp
 );
 
-create table menus
+menus
 (
-    id           varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null
-        primary key,
-    path         varchar(255)                                                                                 not null,
+    id           numeric(24) default gateway.gid_num_id() not null
+    primary key,
+    path         varchar(255)                             not null,
     name         varchar(255)
-        unique,
+    unique,
     component    varchar(255),
     redirect     varchar(255),
-    parent_id    varchar(50),
+    parent_id    numeric(24),
     status       integer     default 1
-        constraint status_check
-            check (status = ANY (ARRAY [0, 1])),
+    constraint status_check
+    check (status = ANY (ARRAY [0, 1])),
     title        varchar(255),
     icon         varchar(255),
     always_show  boolean     default false,
@@ -55,10 +78,9 @@ create table menus
     update_time  timestamp
 );
 
-
 create table sys_log
 (
-    trance_id      varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null
+    id             numeric(24) default gateway.gid_num_id() not null
         primary key,
     source         varchar(255),
     severity       varchar(50),
@@ -79,10 +101,11 @@ create table sys_log
 
 create table user_role
 (
-    id          varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
-    user_id     varchar(50)                                                                                  not null
+    id          numeric(24) default gateway.gid_num_id() not null
+        primary key,
+    user_id     numeric(24)                              not null
         references user_login,
-    role_id     varchar(50)                                                                                  not null
+    role_id     numeric(24)                              not null
         references roles,
     create_time timestamp   default CURRENT_TIMESTAMP,
     update_time timestamp,
@@ -91,10 +114,11 @@ create table user_role
 
 create table role_menu
 (
-    id          varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
-    role_id     varchar(50)                                                                                  not null
+    id          numeric(24) default gateway.gid_num_id() not null
+        primary key,
+    role_id     numeric(24)                              not null
         references roles,
-    menu_id     varchar(50)                                                                                  not null
+    menu_id     numeric(24)                              not null
         references menus,
     create_time timestamp   default CURRENT_TIMESTAMP,
     update_time timestamp,
@@ -103,9 +127,10 @@ create table role_menu
 
 create table app_organizations
 (
-    id          varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
-    parentid    varchar(50),
-    name        varchar(255)                                                                                 not null,
+    id          numeric(24) default gateway.gid_num_id() not null
+        primary key,
+    parentid    numeric(24),
+    name        varchar(255)                             not null,
     level       integer,
     create_time timestamp   default now(),
     update_time timestamp
@@ -113,40 +138,45 @@ create table app_organizations
 
 create table app_roles
 (
-    id          varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
+    id          numeric(24) default gateway.gid_num_id() not null
+        primary key,
     name        varchar(255),
-    remark      varchar(255)                                                                                 not null,
+    remark      varchar(255)                             not null,
     status      integer,
-    app_id      varchar(50),
+    app_id      numeric(24),
     create_time timestamp   default now(),
     update_time timestamp
 );
 
 create table user_app_roles
 (
-    id           varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
-    user_id      varchar(50)                                                                                  not null,
-    app_roles_id varchar(50)                                                                                  not null,
+    id           numeric(24) default gateway.gid_num_id() not null
+        primary key,
+    user_id      numeric(24)                              not null,
+    app_roles_id numeric(24)                              not null,
     create_time  timestamp   default CURRENT_TIMESTAMP,
     update_time  timestamp
 );
 
 create table app_region
 (
-    id varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
-    name varchar(150),
-    code varchar(50),
-    parent_id varchar(50),
-    create_time  timestamp   default CURRENT_TIMESTAMP,
-    update_time  timestamp
+    id          numeric(24) default gateway.gid_num_id() not null
+        primary key,
+    name        varchar(150),
+    code        varchar(50),
+    parent_id   numeric(24),
+    create_time timestamp   default CURRENT_TIMESTAMP,
+    update_time timestamp
 );
 
-create table user_app_region(
-    id varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
-    user_id      varchar(50)                                                                                  not null,
-    app_region_id varchar(50)                                                                                  not null,
-    create_time  timestamp   default CURRENT_TIMESTAMP,
-    update_time  timestamp
+create table user_app_region
+(
+    id            numeric(24) default gateway.gid_num_id() not null
+        primary key,
+    user_id       numeric(24)                              not null,
+    app_region_id numeric(24)                              not null,
+    create_time   timestamp   default CURRENT_TIMESTAMP,
+    update_time   timestamp
 );
 
 -- ID	INT	主键，自增
@@ -159,9 +189,10 @@ create table user_app_region(
 -- UpdatedAt	TIMESTAMP	更新时间
 create table dictionary
 (
-    id          varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
-    code        varchar(50)                                                                                  not null,
-    name        varchar(100)                                                                                 not null,
+    id          numeric(24) default gateway.gid_num_id() not null
+        primary key,
+    code        varchar(50)                              not null,
+    name        varchar(100)                             not null,
     description varchar(255),
     sort_order  numeric(1000),
     status      numeric(1),
@@ -169,17 +200,21 @@ create table dictionary
     update_time timestamp
 );
 
-create table apps(
-    id          varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
-    name        varchar(100)                                                                                 not null,
+create table apps
+(
+    id          numeric(24) default gateway.gid_num_id() not null
+        primary key,
+    name        varchar(100)                             not null,
     create_time timestamp   default CURRENT_TIMESTAMP,
     update_time timestamp
 );
 
-create table user_apps (
-	id          varchar(50) default uuid_in((md5(((random())::text || (clock_timestamp())::text)))::cstring) not null,
-    user_id        varchar(50)                                                                            not null,
-    apps_id        varchar(50)                                                                            not null,
+create table user_apps
+(
+    id          numeric(24) default gateway.gid_num_id() not null
+        primary key,
+    user_id     numeric(24)                              not null,
+    apps_id     numeric(24)                              not null,
     create_time timestamp   default CURRENT_TIMESTAMP,
     update_time timestamp
 );

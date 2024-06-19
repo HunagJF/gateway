@@ -1,1 +1,0 @@
-INSERT INTO gateway.user_role (id, user_id, role_id, create_time, update_time) VALUES ('10af805f-b3b2-2b00-37d0-6c8ba87e07cd', '59ecbb85-78c9-19a4-7ae0-ca21464d21ec', 'c659659b-571d-e4cb-5699-980ddbd44363', '2024-06-11 16:01:10.618445', null);

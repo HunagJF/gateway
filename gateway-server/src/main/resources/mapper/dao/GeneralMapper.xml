@@ -30,6 +30,6 @@
     </delete>
 
     <select id="nextVal" resultType="string">
-        select uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)
+        select gid_num_id()
     </select>
 </mapper>
