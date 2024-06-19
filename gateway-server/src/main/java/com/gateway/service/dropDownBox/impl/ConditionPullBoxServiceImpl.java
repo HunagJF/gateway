@@ -26,17 +26,17 @@ public class ConditionPullBoxServiceImpl implements ConditionPullBoxService {
 
     @Override
     public Result queryAppOrganizations() {
-        return Result.success(generalMapper.querys("select id, name from app_organizations order by level"));
+        return Result.success(generalMapper.querys("select id::varchar, name from app_organizations order by level"));
     }
 
     @Override
     public Result queryAppRoles() {
-        return Result.success(generalMapper.querys("select id, name from app_roles"));
+        return Result.success(generalMapper.querys("select id::varchar, name from app_roles"));
     }
 
     @Override
     public Result queryAppRegion() {
-        return Result.success(generalMapper.querys("select id, name from app_region order by code::numeric"));
+        return Result.success(generalMapper.querys("select id::varchar, name from app_region order by code::numeric"));
     }
 
     @Override

@@ -9,7 +9,6 @@ import { PropType, reactive, watch, ref, unref } from 'vue'
 import { useValidator } from '@/hooks/web/useValidator'
 import {
   queryAppOrganizationsApi,
-  queryAppRegionApi,
   queryAccountTypeApi,
   queryPermissionTypeApi,
   queryAppRegionTreeApi,
@@ -59,10 +58,9 @@ const appRegionFetchTreeData = async () => {
 
 const appRolesFetchTreeData = async () => {
   const res = await queryAppRolesTreeApi()
-  // appRolesTreeData.value = res.data
   appRolesTreeData.value = res.data.map(item => ({
     ...item,
-    disabled: !item.parent_id // Disable if it is a top-level node
+    disabled: !item.parent_id
   }))
 }
 

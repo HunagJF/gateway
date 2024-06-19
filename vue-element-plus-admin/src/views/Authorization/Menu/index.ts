@@ -4,10 +4,8 @@ import { TableColumn } from '@/components/Table'
 // Form 表单组件
 import { FormSchema } from '@/components/Form'
 //国际化
-import { useI18n } from '@/hooks/web/useI18n'
 import Icon from '@/components/Icon/src/Icon.vue'
 import { ElTag } from 'element-plus'
-const { t } = useI18n()
 
 export const columns = reactive<TableColumn[]>([
   {
@@ -80,7 +78,7 @@ export const columns = reactive<TableColumn[]>([
           {
             type: status === 1 ? 'success' : 'danger'
           },
-          status === 1 ? t('userDemo.enable') : t('userDemo.disable')
+          status === 1 ? '启用' : '停用'
         )
       }
     }

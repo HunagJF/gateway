@@ -3,6 +3,8 @@
     <Search :schema="searchSchema" @reset="setSearchParams" @search="setSearchParams" />
     <div class="mb-10px">
       <BaseButton type="primary" @click="AddBut">添加</BaseButton>
+      <BaseButton type="success" @click="editBut">编辑</BaseButton>
+      <BaseButton type="danger" @click="delBut">删除</BaseButton>
     </div>
     <Table
       :columns="tableColumns"
@@ -31,17 +33,17 @@
 </template>
 
 <script setup lang="tsx">
-import { reactive, ref, unref } from 'vue'
+import { ref, unref } from 'vue'
 import { useTable } from '@/hooks/web/useTable'
-import { Table, TableColumn } from '@/components/Table'
-import { ElTag, ElMessageBox } from 'element-plus'
+import { Table } from '@/components/Table'
+import { ElMessageBox, ElMessage } from 'element-plus'
 import { Search } from '@/components/Search'
-import { FormSchema } from '@/components/Form'
 import { ContentWrap } from '@/components/ContentWrap'
 import { Dialog } from '@/components/Dialog'
 import { BaseButton } from '@/components/Button'
 import { queryLoginUserApi, saveOrUpdateLoginApi } from '@/api/login'
 import Write from './components/Write.vue'
+import { tableColumns, searchSchema } from '.'
 
 const writeRef = ref<ComponentRef<typeof Write>>()
 
@@ -61,7 +63,7 @@ const { tableRegister, tableState, tableMethods } = useTable({
 })
 
 const { dataList, loading, total, currentPage, pageSize } = tableState
-const { getList } = tableMethods
+const { getList, getElTableExpose } = tableMethods
 
 const searchParams = ref({})
 const setSearchParams = (data: any) => {
@@ -79,20 +81,32 @@ const AddBut = () => {
   dialogVisible.value = true
 }
 
-const editBut = async (row: any) => {
+const editBut = async () => {
+  const elTableRef = await getElTableExpose()
+  const len = elTableRef?.getSelectionRows().length
+  if (len === 0 || len > 1) {
+    ElMessage.error('请选择一条数据！')
+    return
+  }
   dialogTitle.value = '编辑'
-  currentRow.value = row
+  currentRow.value = elTableRef?.getSelectionRows()[0]
   dialogVisible.value = true
 }
 
-const deleteBut = (row: any) => {
+const delBut = async () => {
+  const elTableRef = await getElTableExpose()
+  const len = elTableRef?.getSelectionRows().length
+  if (!len) {
+    ElMessage.error('请选择一条数据！')
+    return
+  }
   ElMessageBox.confirm('此操作将永久删除该用户, 是否继续?',{
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
   }).then(
     async () => {
-      console.log(row)
+      console.log(elTableRef?.getSelectionRows()[0])
       getList()
     }
   )
@@ -106,62 +120,4 @@ const save = async () => {
   dialogVisible.value = false
   getList()
 }
-
-const tableColumns = reactive<TableColumn[]>([
-  {
-    field: 'index',
-    label: '序号',
-    type: 'index',
-  },
-  {
-    field: 'name',
-    label: '用户名',
-  },
-  {
-    field: 'username',
-    label: '账号',
-  },
-  {
-    field: 'rolesStr',
-    label: '角色分配',
-  },
-  {
-    field: 'createTime',
-    label: '创建时间',
-  },
-  {
-    field: 'action',
-    label: '操作',
-    width: 180,
-    slots: {
-      default: (data: any) => {
-        const row = data.row
-        return (
-          <>
-            <BaseButton type="primary" onClick={() => editBut(row)}>
-              编辑
-            </BaseButton>
-            {/* <BaseButton type="success" onClick={() => action(row, 'detail')}>
-              详情
-            </BaseButton> */}
-            <BaseButton type="danger" onClick={() => deleteBut(row)}>删除</BaseButton>
-          </>
-        )
-      }
-    }
-  }
-])
-
-const searchSchema = reactive<FormSchema[]>([
-  {
-    field: 'name',
-    label: '用户名',
-    component: 'Input'
-  },
-  {
-    field: 'userName',
-    label: '账号',
-    component: 'Input'
-  },
-])
 </script>

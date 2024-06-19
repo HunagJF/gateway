@@ -22,7 +22,7 @@ public class RolesVO {
     private String roleName;
 
     @ApiModelProperty("状态")
-    private String status;
+    private Integer status;
 
     @ApiModelProperty("菜单分配")
     private List menu;

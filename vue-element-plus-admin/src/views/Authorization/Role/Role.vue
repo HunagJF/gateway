@@ -2,35 +2,21 @@
   <ContentWrap>
     <Search :schema="searchSchema" @reset="setSearchParams" @search="setSearchParams" />
     <div class="mb-10px">
-      <BaseButton type="primary" @click="AddAction">添加</BaseButton>
+      <BaseButton type="primary" @click="addBut">添加</BaseButton>
+      <BaseButton type="success" @click="editBut">编辑</BaseButton>
+      <BaseButton type="danger" @click="delBut">删除</BaseButton>
     </div>
-    <Table
-      :columns="tableColumns"
-      default-expand-all
-      node-key="id"
-      :data="dataList"
-      :loading="loading"
-      @register="tableRegister"
-      :pagination="{
-        total: total,
-        pageSizes: [20, 40, 100]
-      }"
-      v-model:pageSize="pageSize"
-      v-model:currentPage="currentPage"
-    />
+    <Table :columns="tableColumns" default-expand-all node-key="id" :data="dataList" :loading="loading"
+      @register="tableRegister" :pagination="{
+      total: total,
+      pageSizes: [20, 40, 100]
+    }" v-model:pageSize="pageSize" v-model:currentPage="currentPage" />
   </ContentWrap>
 
   <Dialog v-model="dialogVisible" :title="dialogTitle">
-    <Write v-if="actionType !== 'detail'" ref="writeRef" :current-row="currentRow" />
-    <Detail v-else :current-row="currentRow" />
-
+    <Write ref="writeRef" :current-row="currentRow" />
     <template #footer>
-      <BaseButton
-        v-if="actionType !== 'detail'"
-        type="primary"
-        :loading="saveLoading"
-        @click="save"
-      >
+      <BaseButton type="primary" @click="save">
         保存
       </BaseButton>
       <BaseButton @click="dialogVisible = false">关闭</BaseButton>
@@ -39,22 +25,24 @@
 </template>
 
 <script setup lang="tsx">
-import { reactive, ref, unref } from 'vue'
+import { ref, unref } from 'vue'
 import { queryRolesByNameApi } from '@/api/role'
 import { useTable } from '@/hooks/web/useTable'
-import { useI18n } from '@/hooks/web/useI18n'
-import { Table, TableColumn } from '@/components/Table'
-import { ElTag, ElMessageBox } from 'element-plus'
+import { Table } from '@/components/Table'
+import { ElMessageBox, ElMessage } from 'element-plus'
 import { Search } from '@/components/Search'
-import { FormSchema } from '@/components/Form'
 import { ContentWrap } from '@/components/ContentWrap'
 import Write from './components/Write.vue'
-import Detail from './components/Detail.vue'
+// import Detail from './components/Detail.vue'
 import { Dialog } from '@/components/Dialog'
 import { BaseButton } from '@/components/Button'
 import { saveOrUpdateRoleApi, deleteByIdApi } from '@/api/role'
+import { tableColumns, searchSchema } from '.'
 
-const { t } = useI18n()
+const writeRef = ref<ComponentRef<typeof Write>>()
+const dialogVisible = ref(false)
+const dialogTitle = ref('')
+const currentRow = ref()
 
 const { tableRegister, tableState, tableMethods } = useTable({
   fetchDataApi: async () => {
@@ -72,7 +60,7 @@ const { tableRegister, tableState, tableMethods } = useTable({
 })
 
 const { dataList, loading, total, currentPage, pageSize } = tableState
-const { getList } = tableMethods
+const { getList, getElTableExpose } = tableMethods
 
 const searchParams = ref({})
 const setSearchParams = (data: any) => {
@@ -80,38 +68,38 @@ const setSearchParams = (data: any) => {
   getList()
 }
 
-const dialogVisible = ref(false)
-const dialogTitle = ref('')
-
-const currentRow = ref()
-const actionType = ref('')
-
-const writeRef = ref<ComponentRef<typeof Write>>()
-
-const saveLoading = ref(false)
-
-const action = (row: any, type: string) => {
-  dialogTitle.value = t(type === 'edit' ? 'exampleDemo.edit' : 'exampleDemo.detail')
-  actionType.value = type
-  currentRow.value = row
-  dialogVisible.value = true
-}
-
-const AddAction = () => {
-  dialogTitle.value = t('exampleDemo.add')
+const addBut = async () => {
+  dialogTitle.value = '添加'
   currentRow.value = undefined
   dialogVisible.value = true
-  actionType.value = ''
 }
 
-const deleteBut = async (row: any) => {
-  ElMessageBox.confirm('此操作将永久删除该角色, 是否继续?',{
+const editBut = async () => {
+  const elTableRef = await getElTableExpose()
+  const len = elTableRef?.getSelectionRows().length
+  if (len === 0 || len > 1) {
+    ElMessage.error('请选择一条数据！')
+    return
+  }
+  dialogTitle.value = '编辑'
+  currentRow.value = elTableRef?.getSelectionRows()[0]
+  dialogVisible.value = true
+}
+
+const delBut = async () => {
+  const elTableRef = await getElTableExpose()
+  const len = elTableRef?.getSelectionRows().length
+  if (!len) {
+    ElMessage.error('请选择一条数据！')
+    return
+  }
+  ElMessageBox.confirm('此操作将永久删除该角色, 是否继续?', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
   }).then(
     async () => {
-      await deleteByIdApi(row)
+      await deleteByIdApi(elTableRef?.getSelectionRows())
       getList()
     }
   )
@@ -124,76 +112,4 @@ const save = async () => {
   dialogVisible.value = false
   getList()
 }
-
-const tableColumns = reactive<TableColumn[]>([
-  {
-    field: 'index',
-    label: '序号',
-    type: 'index',
-  },
-  {
-    field: 'roleName',
-    label: '角色名称',
-    width: 200,
-  },
-  {
-    field: 'status',
-    label: '状态',
-    width: 80,
-    slots: {
-      default: (data: any) => {
-        return (
-          <>
-            <ElTag type={data.row.status === 0 ? 'danger' : 'success'}>
-              {data.row.status === 1 ? t('userDemo.enable') : t('userDemo.disable')}
-            </ElTag>
-          </>
-        )
-      }
-    }
-  },
-  {
-    field: 'remark',
-    label: '备注',
-    width: 200,
-  },
-  {
-    field: 'menusStr',
-    label: '菜单分配'
-  },
-  {
-    field: 'createTime',
-    label: '创建时间',
-    width: 200,
-  },
-  {
-    field: 'action',
-    label: '操作',
-    width: 180,
-    slots: {
-      default: (data: any) => {
-        const row = data.row
-        return (
-          <>
-            <BaseButton type="primary" onClick={() => action(row, 'edit')}>
-              编辑
-            </BaseButton>
-            {/* <BaseButton type="success" onClick={() => action(row, 'detail')}>
-              详情
-            </BaseButton> */}
-            <BaseButton type="danger" onClick={() => deleteBut(row)}>删除</BaseButton>
-          </>
-        )
-      }
-    }
-  }
-])
-
-const searchSchema = reactive<FormSchema[]>([
-  {
-    field: 'roleName',
-    label: '角色名称',
-    component: 'Input'
-  }
-])
 </script>

@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.HashSet;
 import java.util.List;
@@ -86,23 +87,27 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Result deleteById(Map<String, Object> param) {
-        String id = MapUtils.getString(param, "id");
-        int userRoleCount = generalMapper.queryCount(SQLConverterUtil.replaceAllPlaceHolder(
-                "select count(1) from user_role where role_id = ?",
-                new Object[]{id}));
+    @Transactional
+    public Result deleteById(List<Map<String, Object>> params) {
+        for (int i = 0; i < params.size(); i++) {
+            Map<String, Object> param = params.get(i);
+            String id = MapUtils.getString(param, "id");
+            int userRoleCount = generalMapper.queryCount(SQLConverterUtil.replaceAllPlaceHolder(
+                    "select count(1) from user_role where role_id = ?",
+                    new Object[]{id}));
 
-        int roleMenuCount = generalMapper.queryCount(SQLConverterUtil.replaceAllPlaceHolder(
-                "select count(1) from role_menu where role_id = ?",
-                new Object[]{id}));
+            int roleMenuCount = generalMapper.queryCount(SQLConverterUtil.replaceAllPlaceHolder(
+                    "select count(1) from role_menu where role_id = ?",
+                    new Object[]{id}));
 
-        if (userRoleCount >  0 || roleMenuCount > 0) {
-            return Result.error("用户或菜单有关联禁止删除！");
+            if (userRoleCount >  0 || roleMenuCount > 0) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return Result.error("用户或菜单有关联禁止删除！");
+            }
+
+            generalMapper.delete(SQLConverterUtil.replaceAllPlaceHolder("delete from roles where id = ?",
+                    new Object[]{id}));
         }
-
-        generalMapper.delete(SQLConverterUtil.replaceAllPlaceHolder("delete from roles where id = ?",
-                new Object[]{id}));
-
         return Result.success();
     }
 

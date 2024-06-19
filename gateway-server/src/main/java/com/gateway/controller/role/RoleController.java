@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -46,8 +47,8 @@ public class RoleController {
             operName = "删除",
             isPersistence = true)
     @PostMapping(value = "/deleteById")
-    public Result deleteById(@RequestBody Map<String, Object> parem){
-        return roleService.deleteById(parem);
+    public Result deleteById(@RequestBody List<Map<String, Object>> parems){
+        return roleService.deleteById(parems);
     }
 
     @Logger(operSource = "角色管理",

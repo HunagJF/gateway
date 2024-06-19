@@ -7,13 +7,11 @@ import { Form, FormSchema } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
 import { PropType, reactive, watch, ref, unref, nextTick } from 'vue'
 import { useValidator } from '@/hooks/web/useValidator'
-import { useI18n } from '@/hooks/web/useI18n'
-import { ElTree, ElCheckboxGroup, ElCheckbox } from 'element-plus'
-import { queryMenusApi, queryTitleApi } from '@/api/menu'
+import { ElTree } from 'element-plus'
+import { queryTitleApi } from '@/api/menu'
 import { filter, eachTree } from '@/utils/tree'
 
-const { t } = useI18n()
-
+const treeRef = ref<typeof ElTree>()
 const { required } = useValidator()
 
 const props = defineProps({
@@ -22,8 +20,6 @@ const props = defineProps({
     default: () => null
   }
 })
-
-const treeRef = ref<typeof ElTree>()
 
 const currentTreeData = ref()
 const nodeClick = (treeData: any) => {
@@ -106,11 +102,11 @@ const formSchema = ref<FormSchema[]>([
     componentProps: {
       options: [
         {
-          label: t('userDemo.disable'),
+          label: '停用',
           value: 0
         },
         {
-          label: t('userDemo.enable'),
+          label: '启用',
           value: 1
         }
       ]

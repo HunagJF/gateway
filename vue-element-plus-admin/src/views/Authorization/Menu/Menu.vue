@@ -1,6 +1,5 @@
 <template>
   <ContentWrap>
-    <!-- <Search :schema="schema" @reset="setSearchParams" @search="setSearchParams" /> -->
     <div class="mb-10px">
       <BaseButton type="primary" @click="AddAction">添加</BaseButton>
     </div>
@@ -48,8 +47,6 @@ import Edit from './components/Edit.vue'
 import Add from './components/Add.vue'
 import { Dialog } from '@/components/Dialog'
 
-// 查询条件
-// const searchParams = ref({})
 // 列表组件
 const { tableRegister, tableState, tableMethods } = useTable({
   fetchDataApi: async () => {
@@ -63,11 +60,6 @@ const { tableRegister, tableState, tableMethods } = useTable({
 
 const { getList } = tableMethods
 const { loading, dataList} = tableState
-
-// const setSearchParams = (data: any) => {
-//   searchParams.value = data
-//   getList()
-// }
 
 const dialogVisible = ref(false)
 const addDialog = ref(false)
