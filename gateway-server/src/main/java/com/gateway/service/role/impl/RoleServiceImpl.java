@@ -55,9 +55,7 @@ public class RoleServiceImpl implements RoleService {
             extractIds(menu, menuIds);
         }
 
-        String menuIdStr = menuIds.stream()
-                .map(idValue -> "'" + idValue + "'")
-                .collect(Collectors.joining(","));
+        String menuIdStr = menuIds.stream().collect(Collectors.joining(","));
 
         //编辑
         if (StringUtils.isNotEmpty(id)) {
@@ -72,7 +70,6 @@ public class RoleServiceImpl implements RoleService {
         } else {
             //添加
             id = generalMapper.nextVal();
-
             generalMapper.insert(SQLConverterUtil.replaceAllPlaceHolder(
                     "insert into roles (id, role_name, remark, status) values (?,?,?,?)",
                     new Object[]{id, roleName, remark, status}));
@@ -81,8 +78,8 @@ public class RoleServiceImpl implements RoleService {
         if (StringUtils.isEmpty(menuIdStr))
             return Result.success();
 
-        generalMapper.insert("insert into role_menu (role_id, menu_id) select '" + id +
-                "',m.id from menus m where id in (" + menuIdStr + ")");
+        generalMapper.insert("insert into role_menu (role_id, menu_id) " +
+                "select " + id + ",m.id from menus m where id in (" + menuIdStr + ")");
         return Result.success();
     }
 
@@ -90,8 +87,8 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public Result deleteById(List<Map<String, Object>> params) {
         for (int i = 0; i < params.size(); i++) {
-            Map<String, Object> param = params.get(i);
-            String id = MapUtils.getString(param, "id");
+            Map<String, Object> parem = params.get(i);
+            String id = MapUtils.getString(parem, "id");
             int userRoleCount = generalMapper.queryCount(SQLConverterUtil.replaceAllPlaceHolder(
                     "select count(1) from user_role where role_id = ?",
                     new Object[]{id}));
@@ -105,7 +102,8 @@ public class RoleServiceImpl implements RoleService {
                 return Result.error("用户或菜单有关联禁止删除！");
             }
 
-            generalMapper.delete(SQLConverterUtil.replaceAllPlaceHolder("delete from roles where id = ?",
+            generalMapper.delete(SQLConverterUtil.replaceAllPlaceHolder(
+                    "delete from roles where id = ?",
                     new Object[]{id}));
         }
         return Result.success();
@@ -116,6 +114,11 @@ public class RoleServiceImpl implements RoleService {
         return Result.success(generalMapper.querys("select r.id::varchar, r.role_name as name from roles r where r.role_name is not null"));
     }
 
+    /**
+     * 获取所有的id
+     * @param menu
+     * @param ids
+     */
     private void extractIds(Map<String, Object> menu, Set<String> ids) {
         // 提取当前菜单的ID
         String id = MapUtils.getString(menu, "id");

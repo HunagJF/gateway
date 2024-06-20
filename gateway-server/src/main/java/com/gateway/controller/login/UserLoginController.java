@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 
@@ -66,6 +67,15 @@ public class UserLoginController {
     @PostMapping(value = "/saveOrUpdateLogin")
     public Result saveOrUpdateLogin(@RequestBody Map<String, Object> parem) {
         return userLoginService.saveOrUpdateLogin(parem);
+    }
+
+    @Logger(operSource = "用户管理",
+            severity = LogSeverity.MINOR,
+            operName = "删除",
+            isPersistence = true)
+    @PostMapping(value = "/deleteByIds")
+    public Result deleteByIds(@RequestBody List<Map<String, Object>> parems) {
+        return userLoginService.deleteByIds(parems);
     }
 
     @Logger(operSource = "用户登录",

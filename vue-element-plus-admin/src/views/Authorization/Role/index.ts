@@ -22,6 +22,20 @@ export const tableColumns = reactive<TableColumn[]>([
         width: 200,
     },
     {
+        field: 'remark',
+        label: '备注',
+        width: 200,
+    },
+    {
+        field: 'menusStr',
+        label: '菜单分配'
+    },
+    {
+        field: 'createTime',
+        label: '创建时间',
+        width: 200,
+    },
+    {
         field: 'status',
         label: '状态',
         width: 80,
@@ -37,20 +51,6 @@ export const tableColumns = reactive<TableColumn[]>([
                 )
             }
         }
-    },
-    {
-        field: 'remark',
-        label: '备注',
-        width: 200,
-    },
-    {
-        field: 'menusStr',
-        label: '菜单分配'
-    },
-    {
-        field: 'createTime',
-        label: '创建时间',
-        width: 200,
     },
 ])
 

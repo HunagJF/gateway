@@ -14,7 +14,7 @@ BEGIN
     next_id := nextval('GID_NUM');
     
     -- 生成自定义ID，将固定部分与序列值结合
-    RETURN fixed_part::NUMERIC * 100000000 + next_id; -- Adjust as per your numbering scheme
+    RETURN fixed_part::NUMERIC * 10000000000 + next_id; -- Adjust as per your numbering scheme
 END;
 $$ LANGUAGE plpgsql;
 

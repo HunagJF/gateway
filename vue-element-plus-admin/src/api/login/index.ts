@@ -7,7 +7,8 @@ const Enum = {
   queryMenusByUsername: '/api/menu/queryMenusByUsername',
   queryLoginUser: '/api/queryLoginUser',
   saveOrUpdateLogin: '/api/saveOrUpdateLogin',
-  loginVerify: '/api/loginVerify'
+  loginVerify: '/api/loginVerify',
+  deleteByIds: '/api/deleteByIds',
 }
 
 export const loginApi = (data: UserType): Promise<IResponse<UserType>> => {
@@ -44,6 +45,13 @@ export const saveOrUpdateLoginApi = (data: any) => {
 export const loginVerifyApi = () => {
   return request.post({
     url: Enum.loginVerify,
+  })
+}
+
+export const deleteByIdsApi = (data: any) => {
+  return request.post({
+    url: Enum.deleteByIds,
+    data
   })
 }
 

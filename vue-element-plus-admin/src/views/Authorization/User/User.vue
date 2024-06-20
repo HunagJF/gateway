@@ -41,7 +41,7 @@ import { Search } from '@/components/Search'
 import { ContentWrap } from '@/components/ContentWrap'
 import { Dialog } from '@/components/Dialog'
 import { BaseButton } from '@/components/Button'
-import { queryLoginUserApi, saveOrUpdateLoginApi } from '@/api/login'
+import { queryLoginUserApi, saveOrUpdateLoginApi, deleteByIdsApi } from '@/api/login'
 import Write from './components/Write.vue'
 import { tableColumns, searchSchema } from '.'
 
@@ -106,7 +106,7 @@ const delBut = async () => {
     type: 'warning',
   }).then(
     async () => {
-      console.log(elTableRef?.getSelectionRows()[0])
+      await deleteByIdsApi(elTableRef?.getSelectionRows())
       getList()
     }
   )

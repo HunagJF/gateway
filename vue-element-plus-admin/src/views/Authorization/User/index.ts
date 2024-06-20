@@ -19,10 +19,12 @@ export const tableColumns = reactive<TableColumn[]>([
     {
         field: 'name',
         label: '用户名',
+        width: 200,
     },
     {
         field: 'username',
         label: '账号',
+        width: 200,
     },
     {
         field: 'rolesStr',
@@ -31,11 +33,12 @@ export const tableColumns = reactive<TableColumn[]>([
     {
         field: 'createTime',
         label: '创建时间',
+        width: 200,
     },
     {
-        field: 'action',
-        label: '操作',
-        width: 180,
+        field: 'status',
+        label: '状态',
+        width: 80,
         slots: {
             default: (data: any) => {
                 const status: number = data.row.status

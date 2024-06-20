@@ -27,6 +27,9 @@ public class UserTypeVO{
     @ApiModelProperty("用户名")
     private String name;
 
+    @ApiModelProperty("状态")
+    private Integer status;
+
     @ApiModelProperty("角色")
     private String rolesStr;
 

@@ -13,9 +13,11 @@ import com.gateway.vo.login.UserTypeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.HashSet;
 import java.util.List;
@@ -93,9 +95,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             roleIds.add(MapUtils.getString(role, "id"));
         }
 
-        String roleIdStr = roleIds.stream()
-//                .map(idValue -> "'" + idValue + "'")
-                .collect(Collectors.joining(","));
+        String roleIdStr = roleIds.stream().collect(Collectors.joining(","));
 
         if (StringUtils.isNotEmpty(id)) {
             generalMapper.update(SQLConverterUtil.replaceAllPlaceHolder(
@@ -118,8 +118,34 @@ public class UserLoginServiceImpl implements UserLoginService {
             return Result.success();
 
         generalMapper.insert("insert into user_role (user_id, role_id) " +
-                "select '" + id + "',r.id from roles r where r.id in (" + roleIdStr + ")");
+                "select " + id + ",r.id from roles r where r.id in (" + roleIdStr + ")");
 
+        return Result.success();
+    }
+
+    @Override
+    @Transactional
+    public Result deleteByIds(List<Map<String, Object>> parems) {
+        for (int i = 0; i < parems.size(); i++) {
+            Map<String, Object> parem = parems.get(i);
+            String id = MapUtils.getString(parem, "id");
+            int userRoleCount = generalMapper.queryCount(SQLConverterUtil.replaceAllPlaceHolder(
+                    "SELECT COUNT(1) FROM user_role UR WHERE UR.user_id = ?",
+                    new Object[]{id}));
+
+            if (userRoleCount >  0) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return Result.error("角色有关联禁止删除！");
+            }
+
+            generalMapper.delete(SQLConverterUtil.replaceAllPlaceHolder(
+                    "delete from user_login where id = ?",
+                    new Object[]{id}));
+
+            generalMapper.delete(SQLConverterUtil.replaceAllPlaceHolder(
+                    "delete from user_apps where user_id = ?",
+                    new Object[]{id}));
+        }
         return Result.success();
     }
 }

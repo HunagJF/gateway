@@ -18,6 +18,7 @@
         <result column="name" property="name" />
         <result column="roles_str" property="rolesStr" />
         <result column="create_time" property="createTime" />
+        <result column="status" property="status" />
         <!-- 添加关联属性 menu -->
         <collection property="roles" ofType="String" select="findRolesByLoginUserId" column="id"/>
     </resultMap>
