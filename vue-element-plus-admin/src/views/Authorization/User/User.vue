@@ -1,6 +1,12 @@
 <template>
   <ContentWrap>
-    <Search :schema="searchSchema" @reset="setSearchParams" @search="setSearchParams" />
+    <Search
+      :schema="searchSchema"
+      @reset="setSearchParams"
+      @search="setSearchParams"
+      layout="bottom"
+      buttonPosition="right"
+    />
     <div class="mb-10px">
       <BaseButton type="primary" @click="AddBut">添加</BaseButton>
       <BaseButton type="success" @click="editBut">编辑</BaseButton>
@@ -23,7 +29,7 @@
   </ContentWrap>
 
   <Dialog v-model="dialogVisible" :title="dialogTitle">
-    <Write ref="writeRef" :current-row="currentRow"/>
+    <Write ref="writeRef" :current-row="currentRow" />
 
     <template #footer>
       <BaseButton type="primary" @click="save">保存</BaseButton>
@@ -100,16 +106,14 @@ const delBut = async () => {
     ElMessage.error('请选择一条数据！')
     return
   }
-  ElMessageBox.confirm('此操作将永久删除该用户, 是否继续?',{
+  ElMessageBox.confirm('此操作将永久删除该用户, 是否继续?', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
-    type: 'warning',
-  }).then(
-    async () => {
-      await deleteByIdsApi(elTableRef?.getSelectionRows())
-      getList()
-    }
-  )
+    type: 'warning'
+  }).then(async () => {
+    await deleteByIdsApi(elTableRef?.getSelectionRows())
+    getList()
+  })
 }
 
 const save = async () => {

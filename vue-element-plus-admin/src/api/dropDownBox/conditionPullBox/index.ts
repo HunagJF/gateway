@@ -9,6 +9,7 @@ const Enum = {
     queryPermissionType: '/api/conditionPullBoxController/queryPermissionType',
     queryAppRegionTree: '/api/conditionPullBoxController/queryAppRegionTree',
     queryAppRolesTree: '/api/conditionPullBoxController/queryAppRolesTree',
+    queryApps: '/api/conditionPullBoxController/queryApps'
 }
 
 export const queryAppOrganizationsApi = () => {
@@ -50,5 +51,11 @@ export const queryAppRegionTreeApi = () => {
 export const queryAppRolesTreeApi = () => {
     return request.post({
         url: Enum.queryAppRolesTree,
+    })
+}
+
+export const queryAppsApi = () => {
+    return request.post({
+        url: Enum.queryApps,
     })
 }

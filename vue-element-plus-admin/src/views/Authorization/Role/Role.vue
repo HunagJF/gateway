@@ -1,24 +1,37 @@
 <template>
   <ContentWrap>
-    <Search :schema="searchSchema" @reset="setSearchParams" @search="setSearchParams" />
+    <Search
+      :schema="searchSchema"
+      @reset="setSearchParams"
+      @search="setSearchParams"
+      layout="bottom"
+      buttonPosition="right"
+    />
     <div class="mb-10px">
       <BaseButton type="primary" @click="addBut">添加</BaseButton>
       <BaseButton type="success" @click="editBut">编辑</BaseButton>
       <BaseButton type="danger" @click="delBut">删除</BaseButton>
     </div>
-    <Table :columns="tableColumns" default-expand-all node-key="id" :data="dataList" :loading="loading"
-      @register="tableRegister" :pagination="{
-      total: total,
-      pageSizes: [20, 40, 100]
-    }" v-model:pageSize="pageSize" v-model:currentPage="currentPage" />
+    <Table
+      :columns="tableColumns"
+      default-expand-all
+      node-key="id"
+      :data="dataList"
+      :loading="loading"
+      @register="tableRegister"
+      :pagination="{
+        total: total,
+        pageSizes: [20, 40, 100]
+      }"
+      v-model:pageSize="pageSize"
+      v-model:currentPage="currentPage"
+    />
   </ContentWrap>
 
   <Dialog v-model="dialogVisible" :title="dialogTitle">
     <Write ref="writeRef" :current-row="currentRow" />
     <template #footer>
-      <BaseButton type="primary" @click="save">
-        保存
-      </BaseButton>
+      <BaseButton type="primary" @click="save"> 保存 </BaseButton>
       <BaseButton @click="dialogVisible = false">关闭</BaseButton>
     </template>
   </Dialog>
@@ -96,13 +109,11 @@ const delBut = async () => {
   ElMessageBox.confirm('此操作将永久删除该角色, 是否继续?', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
-    type: 'warning',
-  }).then(
-    async () => {
-      await deleteByIdApi(elTableRef?.getSelectionRows())
-      getList()
-    }
-  )
+    type: 'warning'
+  }).then(async () => {
+    await deleteByIdApi(elTableRef?.getSelectionRows())
+    getList()
+  })
 }
 
 const save = async () => {

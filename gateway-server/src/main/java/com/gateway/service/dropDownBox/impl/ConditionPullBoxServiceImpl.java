@@ -58,4 +58,9 @@ public class ConditionPullBoxServiceImpl implements ConditionPullBoxService {
     public Result queryAppRolesTree() {
         return Result.success(conditionPullBoxMapper.queryAppRolesTree());
     }
+
+    @Override
+    public Result queryApps() {
+        return Result.success(generalMapper.querys("select id::varchar, name from apps"));
+    }
 }

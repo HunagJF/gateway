@@ -87,4 +87,13 @@ public class ConditionPullBoxController {
     public Result queryAppRolesTree() {
         return conditionPullBoxService.queryAppRolesTree();
     }
+
+    @Logger(operSource = "下拉框",
+            severity = LogSeverity.MINOR,
+            operName = "模块名称下拉框",
+            isPersistence = true)
+    @PostMapping(value = "queryApps")
+    public Result queryApps() {
+        return conditionPullBoxService.queryApps();
+    }
 }

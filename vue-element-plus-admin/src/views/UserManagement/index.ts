@@ -11,7 +11,8 @@ import {
     queryAppRolesApi,
     queryAppRegionApi,
     queryAccountTypeApi,
-    queryPermissionTypeApi
+    queryPermissionTypeApi,
+    queryAppsApi,
   } from '@/api/dropDownBox/conditionPullBox'
 
 export const tableColumns = reactive<TableColumn[]>([
@@ -113,7 +114,17 @@ export const searchSchema = reactive<FormSchema[]>([
       field: 'appsId',
       label: '模块名称',
       component: 'Select',
-      optionApi: async () => {}
+      componentProps: {
+        filterable: true,
+        remote: true
+      },
+      optionApi: async () => {
+        const res = await queryAppsApi()
+        return res.data.map((item: any) => ({
+          label: item.name,
+          value: item.id
+        }))
+      }
     },
     {
       field: 'appRegionId',

@@ -17,4 +17,6 @@ public interface ConditionPullBoxService {
     Result queryAppRegionTree();
 
     Result queryAppRolesTree();
+
+    Result queryApps();
 }

@@ -37,7 +37,7 @@ defineProps({
 
 <style scoped>
 .content-max-height {
-  /* max-height: 85vh;
-  overflow: auto; 如果内容超出高度，出现滚动条 */
+   /* max-height: 85vh; */
+  /* overflow: auto;  */
 }
 </style>
